@@ -1,0 +1,12 @@
+{
+    'name':'wrap-position',
+    'type':'move',
+    'description':'wrap position around the screen',
+    'text':'wrap object',
+    'inputs':
+        { 'appliesto':'appliesto','vhb':'vhboth'}
+    ,
+    'required':[],
+    'depends':[],
+    'icon':'allplugins.png,5,0'
+}

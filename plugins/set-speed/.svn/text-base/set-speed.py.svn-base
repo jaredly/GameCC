@@ -1,0 +1,5 @@
+def output(data,type):
+  if type=='haxe':
+    return 'this.setSpeed(%(speed)s, %(relative)s);'%data
+  elif type=='python':
+    return 'self.setSpeed(%(speed)s, %(relative)s);'%data

@@ -1,0 +1,12 @@
+{
+    'name':'check-count',
+    'type':'conditional',
+    'description':'check the number of instances of an opbject',
+    'text':'Check the number of {object}s is {operator} {numer}',
+    'inputs':
+        { 'object':'object','operator':'compareop','number':'int'}
+    ,
+    'required':[],
+    'depends':[],
+    'icon':'allplugins.png'
+}

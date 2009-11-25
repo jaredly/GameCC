@@ -1,0 +1,12 @@
+{
+    'name':'move-to',
+    'type':'move',
+    'description':'Move to a point',
+    'text':'Move to ({x}, {y}) {relative?relatively:}',
+    'inputs':
+        { 'appliesto':'appliesto','x':'float','y':'float','relative':'bool'}
+    ,
+    'required':[],
+    'depends':[],
+    'icon':'allplugins.png,0,1'
+}

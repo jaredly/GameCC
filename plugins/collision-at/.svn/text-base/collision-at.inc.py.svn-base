@@ -1,0 +1,12 @@
+def collisionAt(self, x, y, object):
+  self.x+=x
+  self.y+=y
+  for obj in self.parent.objects:
+    if obj==self or not isinstance(obj, object):continue
+    if obj.collidesWith(self):
+      self.x-=x;self.y-=y;
+      return True
+  self.x-=x;self.y-=y
+  return False
+  
+  

@@ -1,0 +1,11 @@
+public function createObject(object:String, x:Float, y:Float, relative:Bool, direction:Float, speed:Float){try{
+  if (relative){
+    x+=this.pos.x;
+    y+=this.pos.y;
+  }
+  var obj:BaseSprite = Type.createInstance(this.parent.objectdict.get(object),[this.parent,new Point(x,y)]);
+  obj.setV(direction, speed,false);
+  this.parent.add(obj);
+  obj.created();
+  }catch(e:String){this.parent.log=e;}
+}

@@ -1,0 +1,12 @@
+{
+    'name':'endif',
+    'type':'control',
+    'description':'end a code block',
+    'text':'}',
+    'inputs':
+        {}
+    ,
+    'required':[],
+    'depends':[],
+    'icon':'allplugins.png,3,3'
+}

@@ -1,0 +1,5 @@
+def output(data,type):
+  if type=='haxe':
+    return 'this.setDirection(%(direction)s, %(relative)s);'%data
+  elif type=='python':
+    return 'self.setDirection(%(direction)s, %(relative)s);'%data

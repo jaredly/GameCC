@@ -1,0 +1,12 @@
+{
+    'name':'set-vspeed',
+    'type':'move',
+    'description':'Set the vertical speed',
+    'text':'Set the vertical speed {relative?relative :}to {speed}',
+    'inputs':
+        { 'appliesto':'appliesto','speed':'speed','relative':'bool'}
+    ,
+    'required':[],
+    'depends':[],
+    'icon':'allplugins.png,1,0'
+}

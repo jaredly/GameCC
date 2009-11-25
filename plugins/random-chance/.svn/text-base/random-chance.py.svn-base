@@ -1,0 +1,5 @@
+def output(data,type):
+  if type=='haxe':
+    return 'Random.randrange(0,%(odds)s)==0'%data
+  elif type=='python':
+    return 'random.randrange(0,%(odds)s)==0'%data

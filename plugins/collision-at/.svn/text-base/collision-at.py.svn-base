@@ -1,0 +1,5 @@
+def output(data,type):
+  if type=='haxe':
+    return '%(appliesto)s.collisionAt(%(x)s, %(y)s, "%(object)s")'%data
+  elif type=='python':
+    return '%(appliesto)s.collisionAt(%(x)s, %(y)s, %(object)s)'%data

@@ -1,0 +1,12 @@
+{
+    'name':'repeat',
+    'type':'control',
+    'description':'repeat a block of actions',
+    'text':'repeat {num} times {',
+    'inputs':
+        { 'num':'int'}
+    ,
+    'required':[],
+    'depends':[],
+    'icon':'allplugins.png,4,3'
+}

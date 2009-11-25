@@ -1,0 +1,12 @@
+{
+    'name':'limit-speed',
+    'type':'move',
+    'description':'limit the object\'s speed',
+    'text':'limit speed to {speed}',
+    'inputs':
+        { 'appliesto':'appliesto','speed':'float'}
+    ,
+    'required':[],
+    'depends':[],
+    'icon':'allplugins.png,6,0'
+}

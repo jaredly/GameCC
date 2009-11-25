@@ -1,0 +1,5 @@
+def output(data,type):
+  if type=='haxe':
+    return '%(expression)s'%data
+  elif type=='python':
+    return '%(expression)s'%data

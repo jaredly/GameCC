@@ -1,0 +1,455 @@
+#!/usr/bin/python
+
+'''
+compile_game.py
+'''
+
+import os,sys,re,math
+import myjson as json
+import glob
+import random as Random
+import string
+
+import drupal
+import multivalueable
+
+from utils import die,exit
+
+sys.stderr = sys.stdout
+
+class InvalidArgumentException(Exception):pass
+
+keynames = {8: 'backspace', 9: 'tab', 13: 'enter', 16: 'shift', 17: 'control', 19: 'pause_break', 20: 'caps_lock', 27: 'esc', 32: 'spacebar', 33: 'page_up', 34: 'page_down', 35: 'end', 36: 'home', 37: 'left_arrow', 38: 'up_arrow', 39: 'right_arrow', 40: 'down_arrow', 45: 'insert', 46: 'delete', 48: '0', 49: '1', 50: '2', 51: '3', 52: '4', 53: '5', 54: '6', 55: '7', 56: '8', 57: '9', 65: 'a', 66: 'b', 67: 'c', 68: 'd', 69: 'e', 70: 'f', 71: 'g', 72: 'h', 73: 'i', 74: 'j', 75: 'k', 76: 'l', 77: 'm', 78: 'n', 79: 'o', 80: 'p', 81: 'q', 82: 'r', 83: 's', 84: 't', 85: 'u', 86: 'v', 87: 'w', 88: 'x', 89: 'y', 90: 'z', 96: 'numpad_0', 97: 'numpad_1', 98: 'numpad_2', 99: 'numpad_3', 100: 'numpad_4', 101: 'numpad_5', 102: 'numpad_6', 103: 'numpad_7', 104: 'numpad_8', 105: 'numpad_9', 106: 'multiply', 107: 'add', 109: 'subtract', 110: 'decimal', 111: 'divide', 112: 'f1', 113: 'f2', 114: 'f3', 115: 'f4', 116: 'f5', 117: 'f6', 118: 'f7', 119: 'f8', 120: 'f9', 122: 'f11', 123: 'f12', 124: 'f13', 125: 'f14', 126: 'f15', 144: 'num_lock', 145: 'scrlk'}
+reversekey = dict((v,k) for k,v in keynames.items())
+pycodes = {'K_KP_MINUS': 'keypad minus', 'K_F1': 'F1', 'K_F2': 'F2', 'K_PAUSE': 'pause', 'K_COLON': 'colon', 'K_F5': 'F5', 'K_F6': 'F6', 'K_F7': 'F7', 'K_F8': 'F8', 'K_F9': 'F9', 'K_COMMA': 'comma', 'K_F3': 'F3', 'K_F4': 'F4', 'K_AMPERSAND': 'ampersand', 'K_CLEAR': 'clear', 'K_KP_PLUS': 'keypad plus', 'K_KP_EQUALS': 'keypad equals', 'K_LEFT': 'left arrow', 'K_INSERT': 'insert', 'K_HOME': 'home', 'K_LSUPER': 'left windows key', 'K_GREATER': 'greater-than sign', 'K_RALT': 'right alt', 'K_KP_PERIOD': 'keypad period', 'K_BREAK': 'break', 'K_RIGHTBRACKET': 'right bracket', 'K_RSHIFT': 'right shift', 'K_LSHIFT': 'left shift', 'K_LEFTPAREN': 'left parenthesis', 'K_DOLLAR': 'dollar', 'K_KP_ENTER': 'keypad enter', 'K_PAGEDOWN': 'page down', 'K_HASH': 'hash', 'K_DOWN': 'down arrow', 'K_END': 'end', 'K_UP': 'up arrow', 'K_ASTERISK': 'asterisk', 'K_LCTRL': 'left ctrl', 'K_BACKSLASH': 'backslash', 'K_MINUS': 'minus sign', 'K_RSUPER': 'right windows key', 'K_EXCLAIM': 'exclaim', 'K_HELP': 'help', 'K_POWER': 'power', 'K_ESCAPE': 'escape', 'K_BACKSPACE': 'backspace', 'K_MENU': 'menu', 'K_UNDERSCORE': 'underscore', 'K_QUOTEDBL': 'quotedbl', 'K_KP_MULTIPLY': 'keypad multiply', 'K_LEFTBRACKET': 'left bracket', 'K_LALT': 'left alt', 'K_KP_DIVIDE': 'keypad divide', 'K_NUMLOCK': 'numlock', 'K_RMETA': 'right meta', 'K_SPACE': 'spacebar', 'K_RIGHT': 'right arrow', 'K_EQUALS': 'equals sign', 'K_SYSREQ': 'sysrq', 'K_SEMICOLON': 'semicolon', 'K_QUESTION': 'question mark', 'K_EURO': 'euro', 'K_PERIOD': 'period', 'K_DELETE': 'delete', 'K_CARET': 'caret', 'K_LMETA': 'left meta', 'K_TAB': 'tab', 'K_MODE': 'mode shift', 'K_SLASH': 'forward slash', 'K_F12': 'F12', 'K_F13': 'F13', 'K_F10': 'F10', 'K_F11': 'F11', 'K_F14': 'F14', 'K_F15': 'F15', 'K_y': 'y', 'K_x': 'x', 'K_z': 'z', 'K_q': 'q', 'K_p': 'p', 'K_s': 's', 'K_r': 'r', 'K_u': 'u', 'K_t': 't', 'K_w': 'w', 'K_v': 'v', 'K_i': 'i', 'K_h': 'h', 'K_k': 'k', 'K_j': 'j', 'K_m': 'm', 'K_l': 'l', 'K_o': 'o', 'K_n': 'n', 'K_a': 'a', 'K_c': 'c', 'K_b': 'b', 'K_e': 'e', 'K_d': 'd', 'K_g': 'g', 'K_f': 'f', 'K_AT': 'at', 'K_PAGEUP': 'page up', 'K_CAPSLOCK': 'capslock', 'K_LESS': 'less-than sign', 'K_PRINT': 'print screen', 'K_RETURN': 'return', 'K_SCROLLOCK': 'scrollock', 'K_9': '9', 'K_8': '8', 'K_1': '1', 'K_0': '0', 'K_3': '3', 'K_2': '2', 'K_5': '5', 'K_4': '4', 'K_7': '7', 'K_6': '6', 'K_PLUS': 'plus sign', 'K_BACKQUOTE': 'grave', 'K_QUOTE': 'quote', 'K_RIGHTPAREN': 'right parenthesis', 'K_RCTRL': 'right ctrl', 'K_KP8': 'keypad 8', 'K_KP9': 'keypad 9', 'K_KP4': 'keypad 4', 'K_KP5': 'keypad 5', 'K_KP6': 'keypad 6', 'K_KP7': 'keypad 7', 'K_KP0': 'keypad 0', 'K_KP1': 'keypad 1', 'K_KP2': 'keypad 2', 'K_KP3': 'keypad 3'}
+reversecodes = dict((v.replace(' ','_').replace('/','_'),k) for k,v in pycodes.items())
+
+def execute(x):
+  res = os.popen3(x).read()
+  print res[1].read()
+  print res[2].read()
+
+class Asset:
+  base = ''
+  sorted = sorted
+  def __init__(self,parent,name,info=None):
+    self.name = name
+    self.parent = parent
+    self.info = info
+    self.raw = str(info).replace('False','false').replace("True",'true').replace('None','null')
+    if not info:
+      self.load()
+    
+  @classmethod
+  def outputAll(cls,parent,otype):
+    atype = cls.base.split('/')[-1]
+    return '\n'.join(asset.output(otype) for name,asset in cls.sorted(parent.assets[atype].items()))
+    
+  @classmethod
+  def outputMAll(cls,parent,otype):
+    atype = cls.base.split('/')[-1]
+    return '\n'.join(asset.outputMore(otype) for name,asset in cls.sorted(parent.assets[atype].items()))
+  
+  def load():pass
+  
+  #def load(self):
+   # self.info = 
+    #self.raw = open(os.path.join(self.parent.base,self.base,self.name + '.info')).read().strip().replace('\r\n','\n')
+    #true=True;false=False;null=None
+    #self.info = eval(self.raw)
+    
+  def output(self, otype):
+    if otype == 'haxe':
+      return self._output_haxe()
+    elif otype == 'python':
+      return self._output_python()
+    else: raise NotImplemented,"invlaid output type"
+  def _output_haxe(self):
+    self.raw = re.sub('"(\w+)"\s*:',(lambda x:x.groups()[0]+' :'),self.raw)
+    self.raw = re.sub("'(\w+)'\s*:",(lambda x:x.groups()[0]+' :'),self.raw)
+    return ''
+  def _output_python(self):
+    self.raw = self.raw.replace('false','False').replace('true','True').replace('null','None')
+    return ''
+  
+  def outputMore(self, otype):
+    return ''
+
+class PluginAsset(Asset):
+  base = '../plugins'
+  sprite_template = {'python':'''
+class BaseObject(Object):
+%(functions)s
+''','haxe':'''
+class BaseObject extends ImageSprite {
+%(functions)s
+}
+'''}
+  @classmethod
+  def outputAll(cls,parent,otype):
+    return ''
+    
+  @classmethod
+  def outputMAll(cls,parent,otype):
+    functions = []
+    for name,plugin in parent.assets['plugins'].items():
+      functions.append('  '+plugin.getFunction(otype).replace('\n','\n  ')+'\n')
+    return cls.sprite_template[otype]%{'functions':''.join(functions)}
+  
+  def load(self):
+    self.raw = open(os.path.join(self.parent.base,'../plugins',self.name,self.name + '.info')).read().strip().replace('\r\n','\n')
+    true=True;false=False;null=None
+    self.info = eval(self.raw)
+    sys.path.append('../plugins/'+self.name+'/')
+    self.module = __import__(self.name)
+  
+  def getFunction(self,otype):
+    base = os.path.join(self.parent.base,self.base,self.name,self.name)
+    if otype == 'python':
+      if os.path.exists(base+'.inc.py'):
+        return open(base+'.inc.py').read().strip()
+    elif otype == 'haxe':
+      if os.path.exists(base+'.inc.hx'):
+        return open(base+'.inc.hx').read().strip()
+    return ''
+  
+  def toObj(self, text, otype):
+    if not text in self.parent.assets['objects']:
+      raise InvalidArgumentException,'object not found %s'%text
+    return text
+    
+  def toCond(self, data, otype):
+    if not data or not data.has_key('name'):
+      raise InvalidArgumentException,'no condition set'
+    return self.parent.assets['plugins'][data['name']].output(data['data'], otype)
+    
+  def toV(self, vmag, otype):
+    vmag[0] = vmag[0]#/180.0 * math.pi
+    if otype == 'python':
+      return 'Vector(%s, %s)'%tuple(vmag)
+    elif otype == 'haxe':
+      return 'new Vector(%s, %s)'%tuple(vmag)
+  
+  def toBool(self, v, otype):
+    if v == 'false':v=False
+    if v == 'true':v=True
+    if otype=='haxe':
+      return str(bool(v)).lower()
+    elif otype=='python':
+      return bool(v)
+  
+  def toSpeed(self, v, otype):
+    bools = {'haxe':['false','true'],'python':['False','True']}
+    isperc = bools[otype][type(v)==str and v.endswith('%')]
+    if type(v) == str and v.endswith('%'):
+      v = float(v[:-1])/100.0
+    return str(v)+', '+isperc
+  
+  def toVar(self, v, otype):
+    v = v.replace('game','self.parent')
+    if v.startswith('self') and otype == 'haxe':
+      return 'this.'+v.split('.',1)[1]
+    return v
+  
+  def toApplies(self, v, otype):
+    if v=='self' and otype=='haxe':return 'this'
+    return v
+  
+  def toKey(self, v, otype):
+    return {'python':reversecodes,'haxe':reversekey}[otype][v]
+  ## fix outputs
+  def output(self, data, otype):
+    conversions = {'int':(lambda a,b:int(a)),
+                   'float':(lambda a,b:float(a)),
+                   'bool':self.toBool,
+                   'string':(lambda a,b:str(a)),
+                   'object':self.toObj,
+                   'conditional':self.toCond,
+                   'direction':(lambda a,b:float(a)),#/180.0 * math.pi
+                   'compareop':(lambda a,b:str(a)),
+                   'appliesto':self.toApplies,
+                   'speed':self.toSpeed,
+                   'key':self.toKey,
+                   'timer':(lambda a,b:int(a)),
+                   'vhboth':(lambda a,b:str(a)),
+                   'variable':self.toVar,
+                   'any':lambda a,b:a.replace('int(','Std.int(').replace('random.','Random.')}
+    for k,v in data.items():
+      if not self.info['inputs'].has_key(k):
+        raise Exception,'invalid plugin input data name "%s" for plugin "%s" and data"%s"'%(k,self.info['name'],data)
+      typ = self.info['inputs'][k]
+      if type(v)==str and (v.startswith('self.') or v.startswith('other.') or v.startswith('object.') or v.startswith('game.')):
+        data[k] = self.toVar(v, otype)
+      elif type(v)==str and (v.startswith('random.') or v.startswith('Std')) :
+        data[k]=v.replace('random.',['Random.','random.'][otype=='python'])
+      else:
+        data[k] = conversions[typ](v, otype)
+    if not data.has_key('appliesto'):
+      data['appliesto']={'python':'self','haxe':'this'}[otype]
+    if not hasattr(self.module,'output'):
+      print self.module,self.name
+    return self.module.output(data, otype)
+
+class SimpleAsset(Asset):
+  def _output_haxe(self):
+    Asset._output_haxe(self)
+    return '    ' + self.base + '.set("%s",%s);'%(self.info['name'],self.raw)
+  def _output_python(self):
+    Asset._output_python(self)
+    return '    ' + self.base + '["%s"] = %s'%(self.info['name'],self.raw)
+
+class ImageAsset(SimpleAsset):
+  base = 'images'
+  @classmethod
+  def outputMAll(cls,parent,otype):
+    atype = cls.base.split('/')[-1]
+    if not parent.assets[atype].items():return ''
+    return parent.assets[atype].items()[0][1].outputMore(otype)
+    
+  def outputMore(self, otype):
+    res = set()
+    for name,img in self.parent.assets['images'].items():
+      res |= set(img.info['subimages'])
+    return str(list(res))
+
+class MapAsset(SimpleAsset):
+  base = 'maps'
+  @classmethod
+  def outputMAll(cls,parent,otype):
+    atype = cls.base.split('/')[-1]
+    if not parent.assets[atype].items():return ''
+    return parent.assets[atype].items()[0][1].outputMore(otype)
+  def outputMore(self, otype):
+    return self.parent.assets['maps'].keys()[0]
+
+class ObjectAsset(SimpleAsset):
+  base = 'objects'
+  defaultparent = 'BaseObject'
+  class_template = {'haxe':'''
+class %(name)s extends %(parent)s {
+  // any class variables (when I decide to include that) will go here
+  public override function new(parent:Game, x:Float, y:Float) {
+    this.image = "%(image)s";
+    super(parent, x, y);
+    this.collisions = %(collisions)s;
+  }
+  %(functions)s
+}
+''',
+                    'python':'''
+class %(name)s(%(parent)s):
+  image = "%(image)s"
+  collisions = %(collisions)s
+  # any class variables (when I decide to include that) will go here
+  def __init__(self, parent, x, y):
+    %(parent)s.__init__(self, parent, x, y)
+  
+  def keyevent(self, type, key):
+    'event handling'
+    if type == KEYDOWN:
+      'check keypress'
+      %(keypress)s
+    elif type == KEYUP:
+      'check keyrelease'
+      %(keyrelease)s
+  
+  def _check_keydown(self):
+      keys = self.parent.keys()
+      %(keydown)s
+  
+  %(functions)s
+'''}
+  func_template = {'haxe':'''
+  public %(override)s function %(event)s(%(args)s){
+    %(actions)s
+    //super(%(args)s);
+  }
+  ''',
+                   'python':'''
+  def %(event)s(self, %(args)s):
+    %(actions)s
+    #super(%(args)s);
+  '''}
+  @classmethod
+  def sorted(cls,objectlist):
+    ## deal w/ parentage -- parents need to be outputted first.
+    for n,o in objectlist:
+      if o.parent != 'BaseObject':break
+    else:
+      return objectlist
+    def gi(n):
+      return [o[0] for o in objectlist].index(n)
+    
+    while 1:
+      for i,(n,o) in enumerate(objectlist):
+        if not o.info['parent'] or o.info['parent'] == 'BaseObject':continue
+        pi = gi(o.info['parent'])
+        if pi>i:
+          objectlist.insert(0,objectlist.pop(pi))
+          break
+      else:
+        break
+    return objectlist
+  
+  def _output_haxe(self):
+    Asset._output_haxe(self)
+    return '    ' + self.base + '.set("%s",%s);'%(self.info['name'],self.info['name'])
+  def _output_python(self):
+    Asset._output_python(self)
+    return '    ' + self.base + '["%s"] = %s'%(self.info['name'],self.info['name'])
+    
+  def makeKey(self, event):
+    plain = '_'.join(event.split('_')[2:])
+    if event.startswith('key_down'):
+      return 'if keys[%s]: self.%s()\n      '%(reversecodes[plain], event)
+    else:
+      return 'if key == %s: self.%s()\n      '%(reversecodes[plain], event)
+
+  def outputMore(self,otype):
+    if not self.info.get('parent',None):
+      self.info['parent'] = self.defaultparent
+    self.info['name'] = self.info['name'].replace(' ','_')
+    functions = []
+    collisions = []
+    self.info['keydown'] = ''
+    self.info['keypress'] = ''
+    self.info['keyrelease'] = ''
+    for event in self.info['events']:
+      if event.startswith('collide_'):
+        collisions.append(event.split('_',1)[1])
+      elif event.startswith('key_down'):
+        self.info['keydown'] += self.makeKey(event)
+      elif event.startswith('key_press'):
+        self.info['keypress'] += self.makeKey(event)
+      elif event.startswith('key_release'):
+        self.info['keyrelease'] += self.makeKey(event)
+      try:
+        functions.append(self._make_function(event,self.info['events'][event], otype))
+      except Exception,e:
+        die( 'Error in making the event "%s" for object "%s": %s'%(event,self.name,e) )
+        
+    if self.info['parent'] != 'BaseObject':
+      self.info['keydown'] += self.parent.assets['objects'][self.info['parent']].info['keydown']
+      self.info['keypress'] += self.parent.assets['objects'][self.info['parent']].info['keypress']
+      self.info['keyrelease'] += self.parent.assets['objects'][self.info['parent']].info['keyrelease']
+    self.info['functions'] = ''.join(functions)
+    self.info['collisions'] = '[]'
+    if collisions:
+      self.info['collisions'] = '["'+'","'.join(collisions)+'"]'
+    elif otype=='haxe':
+      self.info['collisions'] = 'new Array<String>()';
+    
+    return self.class_template[otype]%self.info
+
+  def _make_function(self,event,actions,otype):
+    data = {'args':'','args2':''}
+    ## make this better, kindof a hack...
+    if event.startswith('collide_'):
+      data['override']=''
+    else:
+      data['override']='override'
+    if event.startswith('mouse'):
+      data['args'] = 'e:flash.events.MouseEvent'
+      data['args2'] = 'e'
+    elif event.startswith('collide'):
+      data['args'] = 'other:BaseObject'
+      data['args2'] = 'other'
+    
+    if otype == 'python':
+      data['args'] = data['args2']
+    
+    data['event'] = event
+    data['actions'] = []
+    indent = 0
+    last = None
+    
+    block_start = 'if','and','or','else','elif','while','with','repeat','else','elif'
+    block_end   = 'else','elif','endif'
+    
+    for action in actions:
+      if action[0] in block_end:
+        if last in block_start and otype=='python':
+          data['actions'][-1] += 'pass'
+        indent -= 2
+      data['actions'].append(' '*indent + self.parent.assets['plugins'][action[0]].output(action[1],otype).replace('\n','\n'+' '*indent))
+      if action[0] in block_start:
+        indent += 2
+      last = action[0]
+        
+    if not data['actions'] and otype == 'python':
+      data['actions'] = ['pass']
+    data['actions'] = '\n    '.join(data['actions'])
+    return self.func_template[otype]%data
+
+class Compiler:
+  templates = {'haxe':open('../data/haxe_template.hx').read(),
+               'python':open('../data/haxe_template.py').read()}
+  def __init__(self,project):
+    self.project = project
+    self.base = ''
+    self.assets = {'plugins':{},'images':{},'objects':{},'maps':{}}
+    self.assetTypes = {'plugins':PluginAsset,'images':ImageAsset,'objects':ObjectAsset,'maps':MapAsset}
+    
+    for atype,aclass in self.assetTypes.items():
+      self.load_assets(atype,aclass)
+  
+  def genName(self):
+    name = ''.join(Random.choice(string.ascii_lowercase) for x in range(10)).title()
+    return name
+  
+  def load_assets(self,atype,aclass):
+    if atype == 'plugins':
+      for path in glob.glob(os.path.join(self.base,aclass.base,'*.info')) + glob.glob(os.path.join(self.base,aclass.base,'*','*.info')):
+        name = path.split('/')[-1].split('.')[0]
+        self.assets[atype][name] = aclass(self,name,None)
+    else:
+      for item in drupal.db.find_dict(atype):
+        name = item['name']
+        del item['uid']
+        del item['pid']
+        del item['tags']
+        self.assets[atype][name] = aclass(self,name,item)
+
+  def compile(self, otype, save=True):
+    exts = {'python':'.py','haxe':'.hx'}
+    thename = self.genName()
+    
+    if not thename:
+      thename = self.genName()
+    data = {'name':thename}
+    for name, atype in self.assetTypes.items():
+      data[name] = atype.outputAll(self,otype)
+    for name, atype in self.assetTypes.items():
+      data[name+'_more'] = atype.outputMAll(self,otype)
+    if otype == 'haxe':
+      op = data['plugins_more']
+      data['plugins_more'] = ''
+    data['otype'] = otype
+    text = self.templates[otype]%data
+    
+    if not save:return text,data
+    
+    open(thename+exts[otype],'w').write(text)
+    if otype=='haxe':
+      open('game/BaseObject.hx','w').write('''package game;
+import game.Game;
+import game.Sprite;
+import game.Vector;
+import flash.geom.Point;
+import flash.events.Event;
+import flash.display.BitmapData;
+import flash.display.Loader;
+import flash.net.URLRequest;
+import flash.ui.Keyboard;
+'''+op)
+    return thename
+    
+import sys
+if __name__=='__main__':
+  if len(sys.argv)>=2:
+    print Compiler(sys.argv[1]).compile('python')
+  else:print 'no project given. exiting'
+#if __name__=='__main__':
+#  Compiler('temp','MGame').compile('flash')
+#  os.system('./compile.sh MGame.hx MGame && firefox MGame.hx.html')
+    

@@ -1,0 +1,12 @@
+{
+    'name':'reverse-vertical',
+    'type':'move',
+    'description':'switch y direction',
+    'text':'switch y direction',
+    'inputs':
+        { 'appliesto':'appliesto'}
+    ,
+    'required':[],
+    'depends':[],
+    'icon':'allplugins.png,0,2'
+}

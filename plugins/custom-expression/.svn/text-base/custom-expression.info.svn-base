@@ -1,0 +1,12 @@
+{
+    'name':'custom-expression',
+    'type':'conditional',
+    'description':'check a custom a expression',
+    'text':'{expression}',
+    'inputs':
+        { 'expression':'string'}
+    ,
+    'required':[],
+    'depends':[],
+    'icon':'allplugins.png,0,7'
+}

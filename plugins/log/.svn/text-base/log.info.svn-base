@@ -1,0 +1,12 @@
+{
+    'name':'log',
+    'type':'other',
+    'description':'man',
+    'text':'man',
+    'inputs':
+        { 'data':'string'}
+    ,
+    'required':[],
+    'depends':[],
+    'icon':'allplugins.png,4,2'
+}

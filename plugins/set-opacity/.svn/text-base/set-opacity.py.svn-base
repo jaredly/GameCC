@@ -1,0 +1,5 @@
+def output(data,type):
+  if type=='haxe':
+    return 'this.setOpacity(%(opacity)s, %(relative)s);'%data
+  elif type=='python':
+    return 'self.setOpacity(%(opacity)s, %(relative)s);'%data

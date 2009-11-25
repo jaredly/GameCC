@@ -1,0 +1,76 @@
+/*@group toolbar*/
+
+#toolbar {
+  border:none;
+}
+
+ul.menu, ul.menu li.menu-title ul{
+  font-family:Arial;
+  font-size:13px;
+  list-style: none;
+  margin:0;
+  padding:0;
+  -moz-user-select:none;
+}
+
+ul.menu {
+  padding:8px 0;
+}
+
+ul.menu li.menu-title, ul.menu li.menu-image {
+  display:inline;
+  padding:8px 10px;
+  -moz-user-select:none;
+  position:relative;
+  cursor:pointer;
+}
+
+ul.menu li.menu-image img {
+  width:20px;
+  height:20px;
+  margin-top:-10px;
+  margin-bottom:-5px;
+}
+
+ul.menu li.menu-title ul {
+  visibility:hidden;
+  position:absolute;
+  margin-top:3px;
+  font-size:10px;
+  font-family:Ariel;
+  font-size:10px;
+  z-index:20;
+  min-width:100px;
+  background-color:white;
+  -moz-user-select:none;
+  left:0;
+  top:27px;
+}
+ul.menu li.menu-title:hover ul{
+  visibility:visible;
+}
+
+ul.menu li.menu-title ul li {
+  padding:5px 20px;
+  white-space:nowrap;
+  color:#444;
+  background-color:white;
+  -moz-user-select:none;
+}
+
+ul.menu li.menu-title ul li:hover {
+  color:black;
+  background-color:lightblue;
+}
+
+ul.menu li.menu-title ul li.break {
+  margin:2px 5px;
+  padding-bottom:0;
+  padding-left:0;
+  padding-right:0;
+  padding-top:1px;
+  background-color:#888;
+}
+
+
+

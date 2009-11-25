@@ -1,0 +1,3 @@
+def setDirection(direction, relative):
+  if relative:self.direction += relative
+  else:self.direction = relative

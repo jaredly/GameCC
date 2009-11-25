@@ -1,0 +1,12 @@
+{
+    'name':'set-velocity',
+    'type':'move',
+    'description':'Set the velocity',
+    'text':'Set the velocity {relative?relative :}to <{direction}, {speed}>',
+    'inputs':
+        { 'appliesto':'appliesto','direction':'direction','speed':'float','relative':'bool'}
+    ,
+    'required':[],
+    'depends':[],
+    'icon':'allplugins.png,0,0'
+}

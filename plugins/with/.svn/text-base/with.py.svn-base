@@ -1,0 +1,7 @@
+def output(data,type):
+  if type=='haxe':
+    return '''for (object in this.parent.objects.iterator()){
+  if (object == this || Type.getClass(object) != this.parent.objectdict.get("%(object)s"))continue;'''%data
+  elif type=='python':
+    return '''for object in self.parent.objects:
+  if object==self or not isinstance(object,%(object)s):continue'''%data

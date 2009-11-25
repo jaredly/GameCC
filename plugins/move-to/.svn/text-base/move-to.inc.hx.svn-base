@@ -1,0 +1,9 @@
+public function moveTo(x:Float, y:Float, relative:Bool){
+  if (relative){
+    this.pos.x+=x;
+    this.pos.y+=y;
+  }else{
+    this.pos.x=x;
+    this.pos.y=y;
+  }
+}

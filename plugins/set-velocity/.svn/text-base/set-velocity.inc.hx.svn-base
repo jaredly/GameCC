@@ -1,0 +1,7 @@
+public function setV(direction:Float, speed:Float, rel:Bool){
+  if (rel){
+    this.v.addTo(new Vector(direction,speed));
+  }else{
+    this.v=new Vector(direction, speed);
+  }
+}

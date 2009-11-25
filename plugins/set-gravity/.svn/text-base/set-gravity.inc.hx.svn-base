@@ -1,0 +1,3 @@
+public function setGravity(direction:Float, speed:Float){
+  this.gravity = new Vector(direction, speed);
+}
