@@ -49,9 +49,9 @@ InputTypes['number'] = Class([InputType], {
     }
     self.step = step;
     self.div = div;
-    
+
     value = self.validate(value);
-    
+
     self.node = $('<div class="number-left"></div>').appendTo(div).html(value);
     self.negative = value < 0;
     self._value = value;//!isNaN(parseFloat(value)) && parseFloat(value) || 0;
@@ -240,13 +240,17 @@ InputTypes['not'] = Class([InputType], {
 
 InputTypes['random'] = Class([InputType], {
   title:'Random',
-  __init__:function(self, parent, div, value){
+  __init__:function(self, parent, div, value, full){
     self.div = div;
     $('<span>pick a random number from</span>').appendTo(div);
     self.min = $('<input class="number"/>').appendTo(div);
     $('<span> to </span>').appendTo(div);
     self.max = $('<input class="number">').appendTo(div);
     value = self.validate(value);
+    if (value[0]==0 && value[1]==0 && typeof(full)!=='string' && full && full.length>1){
+        if (full.length == 2)value = [0,full[1]];
+        else if (full.length == 3)value = full.slice(1);
+    }
     self.min.val(value[0]);
     self.max.val(value[1]);
   },
@@ -339,9 +343,9 @@ var MultiValuable = Class([],{
     self.parent = parent;
     self.node = node;
     self.update = update;
-    
+
     types.push('custom');
-    
+
     self._inputs = {};
     /***/
     var first = value && value[0] || null;
@@ -359,13 +363,13 @@ var MultiValuable = Class([],{
         first = first[0];
       }
     }
-    
-    
+
+
     self.types = types;
     self._inputs[first].div.show();
     $('<div class="expand-button"></div>').appendTo(node).click(self.showhide);
     $('li.tab-'+first).hide()
-    
+
     self.current = first;
   },
   showhide: function(self, e) {

@@ -15,7 +15,7 @@ var Plugin = Class([], {
     $.data(self.li[0], 'ondrop', self.drop);
     $.data(self.li[0], 'name', self.info.name);
   },
-  
+
   _make_li : function(self){
     self.li = $('<div id="plugin-'+self.info.name+'" class="plugin-image '+self.info.type+' '+self.info.name+'"></div>')
       .appendTo(self.parent.id)
@@ -27,7 +27,7 @@ var Plugin = Class([], {
           node.addClass('drophover');
         }});
   },
-  
+
   text:function(self, data){
     var text = self.info.text.replace('<','&lt;').replace('>','&gt;');
     var empty = true;
@@ -61,7 +61,7 @@ var Plugin = Class([], {
     }
     return text;
   },
-  
+
   drop:function(self, pos){
     self.droppos = pos;
     return self.showForm();
@@ -71,7 +71,7 @@ var Plugin = Class([], {
       return self.info.icon;
     }
   },
-  
+
   bgicon:function(self,node,small){
     if (self.info.icon.indexOf(',') === -1){
       node.css('background-image', 'url(images/plugins/'+self.info.icon+')');
@@ -82,11 +82,11 @@ var Plugin = Class([], {
       node.css('background-position', (1 - parseInt(parts[1])*(small?33:65))+'px ' + (1 - parseInt(parts[2])*(small?33:65))+'px')
     }
   },
-  
+
   setupSub:function(self, node){
-  
+
   },
-  
+
   addAction:function(self, data){
     try{
       var node = $('<div class="action '+self.info.type+' '+self.info.name+'"><div class="icon"></div><div class="text"></div><div class="disable"><input type="checkbox" title="disable"/></div><div class="delete"></div></div>').appendTo(self.parent.actions);
@@ -99,7 +99,7 @@ var Plugin = Class([], {
     self.bgicon(node.find('div.icon'),true);
     $.data(node[0],'name',self.info.name);
     $.data(node[0],'data',data);
-    
+
     for (var name in self.info.inputs){
       (function(name){
         // refactor....
@@ -148,7 +148,7 @@ var Plugin = Class([], {
             var data = $.data(node[0],'data');
             var plugin = self.parent.plugins[$.data(ui.draggable[0],'name')];
             ui.helper.remove();
-            
+
             plugin.showForm(sub, {}, function(form,sub){
               var data = $.data(node[0],'data');
               data[name] = {};
@@ -172,7 +172,7 @@ var Plugin = Class([], {
         }
       }(name));
     }
-    
+
     node.find('div.disable input').change(function(){
       self.parent.parent.display['object'].saveActions();
     }).attr('checked',data['disabled']);
@@ -247,26 +247,38 @@ var Plugin = Class([], {
   populateForm:function(self, node, data){
     var input_types = {
       'any':['number','direction','random','variable','key','randint','timer','custom'],
-      'appliesto':[['select','self','other']],
-      'int':['number','variable','randint'],
-      'float':[['number', 0, 20, .5],'variable','random'],
-      'bool':['bool','variable'],
-      'not':['not'],//,'variable'],
-      'direction':['direction',['number',0,360],'variable','random'],
-      'object':['object'],
+
+      'appliesto':[['select','self','other'],['variable','object']],
+      'objecttype':['objecttype',['variable','objecttype']],
+      'object':[['variable','object']],
+
+      'timer':['timer',['number',0,10,1],['random',0,10]],
+
+      'bigint':[['number', 0, 100, 1],['variable','int'],['randint',0,100]],
+      'medint':[['number', 0, 50, 1],['variable','int'],['randint',0,50]],
+      'smallint':[['number', 0, 10, 1],['variable','int'],['randint',0,10]],
+
+      'direction':['direction',['variable','float'],['number',0,360],['random',0,360]],
+      'speed':[['number',0,10,.2],'percent',['variable','float'],['random',0,10]],
+
+      'bigfloat':[['number', 0, 100, .5],['variable','float'],['random',0,100]],
+      'medfloat':[['number', 0, 50,  .5],['variable','float'],['random',0,50]],
+      'smallfloat':[['number', 0, 10, .1],['variable','float'],['random',0,10]],
+      'float':[['number', 0, 20, .2],['variable','float'],['random',0,20]],
+
+      'bool':['bool',['variable','bool'],'randbool'],
+      'not':['not'],
       'vhboth':[['select','both','vertical','horizontal']],
       'compareop':[['select','==','>','<','>=','<=']],
-      'key':['key','variable'],
-      'speed':[['number',0,10,.2],'percent','variable','random'],
-      'conditional':null,
+      'string':['string',['variable','string']],
+      'key':['key',['variable','int']],
       'variable':['variable'],
-      'timer':['timer','number','random'],
-      'string':['string','variable','custom'],
+      'conditional':null,
     };
     var contents = $('.contents',node).html('');
     $('.title',node).html(self.info.description);
     $.data($(node)[0],'name',self.name);
-    
+
     var inputs = {};
     var empty = true;
     for (var name in self.info.inputs) {
@@ -314,12 +326,12 @@ var PluginManager = Class([], {
     self.action = addAction;
     self.types = [];
     self.onloaded = function(){};
-    
+
     var types = ['move','conditional','other','control'];
     for (var i=0;i<types.length;i++){
       self.addType(types[i]);
     }
-    
+
     $('button.ok',self.fid).click(function(){
         var data = self._get_data();
         var res = self._validate_form(data);
@@ -331,7 +343,7 @@ var PluginManager = Class([], {
         self._close_form();
     });
     $('button.cancel',self.fid).click(self._close_form);
-    
+
     self.loadPlugins();
   },
   addType:function(self,type){
@@ -395,11 +407,11 @@ function jQueryPlugin(name, defaults, helpers, init, allforone) {
         }
       }
     }
-    
+
     if ($.data(this, name)){
       return; // maybe throw an error == already initialized?
     }
-    
+
     if (allforone) {
       var widget = {};
       widget.settings = $.extend({}, defaults, options);
@@ -413,7 +425,7 @@ function jQueryPlugin(name, defaults, helpers, init, allforone) {
         widget.settings = $.extend({}, defaults, options);
         widget.node = $(this); // the individual node
         $.data(this, name, widget);
-        
+
         init.apply(widget, [widget.settings]);
         return this;
       });
