@@ -1,140 +1,0 @@
-10
-
-dir
-53
-https://gamecc.googlecode.com/svn/trunk/editor/plugins
-https://gamecc.googlecode.com/svn
-
-
-
-2009-10-24T06:45:20.990211Z
-39
-jabapyth
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-33d24a88-7095-11de-83c4-53937bf5378e
-
-move-to-collision
-dir
-
-set-vspeed
-dir
-
-or
-dir
-
-move-to
-dir
-
-destroy
-dir
-
-collision-at
-dir
-
-bounce-against
-dir
-
-set-opacity
-dir
-
-check-key
-dir
-
-log-var
-dir
-
-
-
-delete
-
-custom-expression
-dir
-
-create-object
-dir
-
-reverse-horiontal
-dir
-
-while
-dir
-
-set-timer
-dir
-
-set-direction
-dir
-
-with
-dir
-
-wrap-position
-dir
-
-elif
-dir
-
-repeat
-dir
-
-log
-dir
-
-reverse-vertical
-dir
-
-endif
-dir
-
-set-velocity
-dir
-
-move-towards
-dir
-
-else
-dir
-
-set-speed
-dir
-
-if
-dir
-
-random-chance
-dir
-
-set-hspeed
-dir
-
-and
-dir
-
-set-image-rotation
-dir
-
-compare-variable
-dir
-
-keep-on-screen
-dir
-
-set-gravity
-dir
-
-set-variable
-dir
-

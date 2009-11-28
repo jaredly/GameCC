@@ -1,9 +1,0 @@
-grammar = '''<Json> -> <value>
-<value> -> <Number> | <String> | <Identifier> | <True> | <False> | <List> | <Object>
-<notlist> -> <Number> | <String> | <Identifier>
-<List> -> [ <List Content> ]
-<List Content> -> <value> <List Content Tail>
-<List Content Tail> -> , <List Content> | e
-<Object> -> { <Object Content> }
-<Object Content> -> <notlist> : <value> <Object Content Tail>
-<Object Content Tail> -> , <Object Content> | e'''

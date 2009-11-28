@@ -1,5 +1,0 @@
-def output(data,type):
-  if type=='haxe':
-    return 'this.parent.keys[%(key)s]'%data
-  elif type=='python':
-    return 'pygame.key.get_pressed()[%(key)s]'%data

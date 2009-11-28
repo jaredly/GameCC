@@ -1,5 +1,0 @@
-def output(data,type):
-  if type=='haxe':
-    return '%(var1)s %(op)s %(var2)s'%data
-  elif type=='python':
-    return '%(var1)s %(op)s %(var2)s'%data

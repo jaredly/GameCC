@@ -1,5 +1,0 @@
-def output(data,type):
-  if type=='haxe':
-    return 'this.parent.log = "%(data)s\n"+this.parent.log;'%data
-  elif type=='python':
-    return 'self.parent.log = "%(data)s\n"+self.parent.log'%data

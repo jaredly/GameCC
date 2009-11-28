@@ -1,5 +1,0 @@
-def setV(self,direction, speed, rel):
-  if rel:
-    self.v += Vector(direction, speed)
-  else:
-    self.v = Vector(direction, speed)

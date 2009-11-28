@@ -1,5 +1,0 @@
-def output(data,type):
-  if type=='haxe':
-    return 'this.setTimer(%(timer)s, %(amount)s, %(relative)s);'%data
-  elif type=='python':
-    return 'self.setTimer(%(timer)s, %(amount)s, %(relative)s);'%data
