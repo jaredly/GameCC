@@ -9,6 +9,9 @@
     <link href="css/media-library.css" rel="stylesheet"/>
     <link href="css/project-dialog.css" rel="stylesheet"/>
     <link href="css/toolbar.css" rel="stylesheet"/>
+    <link href="css/plugin.css" rel="stylesheet"/>
+    <link href="css/object.css" rel="stylesheet"/>
+    <link href="css/media.css" rel="stylesheet"/>
     <link href="css/custom.css" rel="stylesheet"/>
     <script src="js/ajaxupload.js"></script>
     <script src="js/jquery.js"></script>
@@ -20,6 +23,7 @@
     <script src="js/object-asset.js"></script>
     <script src="js/map-asset.js"></script>
     <script src="js/display.js"></script>
+    <script src="js/event-picker.js"></script>
     <script src="js/display-image.js"></script>
     <script src="js/display-object.js"></script>
     <script src="js/display-map.js"></script>
@@ -28,6 +32,9 @@
     <script src="js/media-library.js"></script>
     <script src="js/project-dialog.js"></script>
     <script src="js/project.js"></script>
+    
+    <script src="js/multivalueable.js"></script>
+    <script src="js/plugin.js"></script>
     <script src="js/ajax.js"></script>
     <script src="js/util.js"></script>
     <script src="js/index.js"></script>
@@ -39,7 +46,7 @@
         <li class="menu-title">
           <span>File</span>
           <ul onclick="this.style.display='none';" onmouseout="this.style.display='';">
-            <li onclick="gcc.project.new()">New</li>
+            <li onclick="gcc.onnew()">New</li>
             <li onclick="gcc.project_dialog.open()">Open</li>
             <li class="break"></li>
             <li onclick="gcc.project.clone()">Clone Project</li>
@@ -146,18 +153,18 @@ Maps  </div><!-- end .header -->
         <div class="add"></div><div class="remove"></div>
       </div><!-- end #object-custom-toolbar -->
     </div><!-- end .info-sidebar -->
+    <div style="top: 10px; left: 170px;" id="object-event-toolbar" class="liveframe-absolute ui-widget-header add-remove-header">
+        <div class="add"></div><div class="remove"></div>
+    </div><!-- end #object-event-toolbar -->
     <div style="" id="object-events" class="liveframe-absolute">
       <div class="contents"></div>
     </div><!-- end #object-events -->
     <div style="" id="object-actions" class="liveframe-absolute">
     </div><!-- end #object-actions -->
-    <div style="top: 50px; left: 810px;" id="plugins" class="liveframe-absolute">
-    </div><!-- end #plugins -->
     <div style="top: 10px; left: 810px;" id="plugin-tabs" class="liveframe-absolute">
     </div><!-- end #plugin-tabs -->
-    <div style="top: 10px; left: 170px;" id="object-event-toolbar" class="liveframe-absolute ui-widget-header add-remove-header">
-        <div class="add"></div><div class="remove"></div>
-    </div><!-- end #object-event-toolbar -->
+    <div style="top: 50px; left: 810px;" id="plugins" class="liveframe-absolute">
+    </div><!-- end #plugins -->
   </div><!-- end #edit-object -->
 </div><!-- end #tabcontent -->
 </div><!-- end #liveframe-main.pretty-colors -->
@@ -166,7 +173,6 @@ Maps  </div><!-- end .header -->
     <div class="ui-widget-overlay"></div>
     <!--div class="ui-widget-shadow ui-corner-all" style=""/-->
   </div>
-
   <div id="project-dialog" title="">
     <fieldset>
       <label for="name">Name</label>
@@ -175,7 +181,7 @@ Maps  </div><!-- end .header -->
         
       </ul>
       <div class="buttons">
-        <button class="ui-state-default ui-corner-all save" type="button">Save</button>
+        <!--button class="ui-state-default ui-corner-all save" type="button">Save</button-->
         <button class="ui-state-default ui-corner-all load" type="button">Load</button>
         <button class="ui-state-default ui-corner-all remove" type="button">Remove</button>
       </div>
@@ -197,6 +203,11 @@ Maps  </div><!-- end .header -->
     </div>
   </div>
   
+  <div id="name-dialog" title="Project Name" style="height:auto!important;">
+    <label>Name</label>
+    <input name="name"  class="i-name"/><!-- class="name text ui-widget-content ui-corner-all"/-->
+  </div>
+  
   <div id="image-picker" class="ui-widget ui-widget-content ui-corner-all">
     <div class="close"></div>
     <div class="title">Pick an Image</div>
@@ -204,6 +215,6 @@ Maps  </div><!-- end .header -->
   </div>
   <div id="contextmenu"></div>
   <div id="hovertext"></div>
-  
+  <div id="event-picker"></div>
   </body>
 </html>
