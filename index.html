@@ -17,7 +17,7 @@
     <script src="js/jquery.js"></script>
     <script src="jui/js/jquery-ui-1.7.2.custom.min.js"></script>
     <script src="js/classy_js.js"></script>
-    
+
     <script src="js/asset.js"></script>
     <script src="js/image-asset.js"></script>
     <script src="js/object-asset.js"></script>
@@ -32,7 +32,7 @@
     <script src="js/media-library.js"></script>
     <script src="js/project-dialog.js"></script>
     <script src="js/project.js"></script>
-    
+
     <script src="js/multivalueable.js"></script>
     <script src="js/plugin.js"></script>
     <script src="js/ajax.js"></script>
@@ -67,7 +67,7 @@
             <li onclick="gcc.Preference()">Preferences</li>
           </ul>
         </li>
-        <li class="menu-image" onclick="gcc.Preview()"><img src="images/play.png"/></li>
+        <li class="menu-image" onclick="gcc.preview()"><img src="images/play.png"/></li>
         <li class="menu-image" onclick="gcc.project.add('image')"><img src="images/new-image.png"/></li>
         <li class="menu-image" onclick="gcc.project.add('object')"><img src="images/new-object.png"/></li>
         <li class="menu-image" onclick="gcc.project.add('map')"><img src="images/new-map.png"/></li>
@@ -121,7 +121,7 @@ Maps  </div><!-- end .header -->
         </input><!-- end [no id] -->
       </div><!-- end .name -->
       <div style="" id="map-objects" class="liveframe-absolute">
-        
+
       </div>
     </div><!-- end .info-sidebar -->
     <div style="" id="map-canvas" class="liveframe-absolute">
@@ -168,7 +168,7 @@ Maps  </div><!-- end .header -->
   </div><!-- end #edit-object -->
 </div><!-- end #tabcontent -->
 </div><!-- end #liveframe-main.pretty-colors -->
-  
+
   <div id="back" class="ui-overlay" style="display:none">
     <div class="ui-widget-overlay"></div>
     <!--div class="ui-widget-shadow ui-corner-all" style=""/-->
@@ -178,7 +178,7 @@ Maps  </div><!-- end .header -->
       <label for="name">Name</label>
       <input type="text" name="name" class="name text ui-widget-content ui-corner-all" /> <img class="loading-indicator" src="loading.gif"/>
       <ul class="project-list">
-        
+
       </ul>
       <div class="buttons">
         <!--button class="ui-state-default ui-corner-all save" type="button">Save</button-->
@@ -187,13 +187,13 @@ Maps  </div><!-- end .header -->
       </div>
     </fieldset>
   </div>
-  
+
   <div id="loading" class="ui-widget ui-widget-content ui-corner-all" style="display:none">
     <div class="title">Loading</div>
     <div class="progressbar"></div>
     <div class="subtext">loading project files...</div>
   </div>
-  
+
   <div id="media-library" class="ui-widget ui-widget-content ui-corner-all">
     <div class="close"></div>
     <div class="title">Media Library</div>
@@ -202,12 +202,12 @@ Maps  </div><!-- end .header -->
       <button class="ui-state-default ui-corner-all upload">Upload</button> <button class="ui-state-default ui-corner-all url">From URL</button>
     </div>
   </div>
-  
+
   <div id="name-dialog" title="Project Name" style="height:auto!important;">
     <label>Name</label>
     <input name="name"  class="i-name"/><!-- class="name text ui-widget-content ui-corner-all"/-->
   </div>
-  
+
   <div id="image-picker" class="ui-widget ui-widget-content ui-corner-all">
     <div class="close"></div>
     <div class="title">Pick an Image</div>
