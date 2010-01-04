@@ -1,20 +1,28 @@
 #!/usr/bin/env python
 
+import cgitools
+cgitools.enable()
+
 import os,sys,re
 import cgi
 import base64
 import myjson as json
 import random
-
+#print 'Content-type:text/html\n'
 sys.stderr = sys.stdout
 form = cgi.FieldStorage()
 
-import project
-import asset
-import objects
-import images
-import maps
-import viewer
+try:
+    import project
+    import asset
+    import objects
+    import images
+    import maps
+    import viewer
+except:
+    print 'Content-type:text/plain\n'
+    print 'import error'
+    raise
 
 import subprocess
 
@@ -40,7 +48,7 @@ def execute_command(cmd):
       command = module.__dict__[func]
   else:
     die('Invalid command')
-  
+
   spec = inspect.getargspec(command)
   args = spec[0]
   topass = []
@@ -75,11 +83,11 @@ if __name__=='__main__':
     die('Missing command argument')
   cmd = form['cmd'].value
   send_header = True
-  
+
   drupal.login()
   if cmd.startswith('viewer') and not drupal.loggedin:
     drupal.altlogin(form)
-  
+
   if not drupal.loggedin:
     die('Not logged in')
   if form.has_key('project'):
