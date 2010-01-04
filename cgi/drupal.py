@@ -92,7 +92,7 @@ class MySQL:
         self.dcursor = self.db.cursor(MySQLdb.cursors.DictCursor)
 
     def __del__(self):
-        self.db.quit()
+        pass#self.db.quit()
 
     def _fill(self, dct):
         if not dct.has_key('pid') and pid:
