@@ -44,33 +44,33 @@ schemas = {
         ('speed','int'),
     ),
     'objects':(
-		('pid','int'),
-		('name','text'),
+        ('pid','int'),
+        ('name','text'),
         ('visible','text'),
-		('image','text'),
-		('events','text'),
-		('attributes','text'),
-		('parent','text'),
+        ('image','text'),
+        ('events','text'),
+        ('attributes','text'),
+        ('parent','text'),
     ),
     'maps':(
-		('pid','int'),
-		('name','text'),
-		('objects','text'),
+        ('pid','int'),
+        ('name','text'),
+        ('objects','text'),
         ('width','int'),
         ('height','int'),
-		## ('fps','int'),
-		('events','text'),
-		('tiles','text'),
-		('views','text'),
-		('_index','int'),
-		('background','int'),
+        ## ('fps','int'),
+        ('events','text'),
+        ('tiles','text'),
+        ('views','text'),
+        ('_index','int'),
+        ('background','int'),
     ),
     'ratings':(
-		('pid','int'),
-		('type','text'),
-		('uid','int'),
-		('name','text'),
-		('rating','int')
+        ('pid','int'),
+        ('type','text'),
+        ('uid','int'),
+        ('name','text'),
+        ('rating','int')
     )
 }
 
@@ -183,13 +183,12 @@ def altlogin(form):
     cursor.execute("select uid from users where name='%s' and pass='%s'"%(u,p))
     res = cursor.fetchall()
     if not res:
-        print u,p,'bad'
-        return
+        return False
     loggedin = True
     username = u
     uid = res[0][0]
-    db = MySQL('marketr5_gamecc')
-
+    db = MySQL(alls['data_db'])
+    return True
 
 def login():
     global loggedin, username, uid, db, pid
@@ -203,14 +202,16 @@ def login():
             if sess:
                 cursor.execute('select name from users where uid=%d'%sess[0])
                 name = cursor.fetchone()[0]
-                loggedin = not not name
+                if not name:continue
+                loggedin = True
                 uid = sess[0]
                 username = name
                 db = MySQL(alls['data_db'])
                 check_tables()
-                return
+                return True
     loggedin = False
     username = ''
     uid      = 0
     db       = None
+    return False
 

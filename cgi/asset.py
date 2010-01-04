@@ -2,7 +2,8 @@ import os
 import string
 import myjson as json
 
-from utils import exit,die,drupal
+from cgitools import exit,die
+import drupal
 
 def isvalidname(x):
     for c in x:
@@ -79,7 +80,7 @@ defaults = {
     'images':{'subimages':[],'speed':1.0},
     'objects':{'image':None,'visible':True,'events':{},'attributes':[],'parent':'BaseObject'},
     'maps':{'width':500,'height':500,'objects':[],'tiles':[],'events':{}}
-	# add persistant
+    # add persistant
 }
 
 defaults = {

@@ -13,7 +13,8 @@ import string
 import drupal
 import multivalueable
 
-from utils import die,exit
+from cgitools import exit,die
+import drupal
 
 sys.stderr = sys.stdout
 
@@ -36,25 +37,25 @@ class Asset:
     self.raw = str(info).replace('False','false').replace("True",'true').replace('None','null')
     if not info:
       self.load()
-    
+
   @classmethod
   def outputAll(cls,parent,otype):
     atype = cls.base.split('/')[-1]
     return '\n'.join(asset.output(otype) for name,asset in cls.sorted(parent.assets[atype].items()))
-    
+
   @classmethod
   def outputMAll(cls,parent,otype):
     atype = cls.base.split('/')[-1]
     return '\n'.join(list(asset.outputMore(otype) for name,asset in cls.sorted(list(parent.assets[atype].items()))))
-  
+
   def load():pass
-  
+
   #def load(self):
-   # self.info = 
+   # self.info =
     #self.raw = open(os.path.join(self.parent.base,self.base,self.name + '.info')).read().strip().replace('\r\n','\n')
     #true=True;false=False;null=None
     #self.info = eval(self.raw)
-    
+
   def output(self, otype):
     if otype == 'haxe':
       return self._output_haxe()
@@ -68,7 +69,7 @@ class Asset:
   def _output_python(self):
     self.raw = self.raw.replace('false','False').replace('true','True').replace('null','None')
     return ''
-  
+
   def outputMore(self, otype):
     return ''
 
@@ -86,25 +87,25 @@ class BaseObject extends ImageSprite {
     Asset.__init__(self,parent,name,info)
     if self.info['type'] == 'conditional':
       self.info['inputs']['not'] = 'not'
-  
+
   @classmethod
   def outputAll(cls,parent,otype):
     return ''
-    
+
   @classmethod
   def outputMAll(cls,parent,otype):
     functions = []
     for name,plugin in parent.assets['plugins'].items():
       functions.append('  '+plugin.getFunction(otype).replace('\n','\n  ')+'\n')
     return cls.sprite_template[otype]%{'functions':''.join(functions)}
-  
+
   def load(self):
     self.raw = open(os.path.join(self.parent.base,'../plugins',self.name,self.name + '.info')).read().strip().replace('\r\n','\n')
     true=True;false=False;null=None
     self.info = eval(self.raw)
     sys.path.append('../plugins/'+self.name+'/')
     self.module = __import__(self.name)
-  
+
   def getFunction(self,otype):
     base = os.path.join(self.parent.base,self.base,self.name,self.name)
     if otype == 'python':
@@ -114,7 +115,7 @@ class BaseObject extends ImageSprite {
       if os.path.exists(base+'.inc.hx'):
         return open(base+'.inc.hx').read().strip()
     return ''
-  
+
   ## fix outputs
   def output(self, data, otype, event, args, object):
     for k,v in data.items():
@@ -122,7 +123,7 @@ class BaseObject extends ImageSprite {
       if not self.info['inputs'].has_key(k):
         raise Exception,'invalid plugin input data name "%s" for plugin "%s" and data"%s"'%(k,self.info['name'],data)
       input_type = self.info['inputs'][k]
-      
+
       if input_type == 'conditional':
         cond = data[k]
         data[k] = self.parent.assets['plugins'][data[k]['name']].output(data[k]['data'],otype, event, args, object)
@@ -157,7 +158,7 @@ class ImageAsset(SimpleAsset):
     atype = cls.base.split('/')[-1]
     if not parent.assets[atype].items():return ''
     return parent.assets[atype].items()[0][1].outputMore(otype)
-    
+
   def outputMore(self, otype):
     res = set()
     for name,img in self.parent.assets['images'].items():
@@ -197,7 +198,7 @@ class %(name)s(%(parent)s):
   # any class variables (when I decide to include that) will go here
   def __init__(self, parent, x, y):
     %(parent)s.__init__(self, parent, x, y)
-  
+
   def keyevent(self, type, key):
     'event handling'
     if type == KEYDOWN:
@@ -206,11 +207,11 @@ class %(name)s(%(parent)s):
     elif type == KEYUP:
       'check keyrelease'
       %(keyrelease)s
-  
+
   def _check_keydown(self):
       keys = self.parent.keys()
       %(keydown)s
-  
+
   %(functions)s
 '''}
   func_template = {'haxe':'''
@@ -233,7 +234,7 @@ class %(name)s(%(parent)s):
       return objectlist
     def gi(n):
       return [o[0] for o in objectlist].index(n)
-    
+
     while 1:
       for i,(n,o) in enumerate(objectlist):
         if not o.info['parent'] or o.info['parent'] == 'BaseObject':continue
@@ -244,14 +245,14 @@ class %(name)s(%(parent)s):
       else:
         break
     return objectlist
-  
+
   def _output_haxe(self):
     Asset._output_haxe(self)
     return '    ' + self.base + '.set("%s",%s);'%(self.info['name'],self.info['name'])
   def _output_python(self):
     Asset._output_python(self)
     return '    ' + self.base + '["%s"] = %s'%(self.info['name'],self.info['name'])
-    
+
   def makeKey(self, event):
     plain = '_'.join(event.split('_')[2:])
     if event.startswith('key_down'):
@@ -281,7 +282,7 @@ class %(name)s(%(parent)s):
       functions.append(self._make_function(event,self.info['events'][event], otype))
       #except Exception,e:
       #die( 'Error in making the event "%s" for object "%s": %s; %s %s'%(event,self.name,e,otype,self.info['events'][event]) )
-        
+
     if self.info['parent'] != 'BaseObject':
       self.info['keydown'] += self.parent.assets['objects'][self.info['parent']].info['keydown']
       self.info['keypress'] += self.parent.assets['objects'][self.info['parent']].info['keypress']
@@ -294,7 +295,7 @@ class %(name)s(%(parent)s):
       self.info['collisions'] = '["'+'","'.join(collisions)+'"]'
     elif otype=='haxe':
       self.info['collisions'] = 'new Array<String>()';
-    
+
     return self.class_template[otype]%self.info
 
   def _make_function(self,event,actions,otype):
@@ -308,26 +309,26 @@ class %(name)s(%(parent)s):
       data['override']=''
     else:
       data['override']='override'
-    
+
     if event.startswith('mouse'):
       data['args'] = 'e:flash.events.MouseEvent'
       data['args2'] = 'e'
     elif event.startswith('collide'):
       data['args'] = 'other:BaseObject'
       data['args2'] = 'other'
-    
+
     if otype == 'python':
       data['args'] = data['args2']
-    
+
     data['event'] = event
     data['actions'] = []
     indent = 0
     last = None
-    
+
     block_start = 'if','and','or','else','elif','while','with','repeat','else','elif'
     block_end   = 'else','elif','endif'
     comments = {'python':'## ','haxe':'// '}
-    
+
     for action in actions:
       if action[1].get('disabled',False):
         data['actions'].append(comments[otype]+' '*indent + self.parent.assets['plugins'][action[0]].output(action[1],otype,event,data['args2'],self).replace('\n','\n'+comments[otype]+' '*indent))
@@ -340,7 +341,7 @@ class %(name)s(%(parent)s):
       if action[0] in block_start:
         indent += 2
       last = action[0]
-        
+
     if not data['actions'] and otype == 'python':
       data['actions'] = ['pass']
     data['actions'] = '\n    '.join(data['actions'])
@@ -354,17 +355,17 @@ class Compiler:
     self.base = ''
     self.assets = {'plugins':{},'images':{},'objects':{},'maps':{}}
     self.assetTypes = {'plugins':PluginAsset,'images':ImageAsset,'objects':ObjectAsset,'maps':MapAsset}
-    
+
     for atype,aclass in self.assetTypes.items():
       self.load_assets(atype,aclass)
-    
+
     self.width = max(m.info['width'] for m in self.assets['maps'].values())
     self.height = max(m.info['height'] for m in self.assets['maps'].values())
-    
+
   def genName(self):
     name = ''.join(Random.choice(string.ascii_lowercase) for x in range(10)).title()
     return name
-  
+
   def load_assets(self,atype,aclass):
     if atype == 'plugins':
       for path in glob.glob(os.path.join(self.base,aclass.base,'*.info')) + glob.glob(os.path.join(self.base,aclass.base,'*','*.info')):
@@ -385,7 +386,7 @@ class Compiler:
   def compile(self, otype, save=True):
     exts = {'python':'.py','haxe':'.hx'}
     thename = self.genName()
-    
+
     if not thename:
       thename = self.genName()
     data = {'name':thename}
@@ -400,9 +401,9 @@ class Compiler:
     data['width'] = self.width
     data['height'] = self.height
     text = self.templates[otype]%data
-    
+
     if not save:return text,data
-    
+
     open(thename+exts[otype],'w').write(text)
     if otype=='haxe':
       open('game/BaseObject.hx','w').write('''package game;
@@ -417,7 +418,7 @@ import flash.net.URLRequest;
 import flash.ui.Keyboard;
 '''+op)
     return thename
-    
+
 import sys
 if __name__=='__main__':
   if len(sys.argv)>=2:
@@ -426,4 +427,4 @@ if __name__=='__main__':
 #if __name__=='__main__':
 #  Compiler('temp','MGame').compile('flash')
 #  os.system('./compile.sh MGame.hx MGame && firefox MGame.hx.html')
-    
+

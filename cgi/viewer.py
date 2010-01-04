@@ -7,7 +7,8 @@ import StringIO
 
 import compile
 
-from utils import exit,die,drupal
+from cgitools import exit,die
+import drupal
 
 def list_projects():
   projects = [x[0] for x in drupal.db.execute('select name from projects where uid=%d'%drupal.uid)]
@@ -19,10 +20,10 @@ def dist(project):
   name = comp.genName()
   sio = StringIO.StringIO()
   tf = tarfile.open(name+'.tbz','w:bz2')
-  
+
   open(name+'.py','w').write(text)
   tf.add(name+'.py')
-  
+
   #addfake(tf,project+'.py',text)
   #os.chdir('../')
   images = json.loads(data['images_more'])
@@ -33,7 +34,7 @@ def dist(project):
   sys.stdout.write(open(name+'.tbz').read())
   os.remove(name+'.py')
   os.remove(name+'.tbz')
-  
+
 def addfake(tf,name,txt):
   fl = StringIO.StringIO(txt)
   info = tarfile.TarInfo.frombuf(txt)

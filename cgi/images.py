@@ -4,7 +4,9 @@ import os,glob
 from urllib import urlopen as upen
 import myjson as json
 
-from utils import exit
+from cgitools import exit,die
+import drupal
+
 '''
 def fromurl(project,url):
   name = url.split('/')[-1]

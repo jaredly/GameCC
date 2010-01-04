@@ -1,5 +1,8 @@
 import asset
-from utils import exit,die
+
+from cgitools import exit,die
+import drupal
+
 import myjson as json
 
 def save_actions(project,name,event,actions):

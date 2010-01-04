@@ -10,7 +10,8 @@ import random
 import subprocess
 import myjson as json
 
-from utils import exit,die,drupal
+from cgitools import exit,die
+import drupal
 
 def execute(cmd):
   p = subprocess.Popen(cmd, shell=True,
@@ -23,7 +24,7 @@ def execute(cmd):
 def list_projects():
   projects = [x[0] for x in drupal.db.execute('select name from projects where uid=%d'%drupal.uid)]
   exit({'projects':projects});
-  
+
 import glob
 
 def load_plugins():
@@ -42,6 +43,8 @@ def add_images(images):
 
 def list_all_images():
   exit({'images':os.listdir('../raw_images')})
+
+noproject = ['project/new']
 
 def new(project):
   if drupal.pid:
@@ -95,7 +98,7 @@ def preview(project):
   cmd = '~/haxe -swf ../preview/%(name)s.swf -main %(name)s -swf-version 9 -swf-header %(width)s:%(height)s:%(fps)s:%(color)s'%data
   execute(cmd)
   execute('cat ../data/default.html | sed -e "s/<<NAME>>/%(name)s/g" -e "s/<<TITLE>>/%(name)s/g" -e "s/<<WIDTH>>/%(width)s/g" -e "s/<<HEIGHT>>/%(height)s/g" -e "s/<<COLOR>>/%(color)s/g" > ../preview/%(name)s.html'%data)
-  
+
   exit({'name':name,'width':compiler.width,'height':compiler.height})
 
 '''
@@ -128,7 +131,7 @@ def addsvg(project,data,bbox=None):
   name = os.path.join(projbase,project,'images','custom%d.svg'%i)
   open(name, 'w').write(data)
   exit({})
-  
+
 
 def load(project):
   objects = sorted(list(x for x in os.listdir(os.path.join(projbase, project, 'objects')) if x.split('.')[-1]=='info'))
