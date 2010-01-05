@@ -372,12 +372,12 @@ class Compiler:
         name = path.split('/')[-1].split('.')[0]
         self.assets[atype][name] = aclass(self,name,None)
     else:
-      for item in drupal.db.find_dict(atype,order='aorder'):
+      for item in drupal.db.find_dict(atype,order='_index'):
         name = item['name']
         del item['uid']
         del item['pid']
         del item['tags']
-        del item['aorder']
+        del item['_index']
         del item['folder']
         if not aclass.first:
           aclass.first = name

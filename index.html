@@ -13,6 +13,7 @@
     <link href="css/object.css" rel="stylesheet"/>
     <link href="css/media.css" rel="stylesheet"/>
     <link href="css/custom.css" rel="stylesheet"/>
+    <link href="css/small.css" rel="stylesheet"/>
     <script src="js/ajaxupload.js"></script>
     <script src="js/jquery.js"></script>
     <script src="jui/js/jquery-ui-1.7.2.custom.min.js"></script>
@@ -39,9 +40,9 @@
     <script src="js/util.js"></script>
     <script src="js/index.js"></script>
   </head>
-  <body>
-    <div style="" id="liveframe-main" class="pretty-colors">
-      <div style="" id="toolbar" class="liveframe-absolute ui-widget-header">
+  <body class="small-screen">
+    <div id="liveframe-main" class="pretty-colors">
+      <div id="toolbar" class="liveframe-absolute ui-widget-header">
         <ul class="menu">
         <li class="menu-title">
           <span>File</span>
@@ -74,15 +75,15 @@
       </ul>
       <div id="loading-small"></div>
     </li><!-- end .menu-title -->
-    <li style="" id="" class="menu-image">
-      <img style="" id="" class="">
+    <li id="" class="menu-image">
+      <img id="" class="">
       </img><!-- end [no id] -->
     </li><!-- end .menu-image -->
   </ul><!-- end .menu -->
-  <div style="" id="title" class="">
+  <div id="title" class="">
 No Open Project  </div><!-- end #title -->
 </div><!-- end #toolbar -->
-<div style="top: 40px; left: 10px;" id="sidebar" class="liveframe-absolute">
+<div id="sidebar" class="liveframe-absolute">
   <div style="top: 0px; left: 0px; height: 30px;" id="" class="liveframe-relative header ui-widget-header">
 Images  </div><!-- end .header -->
   <div style="top: 0px; left: 0px; min-height: 50px;" id="image-list" class="liveframe-relative contents">
@@ -96,74 +97,74 @@ Maps  </div><!-- end .header -->
   <div style="top: 0px; left: 0px; min-height: 50px;" id="map-list" class="liveframe-relative contents">
   </div><!-- end #map-list -->
 </div><!-- end #sidebar -->
-<div style="top: 40px; left: 210px;" id="tabcontent" class="liveframe-absolute">
-  <div style="" id="edit-image" class="liveframe-absolute liveframe-hidden">
+<div id="tabcontent" class="liveframe-absolute">
+  <div id="edit-image" class="liveframe-absolute liveframe-hidden">
     <div style="top: 0px; left: 0px;" id="" class="liveframe-absolute info-sidebar">
-      <div style="top: 10px; left: 10px;" id="edit-image-preview" class="liveframe-absolute">
+      <div id="edit-image-preview" class="liveframe-absolute">
       </div><!-- end #edit-image-preview -->
-      <div style="top: 160px; left: 10px;" id="" class="liveframe-absolute name">
-        <input style="" id="" class="">
+      <div style="top: 120px; left: 10px;" id="" class="liveframe-absolute name">
+        <input id="" class="">
         </input><!-- end [no id] -->
       </div><!-- end .name -->
     </div><!-- end .info-sidebar -->
-    <div style="" id="edit-image-list" class="liveframe-absolute">
+    <div id="edit-image-list" class="liveframe-absolute">
     </div><!-- end #edit-image-list -->
-    <div style="top: 10px; left: 170px;" id="image-toolbar" class="liveframe-absolute ui-widget-header add-remove-header">
+    <div id="image-toolbar" class="liveframe-absolute ui-widget-header add-remove-header">
       <div class="add"></div><div class="remove"></div>
     </div><!-- end #image-toolbar -->
   </div><!-- end #edit-image -->
-  <div style="" id="edit-map" class="liveframe-absolute liveframe-hidden">
-    <div style="" id="" class="liveframe-absolute info-sidebar">
-      <div style="" id="minimap" class="liveframe-absolute">
+  <div id="edit-map" class="liveframe-absolute liveframe-hidden">
+    <div id="" class="liveframe-absolute info-sidebar">
+      <div id="minimap" class="liveframe-absolute">
       </div><!-- end #minimap -->
-      <div style="" id="" class="liveframe-absolute name">
-        <input style="" id="" class="">
+      <div id="" class="liveframe-absolute name">
+        <input id="" class="">
         </input><!-- end [no id] -->
       </div><!-- end .name -->
-      <div style="" id="map-objects" class="liveframe-absolute">
+      <div id="map-objects" class="liveframe-absolute">
 
       </div>
     </div><!-- end .info-sidebar -->
-    <div style="" id="map-canvas" class="liveframe-absolute">
+    <div id="map-canvas" class="liveframe-absolute">
       <div class="content"></div>
     </div><!-- end #map-canvas -->
-    <div style="top: 10px; left: 170px;" id="map-toolbar" class="liveframe-absolute ui-widget-header">
+    <div id="map-toolbar" class="liveframe-absolute ui-widget-header">
     </div><!-- end #map-toolbar -->
   </div><!-- end #edit-map -->
-  <div style="" id="edit-object" class="liveframe-absolute">
-    <div style="" id="" class="liveframe-absolute info-sidebar">
-      <div style="top: 10px; left: 10px;" id="object-image" class="liveframe-absolute">
+  <div id="edit-object" class="liveframe-absolute">
+    <div id="" class="liveframe-absolute info-sidebar">
+      <div id="object-image" class="liveframe-absolute">
       </div><!-- end #object-image -->
-      <div style="" id="" class="liveframe-absolute name">
-        <input style="" id="" class="">
+      <div id="" class="liveframe-absolute name">
+        <input id="" class="">
         </input><!-- end [no id] -->
       </div><!-- end .name -->
-      <div style="" id="object-properties" class="liveframe-absolute">
+      <div id="object-properties" class="liveframe-absolute">
         <select id="object-parent">
         </select>
       </div><!-- end #object-properties -->
-      <div style="top: 380px; left: 10px;" id="object-custom-attrs" class="liveframe-absolute">
+      <div id="object-custom-attrs" class="liveframe-absolute">
         <table>
           <tr>
             <th>Name</th><th>Type</th>
           </tr>
         </table>
       </div><!-- end #object-custom-attrs -->
-      <div style="top: 350px; left: 10px;" id="object-custom-toolbar" class="liveframe-absolute ui-widget-header add-remove-header">
+      <div id="object-custom-toolbar" class="liveframe-absolute ui-widget-header add-remove-header">
         <div class="add"></div><div class="remove"></div>
       </div><!-- end #object-custom-toolbar -->
     </div><!-- end .info-sidebar -->
-    <div style="top: 10px; left: 170px;" id="object-event-toolbar" class="liveframe-absolute ui-widget-header add-remove-header">
+    <div id="object-event-toolbar" class="liveframe-absolute ui-widget-header add-remove-header">
         <div class="add"></div><div class="remove"></div>
     </div><!-- end #object-event-toolbar -->
-    <div style="" id="object-events" class="liveframe-absolute">
+    <div id="object-events" class="liveframe-absolute">
       <div class="contents"></div>
     </div><!-- end #object-events -->
-    <div style="" id="object-actions" class="liveframe-absolute">
+    <div id="object-actions" class="liveframe-absolute">
     </div><!-- end #object-actions -->
-    <div style="top: 10px; left: 810px;" id="plugin-tabs" class="liveframe-absolute">
+    <div id="plugin-tabs" class="liveframe-absolute">
     </div><!-- end #plugin-tabs -->
-    <div style="top: 50px; left: 810px;" id="plugins" class="liveframe-absolute">
+    <div id="plugins" class="liveframe-absolute">
     </div><!-- end #plugins -->
   </div><!-- end #edit-object -->
 </div><!-- end #tabcontent -->

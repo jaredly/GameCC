@@ -1,12 +1,11 @@
 #!/usr/bin/env python
 
 import os,sys
-
 import myjson as json
-
 sys.path.append('/home1/marketr5/lib64/python2.4/site-packages')
-
 import MySQLdb
+
+#good-ish. functioning: Jan 4
 
 pwdfile = '/home/jared/clone/.liveframe'
 #print 'Content-type:text/html\n'
@@ -79,7 +78,7 @@ schemas = {
         ('name','text'),
         ('rating','int')
     ),
-    'folder':(
+    'folders':(
         ('pid','int'),
         ('name','text'),
         ('type','text'),

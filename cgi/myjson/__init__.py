@@ -7,7 +7,7 @@ class JsonParser(Parser.Parser):
   def toObject(self, item = None):
     if not item:
       item = self.base
-    
+
     predefs = {'true':True,'false':False,'null':None}
     if item.name == '<id>':
       v = item.getvalue()
@@ -22,12 +22,12 @@ class JsonParser(Parser.Parser):
       if '.' in v:
         return float(v)
       return int(v)
-      
+
       return item.getvalue()
-    
+
     ignore = list('{}[],:')+['<e>']
     tree = [x for x in item.tree if not x.name in ignore]
-    
+
     if item.name == '<list>':
       ret = []
       tail = self.toObject(tree[0])
@@ -40,11 +40,11 @@ class JsonParser(Parser.Parser):
       if tail:
         ret.update(tail)
       return ret
-      
-    
+
+
     if item.name == '<list contents>':
       if not len(tree):return []
-      ret = [self.toObject(tree[0])] 
+      ret = [self.toObject(tree[0])]
       tail = self.toObject(tree[1])
       if tail:
         ret += tail
@@ -56,7 +56,7 @@ class JsonParser(Parser.Parser):
       if tail:
         ret.update(tail)
       return ret
-    
+
     if len(tree)==1:
       return self.toObject(tree[0])
     elif not len(tree):
@@ -70,7 +70,7 @@ class JsonParser(Parser.Parser):
     else:
       print tree,item
       raise Exception,"badness"
-    
+
 def load(x):
   return JsonParser(x).toObject()
 
@@ -82,7 +82,7 @@ def dumps(x):
   return jsonify(x)
 
 def jsonify(obj):
-  if type(obj) == str:
+  if type(obj) in (str,unicode):
     return "'"+obj.replace("'","\\'").replace('\n','\\n')+"'"
   elif type(obj) in (int,float):
     return str(obj)
@@ -97,10 +97,10 @@ def jsonify(obj):
   elif obj is None:
     return 'null'
   raise Exception,"item can't be jsonified '%s' - of type %s"%(obj,type(obj))
-  
+
 def dump(x, where):
   where.write(jsonify(x))
-  
+
 
 if __name__=='__main__':
   print JsonParser(open('../../projects/Project3/maps/Maps1.info').read()).toObject()

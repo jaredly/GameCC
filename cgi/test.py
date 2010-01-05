@@ -1,6 +1,7 @@
 from game import Game, ImageSprite, Point
 import pygame
 from pygame.locals import *
+
 '''
 import game.Game;
 import flash.geom.Point;
@@ -12,9 +13,10 @@ import flash.ui.Keyboard;
 '''
 
 
+
 class BaseSprite(ImageSprite):
-  
-  
+
+
   def keepOnScreen(bounce):
     self.limitPos(0,0,self.parent.size[0],self.parent.size[1],0,bounce)
   def setV(self,v,rel):
@@ -59,11 +61,11 @@ class BaseSprite(ImageSprite):
     else:
       self.pos.x=x
       self.pos.y=y
-  
-  
-  
-  
-  
+
+
+
+
+
 
 
 
@@ -87,44 +89,44 @@ class Guy(ImageSprite):
   # any class variables (when I decide to include that) will go here
   def __init__(parent, pos, image="Guyi"):
     ImageSprite.__init__(self, parent, pos, image)
-    
-  
+
+
   def key_down_right_arrow():
     if (self.collisionAt(Point(0.0, 5.0), Block)){
     else:
     self.moveTo(5.0, 0.0, True);
-    
+
     #super();
-  
+
   def step():
     self.keepOnScreen(False);
     self.v.sety(0.1,True)
     #super();
-  
+
   def key_down_left_arrow():
     pass
     #super();
-  
+
   def key_down_up_arrow():
     pass
     #super();
-  
+
 
 
 class Bullet(ImageSprite):
   # any class variables (when I decide to include that) will go here
   def __init__(parent, pos, image="bullet"):
     ImageSprite.__init__(self, parent, pos, image)
-    
-  
+
+
 
 
 class Block(ImageSprite):
   # any class variables (when I decide to include that) will go here
   def __init__(parent, pos, image="Block"):
     ImageSprite.__init__(self, parent, pos, image)
-    
-  
+
+
 
 
 if __name__=='__main__':

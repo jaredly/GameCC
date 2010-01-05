@@ -7,6 +7,8 @@ import json
 from cgitools import exit,die
 import drupal
 
+#good: Jan 4
+
 type = 'images'
 def new():
     return asset.new(type,{'speed':1,'subimages':[]})
@@ -15,16 +17,19 @@ def clone(name):
     return asset.clone(type,name)
 
 def load(name):
-    return asset.clone(type,name)
+    return asset.load(type,name)
 
 def rename(name,new):
-    return asset.clone(type,name)
+    return asset.rename(type,name,new)
 
 def delete(name):
     return asset.delete(type,name)
 
 def save_order(names,folder):
     return asset.save_items(type,names,folder)
+
+def set_attr(name, attr, value):
+    return asset.set_attr(type, name, attr, value)
 
 '''
 def fromurl(project,url):

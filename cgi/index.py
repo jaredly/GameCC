@@ -13,6 +13,8 @@ import drupal
 import asset
 import maps
 
+#good: Jan 4
+
 structure = {
     'project':project,
     'objects':objects,

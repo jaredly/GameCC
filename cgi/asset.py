@@ -1,10 +1,10 @@
 import os
 import string
-import myjson as json
+import json
 
 from cgitools import exit,die
 import drupal
-
+# good: Jan 4
 def isvalidname(x):
     for c in x:
         if c not in string.ascii_letters+string.digits+'_':
@@ -12,8 +12,12 @@ def isvalidname(x):
     return True
 
 def last_order(type):
-    lasset = drupal.find(type, {'pid':drupal.pid,'folder':''}, ['_index'], order='_index')[-1][0]
-    lfolder = drupal.find('folders', {'pid':drupal.pid,'folder':'','type':type}, ['_index'], order='_index')[-1][0]
+    lasset = drupal.db.find(type, {'pid':drupal.pid,'folder':''}, ['_index'], order='_index')
+    if not lasset:lasset = 0
+    else:lasset = lasset[-1][0]
+    lfolder = drupal.db.find('folders', {'pid':drupal.pid,'folder':'','type':type}, ['_index'], order='_index')
+    if not lfolder:lfolder = 0
+    else:lfolder = lfolder[-1][0]
     return max(lasset,lfolder)
 
 def new(type,defaults):
@@ -24,7 +28,7 @@ def new(type,defaults):
         i += 1
     name += '_' + str(i)
 
-    values = {'uid':drupal.uid,'pid':drupal.pid,'name':name,'_index':last_order(type),'folder':''}
+    values = {'pid':drupal.pid,'name':name,'_index':last_order(type),'folder':''}
     values.update(defaults)
     drupal.db.insert_dict(type, values)
     load(type, name)
@@ -48,6 +52,7 @@ def clone(type, name):
 def load(type, name):
     result = drupal.db.find_dict(type, {'pid':drupal.pid, 'name':name})
     if not result:die('Asset not found: %s'%name)
+    print 'Content-type:text/plain\n'
     print result[0]
 
 def rename(type, name, new):
