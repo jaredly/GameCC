@@ -4,14 +4,14 @@ import cgitools
 from cgitools import form, die
 cgitools.enable(True)
 
+import traceback
 import project
-import asset
 import objects
 import images
-import maps
 import viewer
-import traceback
 import drupal
+import asset
+import maps
 
 structure = {
     'project':project,
@@ -40,5 +40,3 @@ if __name__=='__main__':
         pass
     except:
         die(traceback.format_exc().split('\n')[-2],traceback=traceback.format_exc())
-
-

@@ -44,7 +44,7 @@ def add_images(images):
 def list_all_images():
   exit({'images':os.listdir('../raw_images')})
 
-noproject = ['project/new']
+noproject = ['project/new','project/list_projects','project/load_plugins']
 
 def new(project):
   if drupal.pid:

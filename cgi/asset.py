@@ -11,40 +11,46 @@ def isvalidname(x):
             return False
     return True
 
-def new(type, project):
+def last_order(type):
+    lasset = drupal.find(type, {'pid':drupal.pid,'folder':''}, ['_index'], order='_index')[-1][0]
+    lfolder = drupal.find('folders', {'pid':drupal.pid,'folder':'','type':type}, ['_index'], order='_index')[-1][0]
+    return max(lasset,lfolder)
+
+def new(type,defaults):
     name = type.title().rstrip('s')
     names = list(x[0] for x in drupal.db.find(type, {'pid':drupal.pid}, ['name']))
     i = 1
     while name + '_' + str(i) in names:
         i += 1
     name += '_' + str(i)
-    values = {'uid':drupal.uid,'name':name,'pid':drupal.pid,'tags':'','aorder':len(names),'folder':''}
-    values.update(defaults[type])
-    drupal.db.insert_dict(type, values)
-    load(type, project, name)
 
-def clone(type, project, name):
+    values = {'uid':drupal.uid,'pid':drupal.pid,'name':name,'_index':last_order(type),'folder':''}
+    values.update(defaults)
+    drupal.db.insert_dict(type, values)
+    load(type, name)
+
+def clone(type, name):
     oname = name
     name = name + '_Copy'
     names = list(x[0] for x in drupal.db.find(type, {'pid':drupal.pid}, ['name']))
     if oname not in names:
-        return die('Invalid source asset')
+        return die('Invalid source asset: %s'%oname)
     if name in names:
         i = 1
         while name + '_' + str(i) in names:
             i += 1
         name += '_' + str(i)
-    values = {'uid':drupal.uid, 'name':name, 'pid':drupal.pid, 'tags':'','aorder':len(names),'folder':''}
-    values.update(drupal.db.find_dict(type, {'name':oname,'pid':drupal.pid})[0])
-    drupal.db.insert_dict(type, values)
-    load(type, project, name)
+    object = drupal.db.find_dict(type, {'name':oname,'pid':drupal.pid})[0]
+    object['name'] = name
+    drupal.db.insert_dict(type, object)
+    load(type, name)
 
-def load(type, project, name):
+def load(type, name):
     result = drupal.db.find_dict(type, {'pid':drupal.pid, 'name':name})
-    if not result:die('asset not found')
+    if not result:die('Asset not found: %s'%name)
     print result[0]
 
-def rename(type, project, name, new):
+def rename(type, name, new):
     names = list(x[0] for x in drupal.db.find(type, {'pid':drupal.pid}, ['name']))
     if new in names or name == new:
         return die('Duplicate name')
@@ -53,38 +59,35 @@ def rename(type, project, name, new):
     drupal.db.update(type, {'name':new}, {'name':name, 'pid':drupal.pid})
     exit()
 
-def delete(type, project, name):
+def delete(type, name):
     drupal.db.delete(type, {'name':name, 'pid':drupal.pid})
     exit()
 
-def save_order(type, project, names):
+def save_order(type, names, folder):
+    '''structure looks like:
+        ['asset1','asset2','folder/','asset3']'''
     for i,name in enumerate(json.loads(names)):
-        #print names,i,name
-        drupal.db.update(type, {'aorder':i}, {'name':name, 'pid':drupal.pid})
+        if name.endswith('/'):
+            drupal.db.update('folders', {'_index':i, 'folder':folder}, {'name':name[:-1], 'pid':drupal.pid, 'type':type})
+        else:
+            drupal.db.update(type, {'_index':i,'folder':folder}, {'name':name, 'pid':drupal.pid})
     exit()
 
 remove = delete
 
-def set_attr(type, project, name, attr, value):
+def set_attr(type, name, attr, value):
     drupal.db.update(type, {attr:json.loads(value)}, {'name':name})
     exit()
 
-def _set_attr(type, project, name, attr, value):
+def import_asset(type, name, pid):
+    object = drupal.db.find_dict(type, {'name':name,'pid':drupal.pid})[0]
+    object['pid'] = pid
+    return die('Not implemented')
+    drupal.db.insert_dict(type, object)
+
+def _set_attr(type, name, attr, value):
     drupal.db.update(type, {attr:value}, {'name':name})
     exit()
 
-def _get_attr(type, project, name, attr):
-    return drupal.db.find(type, {'name':name}, [attr])[0][0]
-
-defaults = {
-    'images':{'subimages':[],'speed':1.0},
-    'objects':{'image':None,'visible':True,'events':{},'attributes':[],'parent':'BaseObject'},
-    'maps':{'width':500,'height':500,'objects':[],'tiles':[],'events':{}}
-    # add persistant
-}
-
-defaults = {
-    'images':{'subimages':[],'speed':1.0},
-    'maps':{'width':500, 'height':500, 'persistant': False, 'items':[]},
-    'objects':{'visible':True, 'solid':False, 'image':'', 'events':{}, 'parent':'BaseObject'},
-}
+def _get_attr(type, name, attr):
+    return drupal.db.find(type, {'name':name,'pid':drupal.pid}, [attr])[0][0]

@@ -3,7 +3,26 @@ import asset
 from cgitools import exit,die
 import drupal
 
-import myjson as json
+import json
+
+type = 'maps'
+def new():
+    return asset.new(type,{'objects':[],'width':500,'height':500,'events':{},'tiles':[],'views':[],'background':None})
+
+def clone(name):
+    return asset.clone(type,name)
+
+def load(name):
+    return asset.clone(type,name)
+
+def rename(name,new):
+    return asset.clone(type,name)
+
+def delete(name):
+    return asset.delete(type,name)
+
+def save_order(names,folder):
+    return asset.save_items(type,names,folder)
 
 def _new_item(project,name,object,x,y):
   items = asset._get_attr('maps',project,name,'items')

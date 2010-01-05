@@ -5,6 +5,26 @@ import drupal
 
 import myjson as json
 
+type = 'objects'
+def new():
+    return asset.new(type,{'visible':False,'image':None,'events':{},'attributes':{},'parent':'BaseObject'})
+
+def clone(name):
+    return asset.clone(type,name)
+
+def load(name):
+    return asset.clone(type,name)
+
+def rename(name,new):
+    return asset.clone(type,name)
+
+def delete(name):
+    return asset.delete(type,name)
+
+def save_order(names,folder):
+    return asset.save_items(type,names,folder)
+
+
 def save_actions(project,name,event,actions):
   events = asset._get_attr('objects',project,name,'events')
   events[event] = json.loads(actions)

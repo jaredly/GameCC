@@ -2,10 +2,29 @@ import asset
 
 import os,glob
 from urllib import urlopen as upen
-import myjson as json
+import json
 
 from cgitools import exit,die
 import drupal
+
+type = 'images'
+def new():
+    return asset.new(type,{'speed':1,'subimages':[]})
+
+def clone(name):
+    return asset.clone(type,name)
+
+def load(name):
+    return asset.clone(type,name)
+
+def rename(name,new):
+    return asset.clone(type,name)
+
+def delete(name):
+    return asset.delete(type,name)
+
+def save_order(names,folder):
+    return asset.save_items(type,names,folder)
 
 '''
 def fromurl(project,url):

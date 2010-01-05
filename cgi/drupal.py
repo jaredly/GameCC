@@ -31,21 +31,27 @@ pid      = None
 
 schemas = {
     'projects':(
-        ('pid','serial'),
         ('uid','int'),
         ('name','text'),
+        ('pid','serial'),
         ('images','text'),
         ('config','text'),
     ),
     'images':(
         ('pid','int'),
         ('name','text'),
+        ('_index','int'),
+        ('folder','text'),
+
         ('subimages','text'),
         ('speed','int'),
     ),
     'objects':(
         ('pid','int'),
         ('name','text'),
+        ('_index','int'),
+        ('folder','text'),
+
         ('visible','text'),
         ('image','text'),
         ('events','text'),
@@ -55,23 +61,31 @@ schemas = {
     'maps':(
         ('pid','int'),
         ('name','text'),
+        ('_index','int'),
+        ('folder','text'),
+
         ('objects','text'),
         ('width','int'),
         ('height','int'),
-        ## ('fps','int'),
         ('events','text'),
         ('tiles','text'),
         ('views','text'),
-        ('_index','int'),
         ('background','int'),
     ),
     'ratings':(
         ('pid','int'),
-        ('type','text'),
         ('uid','int'),
+        ('type','text'),
         ('name','text'),
         ('rating','int')
-    )
+    ),
+    'folder':(
+        ('pid','int'),
+        ('name','text'),
+        ('type','text'),
+        ('_index','int'),
+        ('folder','text'),
+    ),
 }
 
 def check_tables():
@@ -170,10 +184,12 @@ def getpid(name):
     #res = db.execute("select pid from projects where uid=%d and name='%s'"%(uid, name))
     if not res:
         pid = None
+        return False
     else:
         pid = res[0][0]
+        return True
 
-def altlogin(form):
+def viewer_login(form):
     global loggedin, username, uid, db, pid
     cookies = getcookies()
     db = MySQLdb.connect("localhost", alls['user_db'], pwd, alls['blog_db'])
@@ -214,4 +230,3 @@ def login():
     uid      = 0
     db       = None
     return False
-
