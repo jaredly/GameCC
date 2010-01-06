@@ -35,21 +35,22 @@ schemas = {
         ('pid','serial'),
         ('images','text'),
         ('config','text'),
+        ('images_order','text'),
+        ('objects_order','text'),
+        ('maps_order','text')
     ),
     'images':(
+        ('id','serial'),
         ('pid','int'),
         ('name','text'),
-        ('_index','int'),
-        ('folder','text'),
 
         ('subimages','text'),
         ('speed','int'),
     ),
     'objects':(
+        ('id','serial'),
         ('pid','int'),
         ('name','text'),
-        ('_index','int'),
-        ('folder','text'),
 
         ('visible','text'),
         ('image','text'),
@@ -58,10 +59,9 @@ schemas = {
         ('parent','text'),
     ),
     'maps':(
+        ('id','serial'),
         ('pid','int'),
         ('name','text'),
-        ('_index','int'),
-        ('folder','text'),
 
         ('objects','text'),
         ('width','int'),
@@ -75,15 +75,8 @@ schemas = {
         ('pid','int'),
         ('uid','int'),
         ('type','text'),
-        ('name','text'),
+        ('id','int'),
         ('rating','int')
-    ),
-    'folders':(
-        ('pid','int'),
-        ('name','text'),
-        ('type','text'),
-        ('_index','int'),
-        ('folder','text'),
     ),
 }
 

@@ -13,40 +13,40 @@ type = 'images'
 def new():
     return asset.new(type,{'speed':1,'subimages':[]})
 
-def clone(name):
-    return asset.clone(type,name)
+def clone(id):
+    return asset.clone(type,id)
 
-def load(name):
-    return asset.load(type,name)
+def load(id):
+    return asset.load(type,id)
 
-def rename(name,new):
-    return asset.rename(type,name,new)
+def rename(id,new):
+    return asset.rename(type,id,new)
 
-def delete(name):
-    return asset.delete(type,name)
+def delete(id):
+    return asset.delete(type,id)
 
-def save_order(names,folder):
-    return asset.save_items(type,names,folder)
+def save_order(order):
+    return asset.save_items(type,order)
 
-def set_attr(name, attr, value):
-    return asset.set_attr(type, name, attr, value)
+def set_attr(id, attr, value):
+    return asset.set_attr(type, id, attr, value)
 
 '''
 def fromurl(project,url):
-  name = url.split('/')[-1]
-  saveraw(project, name, upen(url).read())
-  exit({'name':name})
+  id = url.split('/')[-1]
+  saveraw(project, id, upen(url).read())
+  exit({'id':id})
 
-def saveraw(project,name,data):
-  if os.path.isfile(os.path.join('../projects',project,'images',name)):
-    parts = name.split('.')
-    name = '.'.join(parts[:-1])
+def saveraw(project,id,data):
+  if os.path.isfile(os.path.join('../projects',project,'images',id)):
+    parts = id.split('.')
+    id = '.'.join(parts[:-1])
     ext = parts[-1]
     i=1
-    while os.path.isfile(os.path.join('../projects',project,'images',name+'-'+str(i)+'.'+ext)):
+    while os.path.isfile(os.path.join('../projects',project,'images',id+'-'+str(i)+'.'+ext)):
       i+=1
-    name += '-'+str(i)+'.'+ext
-  open(os.path.join('../projects',project,'images',name),'w').write(data)
+    id += '-'+str(i)+'.'+ext
+  open(os.path.join('../projects',project,'images',id),'w').write(data)
 
 def importimages(project,urls):
   urls = json.loads(urls)

@@ -11,54 +11,56 @@ type = 'objects'
 def new():
     return asset.new(type,{'visible':False,'image':None,'events':{},'attributes':{},'parent':'BaseObject'})
 
-def clone(name):
-    return asset.clone(type,name)
+def clone(id):
+    return asset.clone(type,id)
 
-def load(name):
-    return asset.load(type,name)
+def load(id):
+    return asset.load(type,id)
 
-def rename(name,new):
-    return asset.rename(type,name,new)
+def rename(id,new):
+    return asset.rename(type,id,new)
 
-def delete(name):
-    return asset.delete(type,name)
+def delete(id):
+    return asset.delete(type,id)
 
-def save_order(names,folder):
-    return asset.save_items(type,names,folder)
+def save_order(order):
+    return asset.save_items(type,order)
 
-def set_attr(name, attr, value):
-    return asset.set_attr(type, name, attr, value)
+def set_attr(id, attr, value):
+    return asset.set_attr(type, id, attr, value)
 
 #tocheck
 
-def save_actions(name,event,actions):
-  events = asset._get_attr('objects',name,'events')
+def save_actions(id,event,actions):
+  events = asset._get_attr('objects',id,'events')
   events[event] = json.loads(actions)
-  asset._set_attr('objects',name,'events', events)
+  asset._set_attr('objects',id,'events', events)
   exit()
 
-def add_event(name,event):
-  events = asset._get_attr('objects',name,'events')
+## try return the actions list via json??
+
+def add_event(id,event):
+  events = asset._get_attr('objects',id,'events')
   events[event] = []
-  asset._set_attr('objects',name,'events', events)
+  asset._set_attr('objects',id,'events', events)
   exit()
 
-def remove_event(name,event):
-  events = asset._get_attr('objects',name,'events')
+def remove_event(id,event):
+  events = asset._get_attr('objects',id,'events')
   del events[event]
-  asset._set_attr('objects',name,'events', events)
+  asset._set_attr('objects',id,'events', events)
   exit()
 
-def duplicate_event(name,event,nevent):
-  events = asset._get_attr('objects',name,'events')
+def duplicate_event(id,event,nevent):
+  events = asset._get_attr('objects',id,'events')
   events[nevent] = events[event]
-  asset._set_attr('objects', name, 'events', events)
+  asset._set_attr('objects', id, 'events', events)
   exit({'actions':events[nevent]})
 
-def change_event(name,event,nevent):
-  events = asset._get_attr('objects',name,'events')
+def change_event(id,event,nevent):
+  events = asset._get_attr('objects',id,'events')
   events[nevent] = events[event]
   del events[event]
-  asset._set_attr('objects', name, 'events', events)
+  asset._set_attr('objects', id, 'events', events)
   exit({'actions':events[nevent]})
 

@@ -11,15 +11,6 @@ def isvalidname(x):
             return False
     return True
 
-def last_order(type):
-    lasset = drupal.db.find(type, {'pid':drupal.pid,'folder':''}, ['_index'], order='_index')
-    if not lasset:lasset = 0
-    else:lasset = lasset[-1][0]
-    lfolder = drupal.db.find('folders', {'pid':drupal.pid,'folder':'','type':type}, ['_index'], order='_index')
-    if not lfolder:lfolder = 0
-    else:lfolder = lfolder[-1][0]
-    return max(lasset,lfolder)
-
 def new(type,defaults):
     name = type.title().rstrip('s')
     names = list(x[0] for x in drupal.db.find(type, {'pid':drupal.pid}, ['name']))
@@ -28,71 +19,69 @@ def new(type,defaults):
         i += 1
     name += '_' + str(i)
 
-    values = {'pid':drupal.pid,'name':name,'_index':last_order(type),'folder':''}
+    values = {'pid':drupal.pid,'name':name}
     values.update(defaults)
     drupal.db.insert_dict(type, values)
-    load(type, name)
+    id = drupal.db.execute('select LAST_INSERT_ID()')[0][0]
+    load(type, id)
 
-def clone(type, name):
-    oname = name
-    name = name + '_Copy'
+def clone(type, id):
+    # for now limit to assets in this project
+    res = drupal.db.find_dict(type, {'id':id,'pid':drupal.pid})
+    if not res:die('Invalid source asset')
+    object = res[0]
+    name = object['name'] + '_Copy'
     names = list(x[0] for x in drupal.db.find(type, {'pid':drupal.pid}, ['name']))
-    if oname not in names:
-        return die('Invalid source asset: %s'%oname)
     if name in names:
         i = 1
         while name + '_' + str(i) in names:
             i += 1
         name += '_' + str(i)
-    object = drupal.db.find_dict(type, {'name':oname,'pid':drupal.pid})[0]
+    del object['id']
     object['name'] = name
     drupal.db.insert_dict(type, object)
-    load(type, name)
+    id = drupal.db.execute('select LAST_INSERT_ID()')[0][0]
+    load(type, id)
 
-def load(type, name):
-    result = drupal.db.find_dict(type, {'pid':drupal.pid, 'name':name})
-    if not result:die('Asset not found: %s'%name)
+def load(type, id):
+    result = drupal.db.find_dict(type, {'pid':drupal.pid, 'id':id})
+    if not result:return die('Asset not found: %s'%name)
     print 'Content-type:text/plain\n'
     print result[0]
 
-def rename(type, name, new):
+def rename(type, id, new):
     names = list(x[0] for x in drupal.db.find(type, {'pid':drupal.pid}, ['name']))
-    if new in names or name == new:
+    if new in names:
         return die('Duplicate name')
     if not isvalidname(new):
         return die('Invalid name')
-    drupal.db.update(type, {'name':new}, {'name':name, 'pid':drupal.pid})
+    drupal.db.update(type, {'name':new}, {'id':id, 'pid':drupal.pid})
     exit()
 
-def delete(type, name):
-    drupal.db.delete(type, {'name':name, 'pid':drupal.pid})
+def delete(type, id):
+    drupal.db.delete(type, {'id':id, 'pid':drupal.pid})
     exit()
 
-def save_order(type, names, folder):
+def save_order(type, order):
     '''structure looks like:
-        ['asset1','asset2','folder/','asset3']'''
-    for i,name in enumerate(json.loads(names)):
-        if name.endswith('/'):
-            drupal.db.update('folders', {'_index':i, 'folder':folder}, {'name':name[:-1], 'pid':drupal.pid, 'type':type})
-        else:
-            drupal.db.update(type, {'_index':i,'folder':folder}, {'name':name, 'pid':drupal.pid})
+        [id1,id2,['folder',id3,id4],id5,['empty_folder']]'''
+    drupal.db.update('projects', {type+'_order':order}, {'pid':drupal.pid})
     exit()
 
-remove = delete
-
-def set_attr(type, name, attr, value):
-    drupal.db.update(type, {attr:json.loads(value)}, {'name':name})
+def set_attr(type, id, attr, value):
+    drupal.db.update(type, {attr:json.loads(value)}, {'id':id,'pid':drupal.pid})
     exit()
 
-def import_asset(type, name, pid):
-    object = drupal.db.find_dict(type, {'name':name,'pid':drupal.pid})[0]
+def import_asset(type, id, pid):
+    object = drupal.db.find_dict(type, {'id':id,'pid':drupal.pid})[0]
     object['pid'] = pid
+#    del object['id']
     return die('Not implemented')
     drupal.db.insert_dict(type, object)
 
-def _set_attr(type, name, attr, value):
-    drupal.db.update(type, {attr:value}, {'name':name})
+def _set_attr(type, id, attr, value):
+    drupal.db.update(type, {attr:value}, {'id':id,'pid':drupal.pid})
     exit()
 
-def _get_attr(type, name, attr):
-    return drupal.db.find(type, {'name':name,'pid':drupal.pid}, [attr])[0][0]
+def _get_attr(type, id, attr):
+    return drupal.db.find(type, {'id':id,'pid':drupal.pid}, [attr])[0][0]
