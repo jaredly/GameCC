@@ -12,9 +12,7 @@ import drupal
 
 #good: Jan 4
 
-def list_projects():
-    projects = [x[0] for x in drupal.db.execute('select name from projects where uid=%d'%drupal.uid)]
-    exit({'projects':projects});
+from project import list_projects
 
 def dist(project):
     comp = compile.Compiler(project)
@@ -32,8 +30,8 @@ def dist(project):
     os.remove(name+'.py')
     os.remove(name+'.tbz')
 
-def addfake(tf,name,txt):
-    fl = StringIO.StringIO(txt)
-    info = tarfile.TarInfo.frombuf(txt)
-    tf.addfile(info,fl)
+#def addfake(tf,name,txt):
+#    fl = StringIO.StringIO(txt)
+#    info = tarfile.TarInfo.frombuf(txt)
+#    tf.addfile(info,fl)
 

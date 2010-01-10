@@ -24,12 +24,12 @@ var Project = Class([], {
     },
     'new': function(self, name){
         name = name || '';
-        self.parent.ajax.send('project/new',{project:name},self._load);
+        self.parent.ajax.send('project/new',{name:name},self._load);
     },
-    open: function(self, name){
-        if (!name)return;
+    open: function(self, id){
+        if (!id)return;
         document.location.hash = name;
-        self.parent.ajax.send('project/load',{project:name},self._load);
+        self.parent.ajax.send('project/load',{pid:id},self._load);
     },
     clear: function(self){
         self.data = {'image':{},'object':{},'map':{}};
@@ -38,11 +38,11 @@ var Project = Class([], {
     add: function(self, type){
         self.parent.ajax.send(type+'s/new',{},self._loadasset(type));
     },
-    remove: function(self, type, name){
-        self.parent.ajax.send(type+'s/delete',{name:name},function(){delete self.data[type][name];});
+    remove: function(self, type, id){
+        self.parent.ajax.send(type+'s/delete',{id:id},function(){delete self.data[type][id];});
     },
-    clone: function(self, type, name){
-        self.parent.ajax.send(type+'s/clone',{name:name},self._loadasset(type));
+    clone: function(self, type, id){
+        self.parent.ajax.send(type+'s/clone',{id:id},self._loadasset(type));
     },
     _load: function(self, result){
         self.clear();
@@ -74,8 +74,8 @@ var Project = Class([], {
     },
     _loadasset: function(self, type){
         return function(result){
-            self.data[type][result.name] = self.assetTypes[type](self.parent, result);
-            self.callbacks.loadAsset(type, result.name);
+            self.data[type][result.id] = self.assetTypes[type](self.parent, result);
+            self.callbacks.loadAsset(type, result.id);
         };
     },
     change_asset: function(self, type, from, to){

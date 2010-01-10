@@ -79,13 +79,10 @@ var DisplayObject = Class([Display], {
                     var node = self.parent.plugins.plugins['if'].drop([event.pageX-off.left, event.pageY-off.top]);
                     self.parent.plugins.plugins['endif'].drop([event.pageX-off.left, event.pageY-off.top+30]);
                     var name = $.data(ui.draggable[0],'name');
-
                     var sub = $('.subaction.sub-expression',node);
-
                     var data = $.data(node[0],'data');
                     var plugin = self.parent.plugins.plugins[$.data(ui.draggable[0],'name')];
                     ui.helper.remove();
-
                     plugin.showForm(sub, {}, function(form,sub){
                         var data = $.data(node[0],'data');
                         data['expression'] = {};
@@ -110,7 +107,6 @@ var DisplayObject = Class([Display], {
             }
         });
         $('#object-actions').droppable('disable');
-
     },
     load:function(self, name) {
         if (name){

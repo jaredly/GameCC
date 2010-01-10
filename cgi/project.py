@@ -13,11 +13,12 @@ import drupal
 
 def execute(cmd):
     p = subprocess.Popen(cmd, shell=True,
-                    stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE, close_fds=True)
-    (child_stdout,
-     child_stderr) = (p.stdout.read(), p.stderr.read())
-    if child_stderr or child_stdout:
-        die(child_stdout+child_stderr)
+                    stdin=subprocess.PIPE,
+                    stdout=subprocess.PIPE,
+                    stderr=subprocess.PIPE, close_fds=True)
+    stdout, stderr = (p.stdout.read(), p.stderr.read())
+    if stderr or stdout:
+        die(stdout + stderr)
 
 def list_projects():
     projects = [x[0] for x in drupal.db.find('projects',{'uid':drupal.uid},['name'])]

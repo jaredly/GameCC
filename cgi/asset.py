@@ -11,13 +11,18 @@ def isvalidname(x):
             return False
     return True
 
+def unique_name(type, name):
+    names = list(x[0] for x in drupal.db.find(type, {'pid':drupal.pid}, ['name']))
+    if name in names:
+        i = 1
+        while name + '_' + str(i) in names:
+            i += 1
+        name += '_' + str(i)
+    return name
+
 def new(type,defaults):
     name = type.title().rstrip('s')
-    names = list(x[0] for x in drupal.db.find(type, {'pid':drupal.pid}, ['name']))
-    i = 1
-    while name + '_' + str(i) in names:
-        i += 1
-    name += '_' + str(i)
+    name = unique_name(type, name)
 
     values = {'pid':drupal.pid,'name':name}
     values.update(defaults)
@@ -31,12 +36,7 @@ def clone(type, id):
     if not res:die('Invalid source asset')
     object = res[0]
     name = object['name'] + '_Copy'
-    names = list(x[0] for x in drupal.db.find(type, {'pid':drupal.pid}, ['name']))
-    if name in names:
-        i = 1
-        while name + '_' + str(i) in names:
-            i += 1
-        name += '_' + str(i)
+    name = unique_name(type, name)
     del object['id']
     object['name'] = name
     drupal.db.insert_dict(type, object)

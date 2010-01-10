@@ -129,6 +129,7 @@ var Editor = Class([], {
     __init__: function(self){
         self._small = true;
         self.ajax = AjaxMuffin(self);
+        self.errors = ErrorManager(self);
         self.imagescale = ImageScale(self);
         self.imagepicker = ImagePicker(self);
         self.media = MediaLibrary(self);

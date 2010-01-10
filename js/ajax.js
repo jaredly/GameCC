@@ -1,4 +1,140 @@
 
+// good Jan 5
+var LoadingBar = Class([], {
+    tid: '#loading-bar',
+    __init__: function(self, oncomplete){
+        self.loaded = 0;
+        self.loading = false;
+        self.full = 0;
+        self.oncomplete = oncomplete;
+        $(self.tid).hide().progressbar({value:0});
+    },
+    load: function(self, full){
+        self.full = full;
+        self.loading = true;
+        self.loaded = 0;
+        $(self.tid).progressbar('option','value',0).show();
+    },
+    close: function(self) {
+        self.loaded = 0;
+        self.full = 0;
+        self.loading = false;
+        $(self.tid).hide();
+    },
+    increment: function(self){
+        if (!self.loading) {
+            return;
+        }
+        self.loaded += 1;
+        $(self.tid).progressbar('option', 'value', self.loaded/self.full*100).show();
+        if (self.loaded >= full) {
+            self.oncomplete();
+        }
+    },
+});
+// redoing Jan 5
+/**
+ * umm
+ */
+var AjaxMuffin = Class([], {
+    __init__: function(self, parent){
+        self.parent = parent;
+        self._queue = [];
+        self._queueing = false;
+    },
+    queue: function(self, command, data, oncomplete, options) {
+        data['cmd'] = command;
+        if (typeof(options) === 'undefined')options = {};
+        if (typeof(options['url']) === 'undefined')
+            options['url'] = 'cgi/index.py';
+        data['pid'] = self.parent.project.pid;
+        options['data'] = data;
+        options['oncomplete'] = oncomplete;
+        self._send_queued(options);
+    },
+    send: function(self, command, data, oncomplete, options) {
+        data['cmd'] = command;
+        if (typeof(options) === 'undefined')options = {};
+        if (typeof(options['url']) === 'undefined')
+            options['url'] = 'cgi/index.py';
+        if (self.parent && self.parent.project && typeof(data['pid'])=='undefined')
+            data['pid'] = self.parent.project.pid;
+        options['data'] = data;
+        options['oncomplete'] = oncomplete;
+        if (typeof(options['onerror']) === 'undefined') {
+            options['onerror'] = function(error){
+                self.parent.errors.log(error);
+            };
+        }
+        self._send(options);
+    },
+    send_queued: function(self) {
+        alert('dont use send_queued.');
+    },
+    _send_queued: function(self, options) {
+        self._queue.push(options);
+        if (!self._queueing) { // || self._queue.length == 1
+            self._queueing = true;
+            self._advance_queue();
+        }
+    },
+    _advance_queue: function(self) {
+        if (!self._queueing)return;
+        if (!self._queue.length){
+            self._queueing = false;
+            return;
+        }
+        var options = self._queue.unshift();
+        var _old_oncommand = options['oncommand'];
+        var _old_onerror = options['onerror'];
+        var oncommand = function(){
+            self._advance_queue();
+            _old_oncommand.apply(null,arguments);
+        };
+        var onerror = function(){
+            self._advance_queue();
+            _old_onerror(null,arguments);
+        };
+        options['oncommand'] = oncommand;
+        options['onerror'] = onerror;
+        self._send(options);
+    },
+    _send: function(self, options) {
+        $('#loading-small').show();
+        $.ajax({
+            async:true,
+            cache:false,
+            data:options['data'],
+            dataType:'text',
+            error:options['onerror'],
+            success:function(result){
+                $('#loading-small').hide();
+                if (!options.type || options.type == 'json'){
+                    if (!result){
+                        alert('missing '+url);
+                        return options['onerror']('url');
+                    }
+                    try {
+                        var False = false,True=true,None=null;
+                        eval('var object = '+result);
+                    } catch(e) {
+                        return options['onerror']('json');
+                    }
+                    if (object.error){
+                        return options['onerror']('server');
+                    }
+                    options['oncomplete'](object);
+                } else {
+                    options['oncomplete'](result);
+                }
+            },
+            type:'POST',
+            url:options['url']
+        });
+    },
+});
+
+/**
 var AjaxMuffin = Class([], {
     __init__: function(self, parent){
         self.parent = parent;
@@ -126,3 +262,4 @@ var AjaxMuffin = Class([], {
         }
     },
 });
+**/

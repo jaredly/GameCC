@@ -35,7 +35,8 @@ var ObjectAsset = Class([Asset], {
         if (self.info.events[type]){
             return false;
         }
-        self.parent.ajax.send_queued('objects/add_event',{'name':self.info.name,'event':type});
+        self.parent.ajax.queue('objects/add_event',{'id':self.info.id, 'event':type});
+//        self.parent.ajax.send_queued('objects/add_event',{'name':self.info.name,'event':type});
         self.info.events[type] = [];
         return true;
     },
@@ -43,19 +44,20 @@ var ObjectAsset = Class([Asset], {
         if (!self.info.events[type]){
             return false;
         }
-        self.parent.ajax.send_queued('objects/remove_event',{'name':self.info.name,'event':type});
+        self.parent.ajax.queue('objects/remove_event', {'id':self.info.id, 'event':type});
+//        self.parent.ajax.send_queued('objects/remove_event',{'name':self.info.name,'event':type});
         delete self.info.events[type];
         return true;
     },
     change_event:function(self, event, name, func){
-        self.parent.ajax.send_queued('objects/change_event',{'name':self.info.name,'event':event,'nevent':name},function(res){
+        self.parent.ajax.queue('objects/change_event',{'id':self.info.id,'event':event,'nevent':name},function(res){
             func && func();
         });
         self.info.events[name] = self.info.events[event];
         delete self.info.events[event];
     },
     duplicate_event:function(self, orig, dup, func){
-        self.parent.ajax.send_queued('objects/duplicate_event',{'name':self.info.name,'event':orig,'nevent':dup},function(res){
+        self.parent.ajax.queue('objects/duplicate_event',{'id':self.info.id,'event':orig,'nevent':dup},function(res){
             self.info.events[dup] = res.actions;
             func();
         });
@@ -63,6 +65,6 @@ var ObjectAsset = Class([Asset], {
     save_actions: function(self, event, actions) {
         self.info.events[event] = actions;
         var json = jsonify(self.info.events[event]);
-        self.parent.ajax.send_queued('objects/save_actions',{'name':self.info.name,'event':event,'actions':json});
+        self.parent.ajax.queue('objects/save_actions',{'id':self.info.id,'event':event,'actions':json});
     }
 });

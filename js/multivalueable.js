@@ -35,7 +35,6 @@ number, select, select string, object, direction, percent, key, bool, not, rando
 
 **/
 
-
 var InputTypes = {};
 
 InputTypes['number'] = Class([InputType], {

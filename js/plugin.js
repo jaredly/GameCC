@@ -27,7 +27,6 @@ var Plugin = Class([], {
                     node.addClass('drophover');
                 }});
     },
-
     text:function(self, data){
         var text = self.info.text.replace('<','&lt;').replace('>','&gt;');
         var empty = true;
@@ -82,11 +81,8 @@ var Plugin = Class([], {
             node.css('background-position', (1 - parseInt(parts[1])*(small?33:65))+'px ' + (1 - parseInt(parts[2])*(small?33:65))+'px')
         }
     },
-
     setupSub:function(self, node){
-
     },
-
     addAction:function(self, data){
         try{
             var node = $('<div class="action '+self.info.type+' '+self.info.name+'"><div class="icon"></div><div class="text"></div><div class="disable"><input type="checkbox" title="disable"/></div><div class="delete"></div></div>').appendTo(self.parent.actions);
@@ -99,7 +95,6 @@ var Plugin = Class([], {
         self.bgicon(node.find('div.icon'),true);
         $.data(node[0],'name',self.info.name);
         $.data(node[0],'data',data);
-
         for (var name in self.info.inputs){
             (function(name){
                 // refactor....
@@ -148,7 +143,6 @@ var Plugin = Class([], {
                         var data = $.data(node[0],'data');
                         var plugin = self.parent.plugins[$.data(ui.draggable[0],'name')];
                         ui.helper.remove();
-
                         plugin.showForm(sub, {}, function(form,sub){
                             var data = $.data(node[0],'data');
                             data[name] = {};
@@ -172,7 +166,6 @@ var Plugin = Class([], {
                 }
             }(name));
         }
-
         node.find('div.disable input').change(function(){
             self.parent.parent.display['object'].saveActions();
         }).attr('checked',data['disabled']);

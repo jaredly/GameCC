@@ -153,6 +153,5 @@ var DisplayMap = Class([Display], {
         $(node).remove();
         self.object.remove_item(item);
     },
-
 });
 
