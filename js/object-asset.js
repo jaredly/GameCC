@@ -2,7 +2,7 @@
 var ObjectAsset = Class([Asset], {
     type: 'object',
     name_changed: function(self, type, from, to){
-        if (type == 'image' && self.info.image == from){
+        /*if (type == 'image' && self.info.image == from){
             self.set_attr('image', to);
         }
         if (type == 'object') {
@@ -29,7 +29,7 @@ var ObjectAsset = Class([Asset], {
                     self.save_actions(event, self.info.events[event]);
                 }
             }
-        }
+        }*/
     },
     add_event: function(self, type) {
         if (self.info.events[type]){

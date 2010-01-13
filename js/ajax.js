@@ -1,19 +1,21 @@
 
 // good Jan 5
 var LoadingBar = Class([], {
-    tid: '#loading-bar',
+    tid: '#loading',
+    pid: '#loading .progressbar',
     __init__: function(self, oncomplete){
         self.loaded = 0;
         self.loading = false;
         self.full = 0;
         self.oncomplete = oncomplete;
-        $(self.tid).hide().progressbar({value:0});
+        $(self.tid).hide()
+        $(self.pid).progressbar({value:0});
     },
     load: function(self, full){
         self.full = full;
         self.loading = true;
         self.loaded = 0;
-        $(self.tid).progressbar('option','value',0).show();
+        $(self.pid).progressbar('option','value',0).show();
     },
     close: function(self) {
         self.loaded = 0;
@@ -26,8 +28,8 @@ var LoadingBar = Class([], {
             return;
         }
         self.loaded += 1;
-        $(self.tid).progressbar('option', 'value', self.loaded/self.full*100).show();
-        if (self.loaded >= full) {
+        $(self.pid).progressbar('option', 'value', self.loaded/self.full*100).show();
+        if (self.loaded >= self.full) {
             self.oncomplete();
         }
     },
@@ -57,10 +59,10 @@ var AjaxMuffin = Class([], {
         if (typeof(options) === 'undefined')options = {};
         if (typeof(options['url']) === 'undefined')
             options['url'] = 'cgi/index.py';
-        if (self.parent && self.parent.project && typeof(data['pid'])=='undefined')
+        if (self.parent && self.parent.project && typeof(data['pid'])=='undefined' && self.parent.project.pid)
             data['pid'] = self.parent.project.pid;
         options['data'] = data;
-        options['oncomplete'] = oncomplete;
+        options['oncomplete'] = oncomplete || function(){};
         if (typeof(options['onerror']) === 'undefined') {
             options['onerror'] = function(error){
                 self.parent.errors.log(error);
@@ -84,9 +86,9 @@ var AjaxMuffin = Class([], {
             self._queueing = false;
             return;
         }
-        var options = self._queue.unshift();
-        var _old_oncommand = options['oncommand'];
-        var _old_onerror = options['onerror'];
+        var options = self._queue.shift();
+        var _old_oncommand = options['oncommand'] || function(){};
+        var _old_onerror = options['onerror'] || function(){};
         var oncommand = function(){
             self._advance_queue();
             _old_oncommand.apply(null,arguments);

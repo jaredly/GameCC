@@ -26,10 +26,10 @@ var Project = Class([], {
         name = name || '';
         self.parent.ajax.send('project/new',{name:name},self._load);
     },
-    open: function(self, id){
-        if (!id)return;
+    open: function(self, name){
+        if (!name)return;
         document.location.hash = name;
-        self.parent.ajax.send('project/load',{pid:id},self._load);
+        self.parent.ajax.send('project/load',{name:name},self._load);
     },
     clear: function(self){
         self.data = {'image':{},'object':{},'map':{}};
@@ -47,25 +47,31 @@ var Project = Class([], {
     _load: function(self, result){
         self.clear();
         self.info = result.project;
+        self.pid = self.info.pid;
         self.loading = true;
-        self.parent.ajax.setloadbar(result.project.images.length, self.doneloading);
-        self.parent.ajax.showStop();
+        self.parent.loadbar.load(result.project.images.length);
         self.loadassets('image', result.images);
         self.loadassets('object', result.objects);
         self.loadassets('map', result.maps);
         if (!self.info.images.length){
-            self.parent.ajax.unStop();
-        }
-        self.parent.media.load(result.project.images);
+            self.parent.loadbar.close();
+        }else
+            self.parent.media.load(self.info.images);
     },
     doneloading: function(self){
         self.loading = false;
     },
-    save_order: function(self, type, names) {
-        self.parent.ajax.send_queued(type + '/save_order', {names:jsonify(names)},function(){});
+    save_order: function(self, type, ids) {
+        self.parent.ajax.queue(type + '/save_order', {names:jsonify(ids)},function(){});
     },
     add_images: function(self, images, func){
-        self.parent.ajax.send_queued('project/add_images',{images:jsonify(images)},func||function(){});
+        self.parent.ajax.queue('project/add_images',{images:jsonify(images)},func||function(){});
+    },
+    check_name:function(self, type, name){
+        for (var id in self.data[type]){
+            if (self.data[type][id].info.name == name)return true;
+        }
+        return false;
     },
     loadassets: function(self, type, objects){
         for (var i=0;i<objects.length;i++){
@@ -78,26 +84,24 @@ var Project = Class([], {
             self.callbacks.loadAsset(type, result.id);
         };
     },
-    change_asset: function(self, type, from, to){
-        if (self.data[type][to])return false;
+    change_asset: function(self, type, id, to){
+        if (self.check_name(type,to))return false;
         if (to.replace(/[^\w_]/g,'') !== to){
             return false;
         }
-        self.data[type][to] = self.data[type][from];
-        self.data[type][to].info.name = to;
-        self.parent.tabs.change(type, from, to);
-        delete self.data[type][from];
-        self.register_name_changed(type, from, to);
+        self.data[type][id].info.name = to;
+        self.parent.tabs.change(type, id, to);
+//        self.register_name_changed(type, id, to);
         return to;
     },
-    preview_name: function(self, type, from, to) {
-        self.parent.tabs.preview(type, from, to);
+    preview_name: function(self, type, id, to) {
+        self.parent.tabs.preview(type, id, to);
     },
-    register_name_changed: function(self, type, from, to){
+/*    register_name_changed: function(self, type, from, to){
         for (var atype in self.data){
             for (var name in self.data[atype]){
                 self.data[atype][name].name_changed(type, from, to);
             }
         }
-    }
+    }*/
 });

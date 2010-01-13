@@ -16,7 +16,7 @@ var MediaLibrary = Class([], {
                 name: 'file',
                 data: {'cmd':'project/uploadimage'},
                 onSubmit : function (file, ext) {
-                        self.ab._settings.data.project = self.parent.project.info.name;
+                        self.ab._settings.data.pid = self.parent.project.info.id;
                         button.text('Uploading');
                         this.disable();
                 },
@@ -76,7 +76,7 @@ var MediaLibrary = Class([], {
         $('.images',self.id).html('');
         for (var i=0; i<images.length; i++){
             self.parent.imagescale.load(images[i], self.onlimg);
-            self.parent.ajax.increment();
+            self.parent.loadbar.increment();
         }
     },
     reload: function(self){

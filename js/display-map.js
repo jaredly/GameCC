@@ -84,9 +84,9 @@ var DisplayMap = Class([Display], {
         ctx.fillRect(self.grid,self.grid,self.grid,self.grid);
         $('#map-canvas .content').css('background-image','url('+cv[0].toDataURL()+')');
     },
-    load:function(self, name){
-        if (name){
-            Display.load(self, name);
+    load:function(self, id){
+        if (id){
+            Display.load(self, id);
         }
         $('#map-canvas .content').html('');
         for (var i=0;i<self.object.info.objects.length;i++){
@@ -94,14 +94,15 @@ var DisplayMap = Class([Display], {
             self._addItem(obj);
         }
         $('#map-objects').html('');
-        for (var name in self.parent.project.data['object']){
+        for (var id in self.parent.project.data['object']){
+            var name = self.parent.project.data['object'][id].info.name;
             var div = $('<div class="object"></div>').appendTo('#map-objects')
-                .css('background-image','url(' + self.parent.objScaled(name, 'small').src + ')')
+                .css('background-image','url(' + self.parent.objScaled(id, 'small').src + ')')
                 .mousedown(function(e){
                     $('#map-objects .object.selected').removeClass('selected');
                     $(this).addClass('selected');
                 }).html(name).mouseover(hovershow(name)).mouseout(hoverhide);
-            //div.
+            $.data(div[0],'id',id);
         }
         $('#map-objects .object').eq(0).addClass('selected');
         $('#map-canvas .content').css('width',self.object.info.width).css('height',self.object.info.height);
@@ -110,11 +111,11 @@ var DisplayMap = Class([Display], {
         $('#map-toolbar .height').val(self.object.info.height);
     },
     currentItem: function(self) {
-        return $('#map-objects .object.selected').html();
+        return $.data($('#map-objects .object.selected')[0],'id');
     },
     addItem: function(self, e) {
         var pos = self.pos(e);
-        var item = {x:pos.left,y:pos.top,name:self.currentItem()};
+        var item = {x:pos.left,y:pos.top,id:self.currentItem()};
         for (var i=0;i<self.object.info.objects.length;i++){
             var obj = self.object.info.objects[i];
             if (obj.x == pos.left && obj.y == pos.top)return;
@@ -128,9 +129,9 @@ var DisplayMap = Class([Display], {
         return {top:Math.round((e.pageY - off.top)/self.grid)*self.grid, left:Math.round((e.pageX - off.left)/self.grid)*self.grid};
     },
     _addItem: function(self, result) {
-        var simg = self.parent.imagescale.objCache(result.name);
+        var simg = self.parent.imagescale.objCache(result.id);
         var img = new Image();
-        img.src = self.parent.objImage(result.name);
+        img.src = self.parent.objImage(result.id);
         img.className = 'item';
         img.style.left = result.x - simg.width/2 + 'px';
         img.style.top = result.y - simg.height/2 + 'px';

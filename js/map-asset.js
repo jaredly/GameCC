@@ -15,7 +15,7 @@ var MapAsset = Class([Asset], {
         self.info.objects.splice(self.info.objects.indexOf(item),1);
     },
     name_changed:function (self, type, from, to) {
-        if (type == 'object') {
+        /*if (type == 'object') {
             var dirty = false;
             for (var i=0;i<self.info.objects.length;i++){
                 if (self.info.objects[i]['name'] == from){
@@ -26,6 +26,6 @@ var MapAsset = Class([Asset], {
             if (dirty){
                 self.set_attr('items',self.info.objects);
             }
-        }
+        }*/
     }
 });

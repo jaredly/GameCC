@@ -32,8 +32,8 @@ if __name__=='__main__':
                 die('Not logged in')
         if command != 'login':
             die('Not logged in')
-    if form.has_key('project'):
-        drupal.getpid(form['project'].value)
+    if form.has_key('pid'):
+        drupal.pid = int(form['pid'].value)
         if drupal.pid is None and command not in project.noproject:
             die('Invalid project name')
     try:

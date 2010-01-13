@@ -33,7 +33,9 @@
     <script src="js/image-picker.js"></script>
     <script src="js/media-library.js"></script>
     <script src="js/project-dialog.js"></script>
+    <script src="js/name-dialog.js"></script>
     <script src="js/project.js"></script>
+    <script src="js/tab-manager.js"></script>
 
     <script src="js/multivalueable.js"></script>
     <script src="js/plugin.js"></script>
@@ -42,59 +44,53 @@
     <script src="js/index.js"></script>
   </head>
   <body class="small-screen">
-    <div id="liveframe-main" class="pretty-colors">
+
+<div id="liveframe-main" class="pretty-colors">
       <div id="toolbar" class="liveframe-absolute ui-widget-header">
         <ul class="menu">
-        <li class="menu-title">
-          <span>File</span>
-          <ul onclick="this.style.display='none';" onmouseout="this.style.display='';">
-            <li onclick="gcc.onnew()">New</li>
-            <li onclick="gcc.project_dialog.open()">Open</li>
-            <li class="break"></li>
-            <li onclick="gcc.project.clone()">Clone Project</li>
-            <li onclick="gcc.project.delete()">Delete Project</li>
-            <li class="break"></li>
-            <li onclick="gcc.project.add('image')">New Image</li>
-            <li onclick="gcc.project.add('object')">New Object</li>
-            <li onclick="gcc.project.add('map')">New Map</li>
-          </ul>
-        </li>
-        <li class="menu-title">
-          <span>Edit</span>
-          <ul onclick="this.style.display='none';" onmouseout="this.style.display='';">
-            <li onclick="gcc.Undo()">Undo</li>
-            <li onclick="gcc.Redo()">Redo</li>
-            <li class="break"></li>
-            <li onclick="gcc.Preperties()">Project Properties</li>
-            <li onclick="gcc.Preference()">Preferences</li>
-          </ul>
-        </li>
-        <li class="menu-image" onclick="gcc.preview()"><img src="images/play.png"/></li>
-        <li class="menu-image" onclick="gcc.project.add('image')"><img src="images/new-image.png"/></li>
-        <li class="menu-image" onclick="gcc.project.add('object')"><img src="images/new-object.png"/></li>
-        <li class="menu-image" onclick="gcc.project.add('map')"><img src="images/new-map.png"/></li>
-      </ul>
-      <div id="loading-small"></div>
-    </li><!-- end .menu-title -->
-    <li id="" class="menu-image">
-      <img id="" class="">
-      </img><!-- end [no id] -->
-    </li><!-- end .menu-image -->
-  </ul><!-- end .menu -->
-  <div id="title" class="">
-No Open Project  </div><!-- end #title -->
-</div><!-- end #toolbar -->
+            <li class="menu-title">
+              <span>File</span>
+              <ul onclick="this.style.display='none';" onmouseout="this.style.display='';">
+                <li onclick="gcc.onnew()">New</li>
+                <li onclick="gcc.project_dialog.open()">Open</li>
+                <li class="break"></li>
+                <li onclick="gcc.project.clone()">Clone Project</li>
+                <li onclick="gcc.project.delete()">Delete Project</li>
+                <li class="break"></li>
+                <li onclick="gcc.project.add('image')">New Image</li>
+                <li onclick="gcc.project.add('object')">New Object</li>
+                <li onclick="gcc.project.add('map')">New Map</li>
+              </ul>
+            </li>
+            <li class="menu-title">
+              <span>Edit</span>
+              <ul onclick="this.style.display='none';" onmouseout="this.style.display='';">
+                <li onclick="gcc.Undo()">Undo</li>
+                <li onclick="gcc.Redo()">Redo</li>
+                <li class="break"></li>
+                <li onclick="gcc.Preperties()">Project Properties</li>
+                <li onclick="gcc.Preference()">Preferences</li>
+              </ul>
+            </li>
+            <li class="menu-image" onclick="gcc.preview()"><img src="images/play.png"/></li>
+            <li class="menu-image" onclick="gcc.project.add('image')"><img src="images/new-image.png"/></li>
+            <li class="menu-image" onclick="gcc.project.add('object')"><img src="images/new-object.png"/></li>
+            <li class="menu-image" onclick="gcc.project.add('map')"><img src="images/new-map.png"/></li>
+        </ul><!-- end .menu -->
+        <div id="loading-small"></div>
+        <div id="title" class=""> No Open Project </div>
+      </div><!-- end #toolbar -->
 <div id="sidebar" class="liveframe-absolute">
   <div style="top: 0px; left: 0px; height: 30px;" id="" class="liveframe-relative header ui-widget-header">
-Images  </div><!-- end .header -->
+    Images  </div><!-- end .header -->
   <div style="top: 0px; left: 0px; min-height: 50px;" id="image-list" class="liveframe-relative contents">
   </div><!-- end #image-list -->
   <div style="top: 0px; left: 0px; height: 30px;" id="" class="liveframe-relative header ui-widget-header">
-Objects  </div><!-- end .header -->
+    Objects  </div><!-- end .header -->
   <div style="top: 0px; left: 0px; min-height: 50px;" id="object-list" class="liveframe-relative contents">
   </div><!-- end #object-list -->
   <div style="top: 0px; left: 0px; height: 30px;" id="" class="liveframe-relative header ui-widget-header">
-Maps  </div><!-- end .header -->
+    Maps  </div><!-- end .header -->
   <div style="top: 0px; left: 0px; min-height: 50px;" id="map-list" class="liveframe-relative contents">
   </div><!-- end #map-list -->
 </div><!-- end #sidebar -->
@@ -169,6 +165,7 @@ Maps  </div><!-- end .header -->
     </div><!-- end #plugins -->
   </div><!-- end #edit-object -->
 </div><!-- end #tabcontent -->
+
 </div><!-- end #liveframe-main.pretty-colors -->
 
   <div id="back" class="ui-overlay" style="display:none">

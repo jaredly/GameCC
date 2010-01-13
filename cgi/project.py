@@ -57,7 +57,7 @@ def new(name):
         'maps_order':[]}
     drupal.db.insert_dict('projects',object)
     drupal.pid = drupal.db.execute('select LAST_INSERT_ID()')[0][0]
-    load()
+    load(name)
 
 def remove(project):
     dct = _load()
@@ -75,7 +75,8 @@ def _load():
     maps = drupal.db.execute_dict('select * from maps where pid=%d order by _index'%drupal.pid)
     return {'images':images,'objects':objects,'maps':maps,'project':result}
 
-def load():
+def load(name):
+    drupal.pid = drupal.db.find('projects',{'name':name,'uid':drupal.uid},['pid'])[0][0]
     exit(_load())
 
 def uploadimage(project,file):

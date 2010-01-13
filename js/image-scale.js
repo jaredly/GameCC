@@ -17,12 +17,12 @@ var ImageScale = Class([], {
             for (var size in self.sizes){
                 self.scale(name, size);
             }
-            self.parent.ajax.increment();
+            self.parent.loadbar.increment();
             donefunc && donefunc(name);
         };
-        if (self.parent.ajax.stopped){
-            self.parent.ajax.loading += 1;
-        }
+//        if (self.parent.ajax.stopped){
+  //          self.parent.ajax.loading += 1;
+    //    }
         self.cache[name].src = self.parent.imgurl(name);
     },
     scale: function(self, name, size){
@@ -68,8 +68,8 @@ var ImageScale = Class([], {
         if (!self.scaled[name])return {src:'raw_images/'+name};
         return self.scaled[name][size];
     },
-    objCache: function(self, name) {
-        var imgname = self.parent.project.data['image'][self.parent.project.data['object'][name].info.image].info.subimages[0];
+    objCache: function(self, id) {
+        var imgname = self.parent.project.data['image'][self.parent.project.data['object'][id].info.image].info.subimages[0];
         if (!self.cache[imgname])
             return self.defaultimg;
         return self.cache[imgname];

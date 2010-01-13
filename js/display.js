@@ -18,10 +18,10 @@ var Display = Class([], {
     },
     setup:function (self) {
     },
-    load:function (self, name) {
-        self.object = self.parent.project.data[self.type][name];
+    load:function (self, id) {
+        self.object = self.parent.project.data[self.type][id];
         $(self.tid).show();
-        $('.name input',self.tid).val(name).focus().select();
+        $('.name input',self.tid).val(self.object.info.name).focus().select();
         return true;
     },
     selectname:function(self) {

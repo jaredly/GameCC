@@ -16,12 +16,21 @@ var DisplayImage = Class([Display], {
             self.save_images();
         });
     },
-    load:function(self, name) {
+    load:function(self, id) {
         // load name
-        if (name){
-            Display.load(self, name);
+        if (id){
+            Display.load(self, id);
         }
-
+        self.load_subimages();
+        // load speed
+        $('#edit-image-speed').val(self.object.info.speed).blur(function(){
+            var val = parseFloat(this.value);
+            val = isNaN(val)?1:val;
+            this.value = val;
+            self.object.set_attr('speed',val);
+        });
+    },
+    load_subimages:function(self){
         // load subimages
         $('#edit-image-list').html('');
         if (!self.object.info.subimages.length)
@@ -38,13 +47,6 @@ var DisplayImage = Class([Display], {
             $.data(div[0],'image',self.object.info.subimages[i]);
         }
 
-        // load speed
-        $('#edit-image-speed').val(self.object.info.speed).blur(function(){
-            var val = parseFloat(this.value);
-            val = isNaN(val)?1:val;
-            this.value = val;
-            self.object.set_attr('speed',val);
-        });
     },
     unload:function(self){
         Display.unload(self);
@@ -52,11 +54,11 @@ var DisplayImage = Class([Display], {
         $('#edit-image-list').html('');
     },
     changeImage:function(self,name){
-        self.object.set_images([name],self.load);
+        self.object.set_images([name],self.load_subimages);
         $('.name input',self.tid).focus().select();
     },
     addImage:function(self,name){
-        self.object.add_image(name, self.load);
+        self.object.add_image(name, self.load_subimages);
     },
     save_images:function(self) {
         var subimages = [];

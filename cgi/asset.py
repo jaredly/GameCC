@@ -31,6 +31,7 @@ def new(type,defaults):
     load(type, id)
 
 def clone(type, id):
+    id = int(id)
     # for now limit to assets in this project
     res = drupal.db.find_dict(type, {'id':id,'pid':drupal.pid})
     if not res:die('Invalid source asset')
@@ -44,21 +45,25 @@ def clone(type, id):
     load(type, id)
 
 def load(type, id):
+    id = int(id)
     result = drupal.db.find_dict(type, {'pid':drupal.pid, 'id':id})
-    if not result:return die('Asset not found: %s'%name)
+    if not result:return die('Asset not found: %s'%id)
     print 'Content-type:text/plain\n'
     print result[0]
 
 def rename(type, id, new):
+    id = int(id)
     names = list(x[0] for x in drupal.db.find(type, {'pid':drupal.pid}, ['name']))
     if new in names:
         return die('Duplicate name')
     if not isvalidname(new):
         return die('Invalid name')
+    print 'updating... %s %s to %s'%(type,id,new)
     drupal.db.update(type, {'name':new}, {'id':id, 'pid':drupal.pid})
     exit()
 
 def delete(type, id):
+    id = int(id)
     drupal.db.delete(type, {'id':id, 'pid':drupal.pid})
     exit()
 
@@ -69,10 +74,12 @@ def save_order(type, order):
     exit()
 
 def set_attr(type, id, attr, value):
+    id = int(id)
     drupal.db.update(type, {attr:json.loads(value)}, {'id':id,'pid':drupal.pid})
     exit()
 
 def import_asset(type, id, pid):
+    id = int(id)
     object = drupal.db.find_dict(type, {'id':id,'pid':drupal.pid})[0]
     object['pid'] = pid
 #    del object['id']
@@ -80,8 +87,10 @@ def import_asset(type, id, pid):
     drupal.db.insert_dict(type, object)
 
 def _set_attr(type, id, attr, value):
+    id = int(id)
     drupal.db.update(type, {attr:value}, {'id':id,'pid':drupal.pid})
     exit()
 
 def _get_attr(type, id, attr):
+    id = int(id)
     return drupal.db.find(type, {'id':id,'pid':drupal.pid}, [attr])[0][0]

@@ -43,6 +43,7 @@ schemas = {
         ('id','serial'),
         ('pid','int'),
         ('name','text'),
+        ('_index','int'),
 
         ('subimages','text'),
         ('speed','int'),
@@ -51,6 +52,7 @@ schemas = {
         ('id','serial'),
         ('pid','int'),
         ('name','text'),
+        ('_index','int'),
 
         ('visible','text'),
         ('image','text'),
@@ -62,6 +64,7 @@ schemas = {
         ('id','serial'),
         ('pid','int'),
         ('name','text'),
+        ('_index','int'),
 
         ('objects','text'),
         ('width','int'),
@@ -123,7 +126,9 @@ class MySQL:
         vbls = ', '.join('%s=%s'%(k, self.serialize(v)) for k,v in dct.items())
         conds = ' and '.join('%s=%s'%(k, self.serialize(v)) for k,v in cond.items())
         #print 'update %s set '%table + vbls + ' where %s'%conds
-        self.cursor.execute('update %s set '%table + vbls + ' where %s'%conds)
+        cmd = 'update %s set '%table + vbls + ' where %s'%conds
+        #print 'updating',cmd
+        self.cursor.execute(cmd)
         self.db.commit()
 
     def delete(self, table, dct):

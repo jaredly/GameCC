@@ -14,7 +14,7 @@ var TabManSingle = Class([], {
     },
     add: function(self, name, switchto){
         self.tabs[name] = $('<div class="handle">' + humanize(name) + '</div>').appendTo(self.id).click(function(e){
-            var name = $.data(this, 'name');
+//            var name = $.data(this, 'name');
             self.onchange(self.selected, name);
             self.selected = name;
             $('div.handle', self.id).removeClass('selected');
@@ -23,14 +23,14 @@ var TabManSingle = Class([], {
             self.rightclick(e, $.data(this, 'name'));
             return killE(e);
         });
-        $.data(self.tabs[name][0], 'name', name);
+//        $.data(self.tabs[name][0], 'name', name);
         if (switchto || !self.selected)
             self.tabs[name].click();
     },
     remove: function(self, name){
         $(self.tabs[name]).remove();
         delete self.tabs[name];
-        if (name == self.selected){
+        if (id == self.selected){
             self.selected = '';
             self.onchange(name,'');
         }
@@ -108,10 +108,17 @@ var DisplayObject = Class([Display], {
         });
         $('#object-actions').droppable('disable');
     },
-    load:function(self, name) {
-        if (name){
-            Display.load(self, name);
+    load:function(self, id) {
+        if (id){
+            Display.load(self, id);
         }
+        self.load_image();
+        self.load_parents();
+
+        self.load_events();
+        self.load_actions();
+    },
+    load_image: function(self){
         if (!self.object.info.image || !self.parent.project.data['image'][self.object.info.image] || !self.parent.project.data['image'][self.object.info.image].info.subimages.length){
 
         } else {
@@ -119,15 +126,12 @@ var DisplayObject = Class([Display], {
             var img = self.parent.imagescale.get_scaled(io, self.parent._small?'medium':'large');
             $('#object-image').css('background-image', 'url('+img.src+')');
         }
-        self.load_parents();
-
-        self.load_events();
-        self.load_actions();
     },
     load_parents: function(self){
         $('#object-parent').html('<option value="BaseObject">BaseObject</option>');
-        for (var name in self.parent.project.data['object']){
-            $('<option value="'+name+'">'+name+'</option>').appendTo('#object-parent');
+        for (var id in self.parent.project.data['object']){
+            var name = self.parent.project.data['object'][id].info.name;
+            $('<option value="'+id+'">'+name+'</option>').appendTo('#object-parent');
         }
         $('#object-parent').val(self.object.info.parent);
     },
@@ -218,8 +222,8 @@ var DisplayObject = Class([Display], {
         self.events.clear();
         $('#object-actions').html('');
     },
-    changeImage:function(self, name){
-        self.object.set_attr('image', name, function(){self.load();});
+    changeImage:function(self, id){
+        self.object.set_attr('image', id, self.load_image);
         $('.name input',self.tid).focus().select();
     },
 });
