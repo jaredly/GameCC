@@ -58,7 +58,7 @@ def rename(type, id, new):
         return die('Duplicate name')
     if not isvalidname(new):
         return die('Invalid name')
-    print 'updating... %s %s to %s'%(type,id,new)
+    #print 'updating... %s %s to %s'%(type,id,new)
     drupal.db.update(type, {'name':new}, {'id':id, 'pid':drupal.pid})
     exit()
 

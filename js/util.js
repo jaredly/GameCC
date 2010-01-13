@@ -4,10 +4,24 @@ window.totitle = function(x){
 };
 
 window.hovertext = function(node,text){
+    var texted = false;
+    var size = [];
     function mm(e){
-        $('#hovertext').css('left',e.pageX+15+'px').css('top',e.pageY+15+'px').html(text).show();
+        if (!texted) {
+            var ht = $('#hovertext');
+            ht.html(text).css('left','0').css('visibility','hidden').css('top','0').show();
+            size = [ht[0].offsetWidth,ht[0].offsetHeight];
+            texted = true;
+        }
+        var xy = [e.pageX+15, e.pageY+15];
+        if (xy[0] > window.innerWidth - size[0] - 10)
+            xy[0] = window.innerWidth - size[0] - 10;
+        if (xy[1] > window.innerHeight - size[1] - 10)
+            xy[1] = window.innerHeight - size[1] - 10;
+        $('#hovertext').css('left',xy[0]+'px').css('top',xy[1]+'px').css('visibility','visible');
     }
     function mo(e){
+        texted = false;
         $('#hovertext').hide();
     }
     $(node).mousemove(mm).mouseout(mo);

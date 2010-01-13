@@ -87,22 +87,24 @@ var AjaxMuffin = Class([], {
             return;
         }
         var options = self._queue.shift();
-        var _old_oncommand = options['oncommand'] || function(){};
+        var _old_oncomplete = options['oncomplete'] || function(){};
         var _old_onerror = options['onerror'] || function(){};
-        var oncommand = function(){
+        var oncomplete = function(){
             self._advance_queue();
-            _old_oncommand.apply(null,arguments);
+            _old_oncomplete.apply(null,arguments);
         };
         var onerror = function(){
             self._advance_queue();
             _old_onerror(null,arguments);
         };
-        options['oncommand'] = oncommand;
+        options['oncomplete'] = oncomplete;
         options['onerror'] = onerror;
         self._send(options);
     },
     _send: function(self, options) {
         $('#loading-small').show();
+        if (!options['oncomplete'])
+            debugger;
         $.ajax({
             async:true,
             cache:false,

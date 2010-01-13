@@ -26,10 +26,6 @@ def list_projects():
 
 import glob
 
-def load_plugins():
-    plugins = glob.glob('../plugins/*/*.info')
-    exit({'plugins':list(x.split('/')[-1][:-len('.info')] for x in plugins)});
-
 def list_images():
     images = drupal.db.find_dict('projects', {'pid':drupal.pid})[0]['images']
     exit({'images':images})

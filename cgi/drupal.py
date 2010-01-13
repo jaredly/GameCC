@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 import os,sys
-import myjson as json
+import json
 sys.path.append('/home1/marketr5/lib64/python2.4/site-packages')
 import MySQLdb
 
@@ -141,7 +141,10 @@ class MySQL:
             return x
         if type(x) == long:
             return int(x)
-        return json.loads(x)
+        if type(x) == str:
+            return json.loads(x)
+        elif type(x) == unicode:
+            return str(x)
 
     def find(self, table, dct={1:1}, names = ['*'], order=''):
         if order:order=' order by '+order

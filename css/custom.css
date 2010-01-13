@@ -20,7 +20,6 @@ div.liveframe-relative {
   left:0!important;
 }
 
-
 /*@group sidebar*/
 
 .header {
@@ -34,6 +33,7 @@ div.liveframe-relative {
 #sidebar .contents, #object-events .contents {
   padding:5px;
   background-color:#333;
+  color:#aaa;
 }
 
 #object-events .contents {
@@ -59,6 +59,7 @@ div.liveframe-relative {
 
 #sidebar .handle.selected, #object-events .handle.selected {
   background-color:#555;
+  color:white;
 }
 
 #sidebar .contents .ui-state-highlight {

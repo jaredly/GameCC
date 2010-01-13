@@ -13,6 +13,8 @@ import drupal
 import asset
 import maps
 
+import sys
+
 #good: Jan 4
 
 structure = {
@@ -23,6 +25,8 @@ structure = {
     'viewer':viewer,
     'login':drupal.login
 }
+
+import cProfile
 
 if __name__=='__main__':
     command = cgitools.get_command()
@@ -37,7 +41,7 @@ if __name__=='__main__':
         if drupal.pid is None and command not in project.noproject:
             die('Invalid project name')
     try:
-        cgitools.execute(structure)
+        cProfile.run('cgitools.execute(structure)','profiles/'+command.replace('/','_')+'.prof')
     except SystemExit:
         pass
     except:

@@ -10,8 +10,8 @@ var Plugin = Class([], {
         }
         self.nid = '#plugin-'+info.name;
         self._make_li();
-        hovertext(self.li, '<span class="title">' + humanize(self.info.name) + '</span>: <br/>' + self.info.description);
-        self.bgicon(self.li);
+        hovertext(self.li, self.info.description);
+        self.bgicon(self.li,true);
         $.data(self.li[0], 'ondrop', self.drop);
         $.data(self.li[0], 'name', self.info.name);
     },
@@ -356,8 +356,12 @@ var PluginManager = Class([], {
     loadPlugins:function(self){
         var True=true,False=false,None=null;
         $(self.id).html('');
-        self.parent.ajax.send('project/load_plugins', {}, function(object){
-            var toload = object.plugins.length;
+        self.parent.ajax.send('', {}, function(object){
+            for (var i=0;i<object.length;i++){
+                self.loadPlugin(object[i]);
+            }
+            self.onloaded();
+            /**var toload = object.plugins.length;
             for (var i=0;i<object.plugins.length;i++){
                 self.parent.ajax.send('', {}, function(x){
                         eval('var plugin=' + x.replace(/'([^']+)'\s*:/g, '$1:')); // remove single quotes from object attrs
@@ -374,8 +378,19 @@ var PluginManager = Class([], {
                             self.onloaded();
                         }
                 },{url:'plugins/'+object.plugins[i]+'/'+object.plugins[i]+'.info', type:'text'});
-            }
-        });
+            }**/
+        },{url:'plugins/all.cache'});
+    },
+    loadPlugin:function(self,plugin){
+        var name = plugin[0];
+        plugin = plugin[1];
+        if (self.types.indexOf(plugin.type)===-1)
+            self.addType(plugin.type);
+        if (self.plugintypes[plugin.name]){
+            self.plugins[plugin.name] = self.plugintypes[plugin.name](self, plugin);
+        }else{
+            self.plugins[plugin.name] = Plugin(self, plugin);
+        }
     },
     icon:function(self,name){
         return self.plugins[name].info.icon;

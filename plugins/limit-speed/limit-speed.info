@@ -1,7 +1,7 @@
 {
     'name':'limit-speed',
     'type':'move',
-    'description':'limit the object\'s speed',
+    'description':'limit the speed',
     'text':'limit speed to {speed}',
     'inputs':
         { 'appliesto':'appliesto','speed':'float'}
