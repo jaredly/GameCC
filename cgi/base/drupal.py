@@ -5,10 +5,10 @@ import json
 sys.path.append('/home1/marketr5/lib64/python2.4/site-packages')
 import MySQLdb
 
-pwdfile = open('.conf').read()
+pwdfile = open('.conf').read().strip()
 
 if not os.path.isfile(pwdfile):
-    raise Exception,'Server configuration exception: pwd file not found'
+    raise Exception,'Server configuration exception: pwd file (%s) not found'%pwdfile
 
 from ConfigParser import ConfigParser as CP
 
@@ -89,6 +89,15 @@ def check_tables():
             good[name] = True
         except:
             db.execute('create table %s ( %s )'%(name,', '.join(' '.join(a) for a in schema)))
+
+def get_blogdb():
+    return MySQL(alls['blog_db'])
+
+def get_datadb():
+    global db
+    if not db:
+        db = MySQL(alls['data_db'])
+    return db
 
 class MySQL:
     def __init__(self, db):
