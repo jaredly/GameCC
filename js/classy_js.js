@@ -9,14 +9,24 @@ function new_class(){
                 throw new Exception("Wrong number of arguments: "+args);**/
             return cls[func].apply(this,args);
         }
+        self[func].prefill = function(){
+            var preargs = Array.prototype.slice.call(arguments,0);
+            preargs.unshift(self);
+            return function(){
+                return cls[func].apply(this,preargs.concat(Array.prototype.slice.call(arguments,0)));
+            };
+        };
+        self[func].noargs = function(){
+            return cls[func].apply(this,[self]);
+        };
     }
     var _extends = to_array(arguments);
-    
+
     var cls = function(){
         var self = {};self.__init__ = function(){};
         self._class = cls;
         var args = to_array(arguments);
-        
+
         /**for each(ext in extends){
             for (attr in ext){
                 if (typeof(ext[attr])!="function"){
@@ -36,7 +46,7 @@ function new_class(){
         self.__init__.apply(self,args);
         return self;
     }
-    
+
     for (var i=0;i<_extends.length;i++){
         var ext = _extends[i];
         for (attr in ext){
@@ -44,7 +54,7 @@ function new_class(){
             cls[attr] = ext[attr];
         }
     }
-    
+
     //cls._class_name = name;
     //cls.__init__ = function(){};
     return cls

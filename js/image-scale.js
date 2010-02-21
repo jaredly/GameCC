@@ -13,6 +13,7 @@ var ImageScale = Class([], {
     load: function(self, name, donefunc){
         if (self.cache[name])return donefunc(name);
         self.cache[name] = new Image();
+        self.cache[name].style.imageRendering='optimizeSpeed';
         self.cache[name].onload = function(e){
             for (var size in self.sizes){
                 self.scale(name, size);

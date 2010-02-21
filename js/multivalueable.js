@@ -18,6 +18,154 @@ jQuery.ui.tabs.prototype = jQuery.extend(jQuery.ui.tabs.prototype, {
     }
 });
 
+function obj_extend(a,b){
+    var c={};
+    for (x in a)c[x]=a[x];
+    for (x in b)c[x]=b[x];
+    return c;
+}
+
+var subtypes = {};
+
+var SubType = Class([], {
+    type:null,
+    defaults:{value:''},
+    __init__:function(self, input, options) {
+        self.settings = obj_extend(self.defaults, options);
+        self._value = self.settings.value;
+        self.tip = input.after('<div class="subtype-tip '+self.type+'"></div>');
+        self.input = input;
+        self.init();
+    },
+    init:function(self) {},
+    value:function(self) {
+        return self._value;
+    },
+    refresh:function(self) {
+        self.input.val(self._value);
+    },
+    show:function(self) { self.refresh(); },
+    hide:function(self) { self.hidetip(); },
+    mdown:function(self, e) {},
+    mup:function(self, e) {},
+    click:function(self, e) {
+        self.tip.toggleSlide();
+    },
+    showtip:function(self) {
+        self.tip.show();
+    },
+    hidetip:function(self) {
+        self.tip.hide();
+    }
+});
+
+subtypes['bool'] = Class([SubType], {
+    type:'bool',
+    defaults:{'value':true},
+    click:function(self) {
+        self._value = !self._value;
+        self.refresh();
+    }
+});
+
+subtypes['default'] = Class([SubType], {
+    type:'default',
+    defaults:{'value':''},
+    value:function(self){return self.input.val();}
+});
+
+// value: [subtype, val]
+
+var SuperType = Class([], {
+    subtypes:[],
+    type:'',
+    __init__:function(self, div, input, value) {
+        self.div = div;
+        self.input = input;
+        self.input.mousedown(self.mdown);
+        self.input.mouseup(self.mup);
+        self.input.click(self.click);
+        self.input.addClass('super-'+self.type);
+        self._current = value?value[0]:self.subtypes[0][0];
+        self.div.addClass('sub-'+self._current);
+        self.subs = {};
+        for (var i=0;i<self.subtypes.length;i++){
+            if (!subtypes[self.subtypes[i][0]])
+                subtypes[self.subtypes[i][0]] = subtypes['default'];
+            var obj = subtypes[self.subtypes[i][0]](self.input, self.subtypes[i].slice(1));
+            self.subs[self.subtypes[i][0]] = obj;
+        }
+        if (value){
+            self.subs[self._current].setValue(value[1]);
+        }
+        self.subs[self._current].show();
+    },
+    value:function(){
+        return [self._current, self.subs[self._current].value()];
+    },
+    mdown:function(self, e){
+        return self.subs[self._current].mdown(e);
+    },
+    mup:function(self, e){
+        return self.subs[self._current].mup(e);
+    },
+    click:function(self, e){
+        return self.subs[self._current].click(e);
+    },
+    change_sub:function(self, to) {
+        if (to == self._current)return;
+        self.subs[self._current].hide();
+        self.div.removeClass('sub-'+self._current);
+        self._current = to;
+        self.div.addClass('sub-'+self._current);
+        self.subs[self._current].show();
+    }
+});
+
+var supertypes = {};
+// add a random...[function] to instance
+supertypes['instance'] = Class([SuperType], {
+    subtypes: [['variable','object-instance']],
+});
+
+supertypes['objecttype'] = Class([SuperType], {
+    subtypes: [['objecttype'],
+               ['variable','object-type']],
+});
+
+supertypes['pos'] = Class([SuperType], {
+    subtypes: [['number',{min:0,max:100}],
+               ['variable',{type:'float'}],
+               ['function',{type:'float'}]],
+});
+
+supertypes['bool'] = Class([SuperType], {
+    subtypes: [['bool'], ['variable','bool'], ['function',{type:'bool'}]],
+});
+
+supertypes['direction'] = Class([SuperType], {
+    subtypes: [['number',{min:0,max:360}],
+               ['variable',{type:'float'}],
+               ['dirpad']],
+});
+
+supertypes['speed'] = Class([SuperType], {
+    subtypes: [['number',{min:0,max:10}],
+               ['variable',{type:'float'}],
+               ['function',{type:'float'}]],
+});
+
+
+
+
+
+
+
+
+
+
+/**
+
 var InputType = Class([], {
     name:'example',
     title:'Example',
@@ -33,7 +181,7 @@ var InputType = Class([], {
 
 number, select, select string, object, direction, percent, key, bool, not, random, randint, variable, timer, custom, string
 
-**/
+**
 
 var InputTypes = {};
 
@@ -346,7 +494,7 @@ var MultiValuable = Class([],{
         types.push('custom');
 
         self._inputs = {};
-        /***/
+        /***
         var first = value && value[0] || null;
         for (var i=0;i<types.length;i++) {
             var type = types[i];
@@ -399,3 +547,4 @@ var MultiValuable = Class([],{
     }
 });
 
+**/

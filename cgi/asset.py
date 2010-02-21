@@ -44,11 +44,14 @@ def clone(type, id):
     id = drupal.db.execute('select LAST_INSERT_ID()')[0][0]
     load(type, id)
 
-def load(type, id):
+def load(_type, id):
     id = int(id)
-    result = drupal.db.find_dict(type, {'pid':drupal.pid, 'id':id})
+    result = drupal.db.find_dict(_type, {'pid':drupal.pid, 'id':id})
     if not result:return die('Asset not found: %s'%id)
     print 'Content-type:text/plain\n'
+    for k,v in result[0].items():
+        if type(v)==unicode:
+            result[0][k]=str(v)
     print result[0]
 
 def rename(type, id, new):

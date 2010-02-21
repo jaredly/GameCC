@@ -92,9 +92,9 @@ def uploadimage(project,file):
     raws = drupal.db.find('projects',{'pid':drupal.pid},['images'])[0][0]
     sys.stdout.write(filename)
 
-def preview(project):
+def preview(pid):
     die('notimplemented')
-    compiler = compile.Compiler(project)
+    compiler = compile.Compiler(pid)
     name = compiler.compile('haxe')
     data = {'name':name,'width':compiler.width,'height':compiler.height,'fps':40,'color':'ffffff'}
     cmd = '~/haxe -swf ../preview/%(name)s.swf -main %(name)s -swf-version 9 -swf-header %(width)s:%(height)s:%(fps)s:%(color)s'%data

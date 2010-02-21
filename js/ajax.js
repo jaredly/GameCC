@@ -42,6 +42,7 @@ var AjaxMuffin = Class([], {
     __init__: function(self, parent){
         self.parent = parent;
         self._queue = [];
+        self.alterData = function(){};
         self._queueing = false;
     },
     queue: function(self, command, data, oncomplete, options) {
@@ -49,7 +50,8 @@ var AjaxMuffin = Class([], {
         if (typeof(options) === 'undefined')options = {};
         if (typeof(options['url']) === 'undefined')
             options['url'] = 'cgi/index.py';
-        data['pid'] = self.parent.project.pid;
+        if (self.parent && self.parent.project && typeof(data['pid'])=='undefined' && self.parent.project.pid)
+            data['pid'] = self.parent.project.pid;
         options['data'] = data;
         options['oncomplete'] = oncomplete;
         self._send_queued(options);
@@ -103,6 +105,7 @@ var AjaxMuffin = Class([], {
     },
     _send: function(self, options) {
         $('#loading-small').show();
+        self.alterData(options['data']);
         if (!options['oncomplete'])
             debugger;
         $.ajax({
