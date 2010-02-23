@@ -1,36 +1,36 @@
+'''image asset. used to test general asset stuff
+
+>>> img = new()
+>>> id = img['id']
+>>> id
+1
+>>> img['name']
+u'Image'
+>>> img2 = clone(id)
+>>> img2['name']
+u'Image_Copy'
+>>> id2 = img2['id']
+>>> id2
+2
+>>> load(id)['id'] == id
+True
+>>> rename(id, 'Gonzalez')
+>>> load(id)['name']
+u'Gonzalez'
+>>> delete(id)
+>>> load(id)
+Traceback (most recent call last):
+...
+AssetException: Asset 1 of type "images" not found
+
+'''
 import asset
-
-import os,glob
-from urllib import urlopen as upen
-import json
-
-from cgitools import exit,die
-import drupal
 
 #good: Jan 4
 
-type = 'images'
-
-def new():
-    return asset.new(type,{'speed':1,'subimages':[]})
-
-def clone(id):
-    return asset.clone(type,id)
-
-def load(id):
-    return asset.load(type,id)
-
-def rename(id,new):
-    return asset.rename(type,id,new)
-
-def delete(id):
-    return asset.delete(type,id)
-
-def save_order(order):
-    return asset.save_items(type,order)
-
-def set_attr(id, attr, value):
-    return asset.set_attr(type, id, attr, value)
+class ImageManager(asset.AssetManager):
+    atype = 'images'
+    defaults = {'speed':1,'subimages':[]}
 
 '''
 def fromurl(project,url):

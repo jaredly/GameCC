@@ -1,10 +1,12 @@
 #!/usr/bin/env python
+'''Main entrance -- called to do ajax, or other work.
+is essentially a switch'''
 
 import os
 
 if os.environ.get('SERVER_PROTOCOL','').lower().startswith('http'):
-    import ajax
-    ajax.main()
+    from .ajax import main
+    main()
 else:
-    import base
-    base.test()
+    from .base import test
+    test()

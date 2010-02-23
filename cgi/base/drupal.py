@@ -5,7 +5,8 @@ import json
 sys.path.append('/home1/marketr5/lib64/python2.4/site-packages')
 import MySQLdb
 
-pwdfile = open('.conf').read().strip()
+pwdfiled = os.path.join(os.path.dirname(__file__),'..','.conf')
+pwdfile = open(pwdfiled).read().strip()
 
 if not os.path.isfile(pwdfile):
     raise Exception,'Server configuration exception: pwd file (%s) not found'%pwdfile
@@ -81,7 +82,6 @@ schemas = {
 
 def check_tables():
     good = {}
-## ^ for later schema checking
     for name,schema in schemas.items():
         try:
             #db.execute('drop table %s'%name)
@@ -101,7 +101,7 @@ def get_datadb():
 
 class MySQL:
     def __init__(self, db):
-        self.db = MySQLdb.connect("localhost", alls['user_db'], alls['pwdd_db'], db)
+        self.db = MySQLdb.connect("localhost", alls['user_db'], alls['pwdd_db'], db, use_unicode=False)
         self.cursor = self.db.cursor()
         self.dcursor = self.db.cursor(MySQLdb.cursors.DictCursor)
 
@@ -235,3 +235,11 @@ def login():
     uid      = 0
     db       = None
     return False
+
+def testing():
+    global loggedin, username, uid, db, pid
+    uid = 1
+    username = 'testing'
+    db = MySQL(alls['data_db'])
+    check_tables()
+    return True

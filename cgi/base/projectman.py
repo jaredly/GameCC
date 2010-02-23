@@ -1,15 +1,17 @@
+'''handles all projects
+'''
 import os
 import sys
+import imghdr
 import string
-import compile
 import random
 import subprocess
-import myjson as json
 
-from cgitools import exit,die
 import drupal
 
-RAW_IMG_DIR = os.path.join(os.dirname(__file__),'../../rawimages')
+RAW_IMG_DIR = os.path.join(os.path.dirname(__file__),'../../raw_images')
+
+class ImageError(Exception):pass
 
 def list_projects():
     projects = [x[0] for x in drupal.db.find('projects',{'uid':drupal.uid},['name'])]
@@ -20,8 +22,12 @@ def list_images():
     return images
 
 def add_images(images):
+    allimgs = list_all_images()
+    for img in images:
+        if not img in allimgs:
+            raise ImageError('image not found')
     oldimages = drupal.db.find_dict('projects', {'pid':drupal.pid})[0]['images']
-    oldimages += json.loads(images)
+    oldimages += images
     drupal.db.update('projects',{'images':oldimages},{'pid':drupal.pid})
 
 def list_all_images():
@@ -39,7 +45,7 @@ def new(name):
         'maps_order':[]}
     drupal.db.insert_dict('projects',object)
     drupal.pid = drupal.db.execute('select LAST_INSERT_ID()')[0][0]
-    return True
+    return load()
 
 def remove():
     dct = load()
@@ -60,18 +66,14 @@ def load():
     maps = drupal.db.execute_dict('select * from maps where pid=%d order by _index'%drupal.pid)
     return {'images':images,'objects':objects,'maps':maps,'project':result}
 
-def check_type(file):
-    image_type = 
-    if not image_type
-
-def uploadimage(file):
-    path = os.path.join(RAW_IMG_DIR,file.filename)
-    itype = imghdr.what(file.filename, file.value) 
+def uploadimage(filename, value):
+    path = os.path.join(RAW_IMG_DIR, filename)
+    itype = imghdr.what(filename, value) 
     if not itype or itype not in ('jpeg','gif','png'):
         return None
     if itype == 'jpeg':
         itype = 'jpg'
-    basename = '.'.join(file.filename.split('.')[:-1])
+    basename = '.'.join(filename.split('.')[:-1])
     if not basename:
         return None
     filename = '%s.%s'%(basename, itype)
@@ -83,11 +85,11 @@ def uploadimage(file):
         while os.path.exists(os.path.join(RAW_IMG_DIR,
             basename + '_%d.%s'%(i,itype))):
             i += 1
-        path = os.path.join(path,
+        path = os.path.join(RAW_IMG_DIR,
             basename + '_%d.%s'%(i,itype))
         filename = '%s_%d.%s'%(basename, i, itype)
 
-    open(path, 'w').write(file.value)
+    open(path, 'w').write(value)
     raws = drupal.db.find('projects',
             {'pid':drupal.pid},['images'])[0][0]
     if not raws:raws = []

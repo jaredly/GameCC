@@ -1,9 +1,33 @@
+'''objects.py -- does most of the heavly lifting
+here, handles the 'object' asset type
+
+>>> id = new()['id']
+>>> id
+1
+>>> id = clone(id)['id']
+>>> id
+2
+>>> add_event(id, 'keydown')
+>>> remove_event(id, 'mouseup')
+Traceback (most recent call last):
+...
+KeyError: 'mouseup'
+>>> load(id)['events']
+{u'keydown': []}
+>>> remove_event(id, 'keydown')
+>>> add_event(id, 'keydown')
+>>> save_actions(id, 'keydown', ['something'])
+>>> duplicate_event(id, 'keydown', 'mouseup')
+[u'something']
+>>> events = load(id)['events']
+>>> events['keydown'] == events['mouseup']
+True
+
+'''
 import asset
 
 from cgitools import exit,die
 import drupal
-
-import myjson as json
 
 #good: Jan 4
 
@@ -31,13 +55,6 @@ def save_order(order):
 def set_attr(id, attr, value):
     return asset.set_attr(type, id, attr, value)
 
-#tocheck
-
-def save_actions(id,event,actions):
-  events = asset._get_attr('objects',id,'events')
-  events[event] = json.loads(actions)
-  asset._set_attr('objects',id,'events', events)
-
 ## try return the actions list via json??
 
 def add_event(id,event):
@@ -62,4 +79,9 @@ def change_event(id,event,nevent):
   del events[event]
   asset._set_attr('objects', id, 'events', events)
   return events[nevent]
+
+def save_actions(id,event,actions):
+  events = asset._get_attr('objects',id,'events')
+  events[event] = actions
+  asset._set_attr('objects',id,'events', events)
 
