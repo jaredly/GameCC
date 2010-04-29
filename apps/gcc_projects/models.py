@@ -25,6 +25,9 @@ class Category(models.Model):
         return ('project_category_detail', None, {'slug': self.slug})
 
 class Project(models.Model):
+    '''The base model, used to aggregate images, objects and maps into a
+    cohesive whole. Has an author and a state of completion.
+    '''
     STATUS_CHOICES = (
         (1, _('Pre-Alpha')),
         (2, _('Alpha')),
@@ -36,7 +39,7 @@ class Project(models.Model):
     title = models.CharField(_('title'), max_length=100)
     slug  = models.SlugField(_('slug'))
     version = models.FloatField(_('version'))
-    categories = models.ManyToManyField(Category)
+    categories = models.ManyToManyField(Category, blank=True)
     
     description = models.TextField(_('description'), blank=True, help_text=_('Describe your project'))
 

@@ -13,16 +13,21 @@ from gcc_sprites.models import Sprite
 from gcc_media.models import Font
 
 class Object(models.Model):
+    '''Object - handles the main logic of an object in a game. Has the three
+    types "Image", "Text", and "Polygon" for maximum flexibility in display.
+    Is associated w/ a project, and has events with actions.
+    '''
     TYPE_CHOICES = (
         (1, _('Image')),
         (2, _('Text')),
         (3, _('Polygon')),
     )
 
-    project = models.ForeignKey(Project, related_name='objects'))
+    project = models.ForeignKey(Project, related_name='objects')
 
     title = models.CharField(_('title'), max_length=100)
-    parent = models.ForeignKey(Object, blank=True, related_name='subclasses')
+    parent = models.ForeignKey('self', blank=True, related_name='subclasses')
+    solid = models.BooleanField(_('solid'), default=False)
     type = models.IntegerField(_('type'), choices=TYPE_CHOICES)
 
     #### type specific stuff ####
@@ -74,7 +79,8 @@ game_end\
 
 class Event(models.Model):
     object = models.ForeignKey(Object, related_name='events')
-    type = models.CharField(max_length=100, choices=event_types)
+    type = models.CharField(max_length=100,
+            choices=tuple((a,a) for a in event_types))
     extra = models.CharField(max_length=100, blank=True) # for collision obj, or key name
 
     class Meta:

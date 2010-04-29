@@ -93,6 +93,7 @@ INSTALLED_APPS = (
     'django.contrib.admindocs',
     'django.contrib.flatpages',
 
+    'django_extensions',
     'feedback',
     'basic.blog',
     'basic.inlines',
