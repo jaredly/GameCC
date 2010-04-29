@@ -1,0 +1,12 @@
+{
+    'name':'else',
+    'type':'control',
+    'description':'else',
+    'text':'else',
+    'inputs':
+        {}
+    ,
+    'required':[],
+    'depends':[],
+    'icon':'allplugins.png,1,3'
+}

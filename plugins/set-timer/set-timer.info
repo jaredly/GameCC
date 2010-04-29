@@ -1,0 +1,12 @@
+{
+    'name':'set-timer',
+    'type':'other',
+    'description':'set a timer',
+    'text':'set timer {timer} {relative?relative :}to {amount}',
+    'inputs':
+        { 'appliesto':'appliesto','timer':'timer','amount':'int','relative':'bool'}
+    ,
+    'required':[],
+    'depends':[],
+    'icon':'allplugins.png,3,5'
+}

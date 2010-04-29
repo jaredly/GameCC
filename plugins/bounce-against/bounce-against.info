@@ -1,0 +1,12 @@
+{
+    'name':'bounce-against',
+    'type':'move',
+    'description':'bounce against collided object',
+    'text':'bounce against other',
+    'inputs':
+        {}
+    ,
+    'required':[],
+    'depends':[],
+    'icon':'allplugins.png,3,1'
+}

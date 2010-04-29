@@ -1,0 +1,12 @@
+{
+    'name':'set-gravity',
+    'type':'move',
+    'description':'set gravity',
+    'text':'set the gravity to &lt;{direction},{speed}&gt;',
+    'inputs':
+        { 'appliesto':'appliesto','direction':'direction','speed':'float'}
+    ,
+    'required':[],
+    'depends':[],
+    'icon':'allplugins.png,2,2'
+}

@@ -1,0 +1,12 @@
+{
+    'name':'set-variable',
+    'type':'other',
+    'description':'set a variable',
+    'text':'set {variable} to {value}',
+    'inputs':
+        { 'variable':'variable','value':'any'}
+    ,
+    'required':[],
+    'depends':[],
+    'icon':'allplugins.png,5,1'
+}

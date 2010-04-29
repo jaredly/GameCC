@@ -1,0 +1,281 @@
+#edit-image-preview {
+    left: 10px;
+  top: 10px;
+  height: 140px;
+  width: 140px;
+  position: absolute;
+}
+.name {
+    left: 10px;
+  top: 160px;
+  width: 140px;
+  height: 30px;
+  position: absolute;
+}
+.info-sidebar {
+    left: 0px;
+  top: 0px;
+  width: 160px;
+  height: auto;
+  bottom: 0px;
+  position: absolute;
+}
+#edit-image-list {
+    left: 170px;
+  top: 40px;
+  width: auto;
+  height: auto;
+  position: absolute;
+  right: 10px;
+  bottom: 10px;
+}
+#sidebar {
+    top: 40px;
+  left: 10px;
+  width: 200px;
+  height: auto;
+  position: absolute;
+  bottom: 10px;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+#toolbar {
+    top: 10px;
+  left: 10px;
+  right: 10px;
+  height: 30px;
+  position: absolute;
+}
+#tabcontent {
+    top: 40px;
+  left: 210px;
+  width: auto;
+  height: auto;
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+}
+#edit-image {
+    top: 0px;
+  left: 0px;
+  bottom: 0px;
+  right: 0px;
+  width: auto;
+  height: auto;
+  position: absolute;
+  display:none;
+}
+#edit-map {
+    top: 0px;
+  left: 0px;
+  bottom: 0px;
+  right: 0px;
+  width: auto;
+  height: auto;
+  position: absolute;
+  display: none;
+}
+#minimap {
+    top: 10px;
+  left: 10px;
+  width: 140px;
+  height: 140px;
+  position: absolute;
+}
+#map-canvas {
+    top: 40px;
+  left: 170px;
+  width: auto;
+  height: auto;
+  right: 10px;
+  bottom: 10px;
+  position: absolute;
+}
+#map-toolbar {
+    top: 10px;
+  left: 250px;
+  width: auto;
+  height: 30px;
+  right: 10px;
+  position: absolute;
+}
+#edit-object {
+    top: 0px;
+  left: 0px;
+  width: auto;
+  height: auto;
+  position: absolute;
+  display:none;
+  right: 0px;
+  bottom: 0px;
+}
+#object-image {
+    top: 10px;
+  left: 10px;
+  width: 140px;
+  height: 140px;
+  position: absolute;
+}
+#object-events {
+    top: 40px;
+  left: 170px;
+  width: 200px;
+  height: auto;
+  bottom: 10px;
+  position: absolute;
+}
+#object-actions {
+    top: 10px;
+  left: 380px;
+  width: 420px;
+  height: auto;
+  bottom: 10px;
+  position: absolute;
+}
+#plugins {
+    top: 10px;
+  left: 810px;
+  width: auto;
+  height: auto;
+  bottom: 10px;
+  right: 10px;
+  position: absolute;
+}
+#image-toolbar {
+    left: 170px;
+  top: 10px;
+  height: 30px;
+  width: auto;
+  right: 10px;
+  position: absolute;
+}
+.header {
+    position: absolute;
+}
+#image-list {
+    position: absolute;
+}
+#object-list {
+    position: absolute;
+}
+#map-list {
+    position: absolute;
+}
+.pretty-colors #sidebar {
+    background-color: rgb(255, 113, 25);
+}
+.pretty-colors .header {
+    background-color: rgb(0, 224, 224);
+}
+.pretty-colors #image-list {
+    background-color: rgb(105, 255, 25);
+}
+.pretty-colors #object-list {
+    background-color: rgb(187, 255, 51);
+}
+.pretty-colors #map-list {
+    background-color: rgb(66, 255, 226);
+}
+.pretty-colors #toolbar {
+    background-color: rgb(30, 60, 255);
+}
+.pretty-colors #tabcontent {
+    background-color: rgb(229, 84, 0);
+}
+.pretty-colors #edit-image {
+    background-color: rgb(0, 20, 209);
+}
+.pretty-colors .info-sidebar {
+    background-color: rgb(188, 56, 0);
+}
+.pretty-colors #edit-image-preview {
+    background-color: rgb(0, 73, 219);
+}
+.pretty-colors .name {
+    background-color: rgb(181, 255, 91);
+}
+.pretty-colors #edit-image-list {
+    background-color: rgb(220, 0, 224);
+}
+.pretty-colors #object-toolbar {
+    background-color: rgb(255, 168, 96);
+}
+.pretty-colors #edit-map {
+    background-color: rgb(0, 163, 87);
+}
+.pretty-colors #minimap {
+    background-color: rgb(76, 255, 180);
+}
+.pretty-colors #map-canvas {
+    background-color: rgb(0, 198, 86);
+}
+.pretty-colors #map-toolbar {
+    background-color: rgb(0, 98, 219);
+}
+.pretty-colors #edit-object {
+    background-color: rgb(229, 160, 0);
+}
+.pretty-colors #object-image {
+    background-color: rgb(38, 142, 0);
+}
+.pretty-colors #object-events {
+    background-color: rgb(231, 255, 15);
+}
+.pretty-colors #object-actions {
+    background-color: rgb(137, 18, 0);
+}
+.pretty-colors #plugins {
+    background-color: rgb(75, 0, 168);
+}
+#plugin-tabs {
+    left: 810px;
+  top: 10px;
+  height: 40px;
+  right: 10px;
+  width: auto;
+  position: absolute;
+}
+.pretty-colors #plugin-tabs {
+    background-color: rgb(95, 163, 0);
+}
+#object-event-toolbar {
+    left: 170px;
+  top: 10px;
+  height: 30px;
+  width: 200px;
+  position: absolute;
+}
+.pretty-colors #object-event-toolbar {
+    background-color: rgb(10, 87, 255);
+}
+#object-properties {
+    left: 10px;
+  top: 200px;
+  height: 140px;
+  width: 140px;
+  position: absolute;
+}
+.pretty-colors #object-properties {
+    background-color: rgb(158, 13, 0);
+}
+#object-custom-attrs {
+    left: 10px;
+  top: 350px;
+  bottom: 10px;
+  height: auto;
+  width: 140px;
+  position: absolute;
+}
+.pretty-colors #object-custom-attrs {
+    background-color: rgb(142, 214, 0);
+}
+#object-custom-toolbar {
+    left: 10px;
+  top: 350px;
+  height: 30px;
+  width: 140px;
+  position: absolute;
+}
+.pretty-colors #object-custom-toolbar {
+    background-color: rgb(249, 229, 0);
+}

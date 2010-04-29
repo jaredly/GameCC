@@ -1,0 +1,12 @@
+{
+    'name':'with',
+    'type':'control',
+    'description':'iterate through objects',
+    'text':'with {object} {',
+    'inputs':
+        { 'object':'object'}
+    ,
+    'required':[],
+    'depends':[],
+    'icon':'allplugins.png,3,4'
+}

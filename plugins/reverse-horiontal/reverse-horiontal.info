@@ -1,0 +1,12 @@
+{
+    'name':'reverse-horiontal',
+    'type':'move',
+    'description':'switch x direction',
+    'text':'switch x direction',
+    'inputs':
+        { 'appliesto':'appliesto'}
+    ,
+    'required':[],
+    'depends':[],
+    'icon':'allplugins.png,1,2'
+}

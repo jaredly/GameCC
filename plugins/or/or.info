@@ -1,0 +1,12 @@
+{
+    'name':'or',
+    'type':'control',
+    'description':'or',
+    'text':'{a} or {b}',
+    'inputs':
+        { 'a':'conditional','b':'conditional'}
+    ,
+    'required':[],
+    'depends':[],
+    'icon':'allplugins.png,1,4'
+}

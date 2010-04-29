@@ -1,0 +1,12 @@
+{
+    'name':'and',
+    'type':'control',
+    'description':'a and b',
+    'text':'{a} and {b}',
+    'inputs':
+        { 'a':'conditional','b':'conditional'}
+    ,
+    'required':[],
+    'depends':[],
+    'icon':'allplugins.png,0,4'
+}

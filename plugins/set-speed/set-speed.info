@@ -1,0 +1,12 @@
+{
+    'name':'set-speed',
+    'type':'move',
+    'description':'set the speed',
+    'text':'set the speed {relative?relative :}to {speed}',
+    'inputs':
+        { 'appliesto':'appliesto','speed':'speed','relative':'bool'}
+    ,
+    'required':[],
+    'depends':[],
+    'icon':'allplugins.png,3,0'
+}
