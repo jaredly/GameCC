@@ -13,10 +13,12 @@ MANAGERS = ADMINS
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql', # Add 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
-        'OPTIONS': {
-            'read_default_file': localfile('gamecc.cnf'),
-        },
+#        'ENGINE': 'django.db.backends.mysql', # Add 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
+#        'OPTIONS': {
+#            'read_default_file': localfile('gamecc.cnf'),
+#        },
+        'ENGINE':'sqlite3',
+        'NAME':'gamecc.db',
     }
 }
 
@@ -88,8 +90,18 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.admin',
+    'django.contrib.admindocs',
+    'django.contrib.flatpages',
 
     'feedback',
     'basic.blog',
+    'basic.inlines',
     'appsettings',
+    'rabidratings',
+
+    'gcc_projects',
+    'gcc_media',
+    'gcc_sprites',
+    'gcc_objects',
+    'gcc_maps',
 )

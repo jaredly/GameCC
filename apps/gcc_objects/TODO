@@ -1,0 +1,38 @@
+
+- Event stuff...
+
+here's a dump
+
+keyevents = (
+    ('letters', [
+        'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm',
+        'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'delete'
+    ]),
+    ('keypad', [
+        'keypad_0', 'keypad_1', 'keypad_2', 'keypad_3', 'keypad_4',
+        'keypad_5', 'keypad_6', 'keypad_7', 'keypad_8', 'keypad_9',
+        'keypad_period', 'keypad_divide', 'keypad_multiply',
+        'keypad_minus', 'keypad_plus', 'keypad_enter', 'keypad_equals'
+    ]),
+    ('punctuation', [
+        'backspace', 'tab', 'clear', 'return', 'pause', 'escape',
+        'spacebar', 'exclaim', 'quotedbl', 'hash', 'dollar',
+        'ampersand', 'quote', 'left_parenthesis', 'right_parenthesis',
+        'asterisk', 'plus_sign', 'comma', 'minus_sign', 'period',
+        'forward_slash', 'colon', 'semicolon', 'less_than_sign',
+        'equals_sign', 'greater_than_sign', 'question_mark', 'at',
+        'left_bracket', 'backslash', 'right_bracket', 'caret', 'underscore', 'grave'
+    ]),
+    ('arrows', ['up_arrow', 'down_arrow', 'right_arrow', 'left_arrow']),
+    ('numbers', ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']),
+    ('special', [
+        'insert', 'home', 'end', 'page_up', 'page_down', 'F1', 'F2',
+        'F3', 'F4', 'F5', 'F6', 'F7', 'F8', 'F9', 'F10', 'F11', 'F12',
+        'F13', 'F14', 'F15', 'numlock', 'capslock', 'scrollock',
+        'right_shift', 'left_shift', 'right_ctrl', 'left_ctrl', 'right_alt',
+        'left_alt', 'right_meta', 'left_meta', 'left_windows_key',
+        'right_windows_key', 'mode_shift', 'help', 'print_screen',
+        'sysrq', 'break', 'menu', 'power', 'euro'
+    ]),
+)
+
