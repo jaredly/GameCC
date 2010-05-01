@@ -1,0 +1,129 @@
+// $Id: CHANGELOG.txt,v 1.2.2.48 2009/12/17 20:19:10 hswong3i Exp $
+
+Multiflex-3 6.x-1.7, 2009-12-18
+----------------------
+- update README.txt.
+
+Multiflex-3 6.x-1.6, 2009-05-14
+----------------------
+- better visibility for visited links.
+- new custom style for print.module.
+- revamp primary links handling, clone from garland.
+- [#359498]: document example about howto change the sidebar width.
+- document more information about custom.css and custom.example.css.
+- simplify custom theme function implementation, clone from garland.
+
+Multiflex-3 6.x-1.5, 2008-11-22
+----------------------
+- update README.txt.
+- better comment message.
+- [#314124]: fix profile picture alignment.
+- [#337338]: use '$front_page' instead of $base_path in page.tpl.php
+
+Multiflex-3 6.x-1.4, 2008-08-30
+----------------------
+- [#294629]: fix primary links multi-level dropdowns margin.
+- add @ingroup for custom.example.css, better documentation.
+
+Multiflex-3 6.x-1.3, 2008-08-17
+----------------------
+- [#262772]: fix truncated sitename in IE6/7.
+- [#287426]: prevent duplicate footer message in IE6/7.
+- renew screenshot-drupal.org.png.
+
+Multiflex-3 6.x-1.2, 2008-07-11
+----------------------
+- revamp primary/secondary links, better style and comment.
+- [#275822]: bug fix primary links when hover.
+- add multi-level (max 4) dropdowns for primary links.
+- add more clipart, sync with MediaWiki theme development.
+- add missing content region headers (e.g. h1, h2, etc) styling.
+- better h1/h2/etc styling for page layout arragement.
+- [#278938]: add example for image without border.
+
+Multiflex-3 6.x-1.1, 2008-06-19
+----------------------
+- add cascade primary links implementation (not RTL tested, non-IE6).
+- simplify pencil link implementation.
+
+Multiflex-3 6.x-1.0, 2008-06-16
+----------------------
+- bugfix block title.
+- fine tune .meta font-family.
+
+Multiflex-3 6.x-1.0-rc3, 2008-06-14
+----------------------
+- bugfix fluid width implementation.
+- bugfix primary menu height and background.
+- RTL update for FF3, IE7, Opera9 and Safari3 (thanks for Zohar).
+- RTL default with Layout-1/3/5 (mirror implementation of LTR).
+- add complete layout example in custom.example.css.
+- bugfix header and primary menu position, based on RTL concern.
+
+Multiflex-3 6.x-1.0-rc2, 2008-06-13
+----------------------
+- [#268850]: fix pencil link for Clear URL.
+- add .meta-header and .meta-footer, with different styling.
+- update large screenshot.
+- add 2nd menu.
+- better breadcrumb, search box and mission handling.
+- cleanup Left Navigation and Right Subcontent (Layout-1/2/4).
+- document Left Subcontent and Right Navigation in custom.example.css (Layout-3/5).
+- add placeholder for IE6 hack.
+- add placeholder for RTL support.
+
+Multiflex-3 6.x-1.0-rc1, 2008-06-05
+----------------------
+- initial RC release.
+- re-implementation of http://www.1234.info/webtemplates/multiflex3/demo/
+- style sync with http://drupal.org/project/contented7/ and http://drupal.org/project/internet_services/
+- tableless, multi-column, fluid width layout.
+- can customize layout with custom.css.
+- CHANGE: replace static background image as repeat style.
+- TODO: now only implement page style 1+4 and header style 4.
+- TODO: RTL support.
+- TODO: cascade 1st menu.
+- TODO: 2nd menu.
+
+Multiflex-3 5.x-1.6, 2009-12-18
+----------------------
+- update README.txt.
+
+Multiflex-3 5.x-1.5, 2008-11-22
+----------------------
+- sync with 6.x-1.x-dev.
+- this should be the last stable release for Drupal 5.x.
+
+Multiflex-3 5.x-1.4, 2008-08-30
+----------------------
+- sync with 6.x-1.x-dev.
+
+Multiflex-3 5.x-1.3, 2008-08-17
+----------------------
+- sync with 6.x-1.x-dev.
+
+Multiflex-3 5.x-1.2, 2008-07-11
+----------------------
+- sync with 6.x-1.x-dev.
+
+Multiflex-3 5.x-1.1, 2008-06-19
+----------------------
+- add cascade primary links implementation (not RTL tested, non-IE6).
+- clone D6 $body_classes, so share style.css with D6.
+- sync with 6.x-1.x-dev.
+
+Multiflex-3 5.x-1.0, 2008-06-16
+----------------------
+- sync with 6.x-1.x-dev.
+
+Multiflex-3 5.x-1.0-rc3, 2008-06-14
+----------------------
+- sync with 6.x-1.x-dev.
+
+Multiflex-3 5.x-1.0-rc2, 2008-06-13
+----------------------
+- sync with 6.x-1.x-dev.
+
+Multiflex-3 5.x-1.0-rc1, 2008-06-05
+----------------------
+- sync with 6.x-1.x-dev.

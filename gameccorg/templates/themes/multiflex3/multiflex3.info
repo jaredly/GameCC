@@ -1,0 +1,15 @@
+; $Id: multiflex3.info,v 1.1 2008/06/05 03:04:45 hswong3i Exp $
+name = Multiflex-3
+description = Tableless, multi-column, fluid width theme.
+version = VERSION
+core = 6.x
+engine = phptemplate
+stylesheets[all][] = style.css
+stylesheets[all][] = custom.css
+
+; Information added by drupal.org packaging script on 2009-12-17
+version = "6.x-1.7"
+core = "6.x"
+project = "multiflex3"
+datestamp = "1261081599"
+

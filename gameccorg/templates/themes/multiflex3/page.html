@@ -1,0 +1,91 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en" dir="en">
+
+    <head profile="http://gmpg.org/xfn/11">
+        <title>{% block title %}GameCC{% endblock %}</title>
+        <script type="text/javascript"> </script>
+        {% block css %}
+        <link rel="stylesheet" href="/media/multiflex3/style.css"/>
+        {% endblock %}
+
+        {% block js %}
+
+        {% endblock %}
+        {% block extrahead %}{% endblock %}
+    </head>
+
+    <body class="{% block body_classes %} {% endblock %}">
+        <div id="header-region" class="clear-block">{% block header %} {% endblock %}</div>
+        <div id="wrapper">
+            <!-- begin wrapper -->
+            <div id="container" class="clear-block">
+                <!-- begin container -->
+                <div id="header">
+                    <!-- begin header -->
+                    <div id="logo">
+                        <img src="{% block logo %} {% endblock %}">
+                    </div>
+                    <div id="slogan-floater">
+                        <!-- begin slogan-floater -->
+                        <h1 class='site-name'>
+                            Site Name
+                        </h1>
+                        <div class='site-slogan'>{% block site_slogan %} {% endblock %}</div>
+                    </div>
+                    <!-- end slogan-floater -->
+                </div>
+                <!-- end header -->
+                <!-- begin primary_links -->
+                <!-- end primary_links -->
+                <div id="breadcrumb-search-region">
+                    <div class="right-corner">
+                        <div class="left-corner">
+                            {% block breadcrumb %} {% endblock %}
+                            <div class="block block-theme">{% block search_box %} {% endblock %}</div>
+                        </div>
+                    </div>
+                </div>
+                <div id="main">
+                    <div class="right-corner">
+                        <div class="left-corner">
+                            <!-- begin main -->
+                            <div id="sidebar-left" class="sidebar">
+                                {% block left %} {% endblock %}
+                            </div>
+                            <div id="center">
+                                <div id="squeeze">
+                                    <!-- begin center -->
+                                    {% block content_title %} GameCC {% endblock %}
+                                    {% block help %} {% endblock %}
+                                    <div class="clear-block">
+                                        {% block content %} Content {% endblock %}
+                                    </div>
+                                    {% block feed_icons %} {% endblock %}
+                                </div>
+                            </div>
+                            <!-- end center -->
+                            <div id="sidebar-right" class="sidebar">
+                                <!-- begin sidebar-right -->
+                                {% block right %} {% endblock %}
+                            </div>
+                            <!-- end sidebar-right -->
+                        </div>
+                    </div>
+                </div>
+                <!-- end main -->
+                <div id="footer">
+                    <!-- start footer -->
+                    {% block footer_message %} {% endblock %}
+                    {% block footer %} {% endblock %}
+                    <!-- begin #287426 -->
+                    <span style="display: none;">&nbsp;</span>
+                    <!-- end #287426 -->
+                </div>
+                <!-- end footer -->
+            </div>
+            <!-- end container -->
+        </div>
+        <!-- end wrapper -->
+        {% block closure %} {% endblock %}
+    </body>
+</html>

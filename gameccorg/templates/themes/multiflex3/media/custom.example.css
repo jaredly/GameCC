@@ -1,0 +1,347 @@
+/* $Id: custom.example.css,v 1.2.2.7 2009/05/11 07:07:14 hswong3i Exp $ */
+
+/**
+ * Here are some example for customize your theme layout with
+ * custom.css, divided into section by section.
+ *
+ * To apply them, copy a COMPLETE SECTION of CSS code snippet into your
+ * own custom.css, and take any further more override customization.
+ */
+
+/**
+ * @ingroup variable-max-width-layout
+ *
+ * This is a transformation example from minneli, which fix the MAXIMUM
+ * width of layout based on number of columns:
+ *
+ * @{
+ */
+body.no-sidebars #wrapper #container {
+  max-width: 760px;
+}
+body.sidebar-left #wrapper #container,
+body.sidebar-right #wrapper #container {
+  max-width: 980px;
+}
+body.two-sidebars #wrapper #container {
+  max-width: 1240px;
+}
+
+/**
+ * @} End of "ingroup variable-max-width-layout".
+ */
+
+/**
+ * @ingroup fixed-width-layout
+ *
+ * In case to have fixed width layout as minneli, use the below  code
+ * snippet for 1024x768:
+ *
+ * @{
+ */
+body #wrapper #container {
+  width: 980px;
+}
+
+/**
+ * @} End of "ingroup fixed-width-layout".
+ */
+
+/**
+ * @ingroup "customize-sidebar-width".
+ *
+ * Customize sidebar width for fulid width layout is a bit complicated and
+ * need some advanced level of CSS skill. Please study and compare the
+ * following information with original style.css accordingly:
+ *
+ * @{
+ */
+body.sidebar-left #center {
+  margin-left: -180px;
+}
+body.sidebar-right #center {
+  margin-right: -180px;
+}
+body.two-sidebars #center {
+  margin: 0 -180px;
+}
+body.sidebar-left #squeeze {
+  margin-left: 180px;
+}
+body.sidebar-right #squeeze {
+  margin-right: 180px;
+}
+body.two-sidebars #squeeze {
+  margin: 0 180px;
+}
+#wrapper #container .sidebar {
+  width: 180px;
+}
+
+/**
+ * @} End of "customize-sidebar-width".
+ */
+
+/**
+ * @ingroup image-without-border
+ *
+ * Image without border.
+ * See http://drupal.org/node/278938
+ *
+ * @{
+ */
+img, a img {
+  border: none;
+  padding: 0;
+}
+a:hover img {
+  border: none;
+}
+
+/**
+ * @} End of "ingroup image-without-border".
+ */
+
+/**
+ * @ingroup left-navigation
+ *
+ * Left Navigation
+ *
+ * @{
+ */
+#sidebar-left .block {
+  padding-left: 0;
+  padding-right: 30px;
+}
+#sidebar-left .block-region {
+  margin-left: 0;
+  margin-right: 30px;
+}
+body.sidebar-left #wrapper #container #main .left-corner,
+body.two-sidebars #wrapper #container #main .left-corner {
+  background: url(images/bg-block-left.png) repeat-y top left;
+}
+/* Default block style */
+#sidebar-left .block .corner-top-left {
+  background: none;
+  margin: 0;
+}
+#sidebar-left .block .corner-top-right {
+  background: none;
+  margin: 0;
+}
+#sidebar-left .block h1 {
+  color: #FFF;
+  background: #BEBEBE;
+  font-size: 136%;
+  margin: 0;
+  padding-left: 15px;
+}
+#sidebar-left .block .content {
+  border: none;
+  background: none;
+  padding-left: 15px;
+}
+/* Special block style */
+#sidebar-left .block-1 .corner-top-right {
+  background: url(images/bg-corner-top-right.png) no-repeat;
+  margin-left: 190px;
+}
+
+/**
+ * @} End of "ingroup left-navigation".
+ */
+
+/**
+ * @ingroup left-subcontent
+ *
+ * Left Subcontent
+ *
+ * @{
+ */
+#sidebar-left .block {
+  padding-left: 15px;
+  padding-right: 30px;
+}
+#sidebar-left .block-region {
+  margin-left: 15px;
+  margin-right: 30px;
+}
+body.sidebar-left #wrapper #container #main .left-corner,
+body.two-sidebars #wrapper #container #main .left-corner {
+  background: url(images/bg-content-left.png) repeat-y top left;
+}
+/* Default block style */
+#sidebar-left .block .corner-top-left {
+  background: url(images/bg-corner-top-left.png) no-repeat;
+  margin-right: 175px;
+}
+#sidebar-left .block .corner-top-right {
+  background: url(images/bg-corner-top-right.png) no-repeat;
+  margin-left: 175px;
+}
+#sidebar-left .block h1 {
+  color: #FFF;
+  background-color: #BEBEBE;
+  font-size: 127%;
+  margin: 0;
+}
+#sidebar-left .block .content {
+  border: solid 1px #BEBEBE;
+  background: #EBEBEB;
+}
+/* Special block style */
+#sidebar-left .block-1 .content {
+  border: solid 1px #BEBEBE;
+  background: #EBEBEB;
+}
+#sidebar-left .block-1 h1 {
+  background-color: #BEBEBE;
+}
+#sidebar-left .block-2 .content {
+  border: solid 1px #89AAD6;
+  background-color: #D5E1F0;
+}
+#sidebar-left .block-2 h1 {
+  background-color: #89AAD6;
+}
+#sidebar-left .block-3 .content {
+  border: solid 1px #A0D651;
+  background-color: #D9EFB9;
+}
+#sidebar-left .block-3 h1 {
+  background-color: #A0D651;
+}
+#sidebar-left .block-4 .content {
+  border: solid 1px #E8B10d;
+  background-color: #F8E096;
+}
+#sidebar-left .block-4 h1 {
+  background-color: #E8B10d;
+}
+
+/**
+ * @} End of "ingroup left-subcontent".
+ */
+
+/**
+ * @ingroup right-navigation
+ *
+ * Right Navigation
+ *
+ * @{
+ */
+#sidebar-right .block {
+  padding-left: 30px;
+  padding-right: 0;
+}
+#sidebar-right .block-region {
+  margin-left: 30px;
+  margin-right: 0;
+}
+body.sidebar-right #wrapper #container #main .right-corner,
+body.two-sidebars #wrapper #container #main .right-corner {
+  background: url(images/bg-block-right.png) repeat-y top right;
+}
+/* Default block style */
+#sidebar-right .block .corner-top-left {
+  background: none;
+  margin: 0;
+}
+#sidebar-right .block .corner-top-right {
+  background: none;
+  margin: 0;
+}
+#sidebar-right .block h1 {
+  color: #FFF;
+  background: #BEBEBE;
+  font-size: 136%;
+  margin: 0;
+  padding-right: 15px;
+}
+#sidebar-right .block .content {
+  border: none;
+  background: none;
+  padding-right: 15px;
+}
+/* Special block style */
+#sidebar-right .block-1 .corner-top-left {
+  background: url(images/bg-corner-top-left.png) no-repeat;
+  margin-right: 190px;
+}
+
+/**
+ * @} End of "ingroup right-navigation".
+ */
+
+/**
+ * @ingroup right-subcontent
+ *
+ * Right Subcontent
+ *
+ * @{
+ */
+#sidebar-right .block {
+  padding-left: 30px;
+  padding-right: 15px;
+}
+#sidebar-right .block-region {
+  margin-left: 30px;
+  margin-right: 15px;
+}
+body.sidebar-right #wrapper #container #main .right-corner,
+body.two-sidebars #wrapper #container #main .right-corner {
+  background: url(images/bg-content-right.png) repeat-y top right;
+}
+/* Default block style */
+#sidebar-right .block .corner-top-left {
+  background: url(images/bg-corner-top-left.png) no-repeat;
+  margin-right: 175px;
+}
+#sidebar-right .block .corner-top-right {
+  background: url(images/bg-corner-top-right.png) no-repeat;
+  margin-left: 175px;
+}
+#sidebar-right .block h1 {
+  color: #FFF;
+  background-color: #BEBEBE;
+  font-size: 127%;
+  margin: 0;
+}
+#sidebar-right .block .content {
+  border: solid 1px #BEBEBE;
+  background: #EBEBEB;
+}
+/* Special block style */
+#sidebar-right .block-1 .content {
+  border: solid 1px #BEBEBE;
+  background: #EBEBEB;
+}
+#sidebar-right .block-1 h1 {
+  background-color: #BEBEBE;
+}
+#sidebar-right .block-2 .content {
+  border: solid 1px #89AAD6;
+  background-color: #D5E1F0;
+}
+#sidebar-right .block-2 h1 {
+  background-color: #89AAD6;
+}
+#sidebar-right .block-3 .content {
+  border: solid 1px #A0D651;
+  background-color: #D9EFB9;
+}
+#sidebar-right .block-3 h1 {
+  background-color: #A0D651;
+}
+#sidebar-right .block-4 .content {
+  border: solid 1px #E8B10d;
+  background-color: #F8E096;
+}
+#sidebar-right .block-4 h1 {
+  background-color: #E8B10d;
+}
+
+/**
+ * @} End of "ingroup right-subcontent".
+ */
