@@ -10,6 +10,8 @@ import views
 
 urlpatterns = patterns('',
     (r'^$', views.home),
+    (r'^browse/(?:(?P<category>.+)/)?$', views.browse),
+    (r'^categories/$', views.categories),
 
     (r'^blog/', include('basic.blog.urls')),
     # Example:
