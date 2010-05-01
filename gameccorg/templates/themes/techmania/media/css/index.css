@@ -198,6 +198,12 @@ input.button {
 	margin: 0; padding: 0;
 	background: #000 url(../images/headerbg.jpg) no-repeat left top;			
 }
+#header #logo-image {
+    position:absolute;
+    top:15px;
+    left:20px;
+    border:none;
+}
 #header h1#logo-text {
 	position: absolute;
 	margin: 0; padding: 0;
