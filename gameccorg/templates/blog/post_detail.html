@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% load blog %}
+
+{% block title %}{{ object.title }}{% endblock %}
+{% block content_title %}{{ object.title }}{% endblock %}
+
+{% block content %}
+
+<h1>{{ object.title }}</h1>
+<p>
+    {{ object.body|markup:object.format }}
+</p>
+
+{% if user.is_staff %}
+    <a href="/admin/blog/post/{{ object.id }}/">[edit]</a>
+{% endif %}
+
+{% endblock %}
+
