@@ -103,6 +103,14 @@ blockquote {
 	font-weight: bold; 
 }
 
+div.announcement {
+    margin: 15px;
+    padding: 10px;
+    background-color: #FAFAFA;
+    border: 5px solid #72A545;
+    font-weight:bold;
+}
+
 /* form elements */
 form {
 	margin:10px 15px; padding: 0;
@@ -273,6 +281,9 @@ input.button {
 	border-bottom: 2px solid #f2f2f2;	
 	color: #339900;	
 }	
+#main div.level {
+    margin: 0 0 -10px 25px;
+}
 
 /* sidebar */
 #sidebar {

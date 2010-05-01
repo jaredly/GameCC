@@ -8,16 +8,16 @@
 {% block content %}
 
 {% for obj in object_list %}
-<div class="post">
-    <a href="{{ obj.get_absolute_url }}"><h1>{{ obj.title }}</h1></a>
-    <p>
-        {{ obj.tease|markup:obj.format }}
-    </p>
-    <p class="comments align-right">
-        {{ obj.created|date:"M d, Y" }}
-        <a href="{{ obj.get_absolute_url }}">[read more]</a>
-    </p>
-</div>
+    <div class="post">
+        <a href="{{ obj.get_absolute_url }}"><h1>{{ obj.title }}</h1></a>
+        <p>
+            {{ obj.tease|markup:obj.format }}
+        </p>
+        <p class="comments align-right">
+            {{ obj.created|date:"M d, Y" }}
+            <a href="{{ obj.get_absolute_url }}">[read more]</a>
+        </p>
+    </div>
 {% endfor %}
 
 {% endblock content %}

@@ -7,5 +7,11 @@
 {% load blog %}
 
 {% block content %}
-    {{flatpage.content|restructuredtext}}
+    <h1>{{ flatpage.title }}</h2>
+    <p>
+        {{flatpage.content|restructuredtext}}
+    </p>
+    {% if user.is_staff %}
+        <a href="/admin/flatpages/flatpage/{{ flatpage.id }}/">[edit]</a>
+    {% endif %}
 {% endblock %}

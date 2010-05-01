@@ -1,24 +1,28 @@
 {% extends "base.html" %}
 
+{% load blog %}
+
 {% block content %}
 
-{% for post in posts %}
+<div class='announcement'>
+    Welcome to GameCC! The project is currently in the pre-alpha stage, so
+    there's not much for you to play around with, but feel free to check out
+    <a href="http://guthub.com/jabapyth/GameCC">the source code</a>.
+</div>
 
+<div class="level"><strong>Recent Posts:</strong></div>
+
+{% for obj in posts %}
     <div class="post">
-        <div class="post-title">
-            {{ post.title }}
-        </div>
-        <div class="post-body">
-            {{ post.body }}
-        </div>
+        <a href="{{ obj.get_absolute_url }}"><h1>{{ obj.title }}</h1></a>
+        <p>
+            {{ obj.tease|markup:obj.format }}
+        </p>
+        <p class="comments align-right">
+            {{ obj.created|date:"M d, Y" }}
+            <a href="{{ obj.get_absolute_url }}">[read more]</a>
+        </p>
     </div>
-
-{% empty %}
-
-    <div class="post">
-        No blog posts
-    </div>
-
 {% endfor %}
 
 {% endblock %}
