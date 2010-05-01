@@ -13,8 +13,13 @@ DEPENDENCIES = (
         root=DEPENDENCY_ROOT,
     ),
     deps.SVN(
-        'http://django-navbar.googlecode.com/svn/trunk/',
+        'http://django-navbar.googlecode.com/svn/trunk/navbar',
         app_name='navbar',
+        root=DEPENDENCY_ROOT,
+    ),
+    deps.GIT(
+        'git://github.com/jabapyth/django-basic-apps.git',
+        app_name='basic',
         root=DEPENDENCY_ROOT,
     ),
     # mercurial

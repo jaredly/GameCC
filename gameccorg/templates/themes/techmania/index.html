@@ -1,23 +1,28 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
     <head>
-        <title>Techmania</title>
+        <title>{% block title %}GameCC{% endblock %}</title>
         <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
         <link rel="stylesheet" href="/media/techmania/css/index.css" type="text/css" />
     </head>
     <body>
         <div id="wrap">
             <div id="header">
-                <h1 id="logo-text">tech<span class="gray">mania</span></h1>
-                <h2 id="slogan">put your site slogan here...</h2>
+                <h1 id="logo-text">Game<span class="gray">CC</span></h1>
+                <h2 id="slogan">social game creation</h2>
                 <div id="header-tabs">
                     <ul>
-                        <li id="current"><a href="http://www.free-css.com/"><span>Home</span></a></li>
+                        {% for item in navbar|dictsort:"order" %}
+                            <li{% if item.selected %} id="current"{% endif %}>
+                            <a href="{{ item.url }}"><span>{{ item.name }}</span></a>
+                            </li>
+                        {% endfor %}
+                        <!--li><a href="http://www.free-css.com/"><span>Home</span></a></li>
                         <li><a href="http://www.free-css.com/"><span>Archives</span></a></li>
                         <li><a href="http://www.free-css.com/"><span>Downloads</span></a></li>
                         <li><a href="http://www.free-css.com/"><span>Services</span></a></li>
                         <li><a href="http://www.free-css.com/"><span>Support</span></a></li>
-                        <li><a href="http://www.free-css.com/"><span>About</span></a></li>
+                        <li><a href="http://www.free-css.com/"><span>About</span></a></li-->
                     </ul>
                 </div>
             </div>
