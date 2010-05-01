@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% block title %}{{flatpage.title}}{% endblock %}
+{% block smalltitle %}{{flatpage.title}}{% endblock %}
+
+{% load markup %}
+{% load blog %}
+
+{% block content %}
+    {{flatpage.content|restructuredtext}}
+{% endblock %}
