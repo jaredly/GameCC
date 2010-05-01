@@ -188,7 +188,7 @@ input.button {
    width: 790px;
 	height: 135px; 
 	margin: 0; padding: 0;
-	background: #000 url(../images/headerbg.jpg) no-repeat left bottom;			
+	background: #000 url(../images/headerbg.jpg) no-repeat left top;			
 }
 #header h1#logo-text {
 	position: absolute;
@@ -216,7 +216,7 @@ input.button {
 /* menu tabs */
 #header #header-tabs {
 	position: absolute;
-	top: 0; left: 0;
+	bottom: 4px; left: 0;
 	width: 100%;
 	height: 25px;
 	background: #000;
@@ -224,7 +224,7 @@ input.button {
 } 
 #header-tabs ul {		
 	margin:0;
-   padding:2px 0px 0px 7px;
+   padding:2px 0px 0px 5px;
    list-style:none;
 }
 #header-tabs li {
