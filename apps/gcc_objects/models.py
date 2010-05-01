@@ -137,7 +137,8 @@ class Action(models.Model):
         dct = {}
         for field in self._meta.fields:
             value = getattr(self, field.attname)
-            if not value.
+            # what was this line to be?
+            #if not value.
             dct[field.attname] = utils.export(value, lang)
         return self.LINES[lang] % dct
 

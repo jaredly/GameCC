@@ -14,7 +14,7 @@ class Category(models.Model):
     class Meta:
         verbose_name = _('category')
         verbose_name_plural = _('categories')
-        db_table = 'gcc_projects_categories'
+#        db_table = 'gcc_projects_categories'
         ordering = ('title',)
 
     def __unicode__(self):

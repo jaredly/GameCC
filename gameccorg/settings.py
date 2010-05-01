@@ -2,6 +2,11 @@
 import os
 localfile = lambda *items: os.path.join(os.path.dirname(__file__), *items)
 
+import sys
+sys.path.append(localfile('../apps'))
+
+from depfile import DEPENDENCIES
+
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
@@ -83,6 +88,19 @@ TEMPLATE_DIRS = (
     localfile('templates'),
 )
 
+TEMPLATE_CONTEXT_PROCESSORS = (
+    "django.contrib.auth.context_processors.auth",
+    "django.core.context_processors.debug",
+    "django.core.context_processors.i18n",
+    "django.core.context_processors.media",
+    "django.contrib.messages.context_processors.messages",
+
+    "navbar.context_processors.crumbs",
+    "navbar.context_processors.navbar",
+    "navbar.context_processors.navtree",
+    "navbar.context_processors.navbars",
+)
+
 INSTALLED_APPS = (
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -93,9 +111,12 @@ INSTALLED_APPS = (
     'django.contrib.admindocs',
     'django.contrib.flatpages',
 
-    'django_extensions',
+    'deps',
+    'navbar',
+#    'django_extensions',
     'feedback',
     'basic.blog',
+    'tagging',
     'basic.inlines',
     'appsettings',
     'rabidratings',

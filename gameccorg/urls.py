@@ -10,6 +10,7 @@ import views
 
 urlpatterns = patterns('',
     (r'^$', views.home),
+
     (r'^blog/', include('basic.blog.urls')),
     # Example:
     # (r'^gameccorg/', include('gameccorg.foo.urls')),
