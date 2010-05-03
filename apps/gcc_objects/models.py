@@ -9,11 +9,11 @@ import datetime
 
 from colorfield.fields import ColorField
 
-from gcc_projects.models import Project
+from gcc_projects.models import Asset
 from gcc_sprites.models import Sprite
 from gcc_media.models import Font
 
-class Object(models.Model):
+class Object(Asset):
     '''Object - handles the main logic of an object in a game. Has the three
     types "Image", "Text", and "Polygon" for maximum flexibility in display.
     Is associated w/ a project, and has events with actions.
@@ -24,9 +24,10 @@ class Object(models.Model):
         ('polygon', _('Polygon')),
     )
 
-    project = models.ForeignKey(Project, related_name='objects')
+    ## parent from Asset
 
     title = models.CharField(_('title'), max_length=100)
+
     parent = models.ForeignKey('self', blank=True, related_name='subclasses')
     solid = models.BooleanField(_('solid'), default=False)
     persistent = models.BooleanField(_('persistent'), default=False)

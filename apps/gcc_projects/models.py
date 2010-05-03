@@ -34,7 +34,7 @@ class Project(models.Model):
         (3, _('Beta')),
         (4, _('Release'))
     )
-    author = models.ForeignKey(User)
+    author = models.ForeignKey(User, related_name='my_projects')
     
     title = models.CharField(_('title'), max_length=100)
     slug  = models.SlugField(_('slug'))
@@ -65,3 +65,12 @@ class Project(models.Model):
             'title': self.title
         })
 
+class Asset(models.Model):
+    '''
+    Base class for all assets.
+    TODO: should anything more go in this class?
+    '''
+    project = models.ForeignKey(Project, related_name='asset_%(class)ss')
+
+    class Meta:
+        abstract = True

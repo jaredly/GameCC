@@ -8,10 +8,10 @@ import datetime
 import tagging
 from tagging.fields import TagField
 
-from gcc_projects.models import Project
+from gcc_projects.models import Asset
 from gcc_media.models import Image
 
-class Sprite(models.Model):
+class Sprite(Asset):
     '''handles subimages and collision masks
     '''
     COLLISION_TYPES = (
@@ -21,7 +21,6 @@ class Sprite(models.Model):
         (4, _('Oval')),
         (5, _('Exact')),
     )
-    project = models.ForeignKey(Project, related_name='sprites')
     title = models.CharField(_('title'), max_length=100)
     speed = models.FloatField(_('speed'), default=1, blank=False)
     subimages = models.ManyToManyField(Image)

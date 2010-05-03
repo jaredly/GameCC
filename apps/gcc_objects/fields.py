@@ -69,31 +69,37 @@ class BaseField(models.TextField):
             raise ValidationError('invalid serialization')
 
 class IntegerField(BaseField):
+    WIDGET = fields.IntegerField
 
     def main_type(self):
         return 'int'
 
 class FloatField(BaseField):
+    WIDGET = fields.FloatField
 
     def main_type(self):
         return 'float'
 
 class StringField(BaseField):
+    WIDGET = fields.StringField
 
     def main_type(self):
         return 'str'
 
 class BooleanField(BaseField):
+    WIDGET = fields.BooleanField
 
     def main_type(self):
         return 'bool'
 
 class InstanceField(BaseField):
+    WIDGET = fields.InstanceField
 
     def main_type(self):
         return 'object'
 
 class ObjectField(BaseField):
+    WIDGET = fields.ObjectField
     
     def clean(self, value, model):
         BaseField.clean(self, value, model)
@@ -108,6 +114,7 @@ class ObjectField(BaseField):
         return 'string'
 
 class MapField(BaseField):
+    WIDGET = fields.MapField
 
     def clean(self, value, model):
         BaseField.clean(self, value, model)
@@ -122,6 +129,7 @@ class MapField(BaseField):
         return 'string'
 
 class SpriteField(BaseField):
+    WIDGET = fields.SpriteField
     def clean(self, value, model):
         BaseField.clean(self, value, model)
         s = value.split(':', 1)[1][1:-1]
@@ -135,6 +143,7 @@ class SpriteField(BaseField):
         return 'string'
 
 class ChoiceField(BaseField):
+    WIDGET = fields.ChoiceField
     '''i should just use charfield...'''
 
     def main_type(self):
@@ -142,9 +151,10 @@ class ChoiceField(BaseField):
 
 ## just use instancefield
 class TargetField(BaseField):
+    WIDGET = fields.TargetField
 
 class PositionField(BaseField):
-    pass
+    WIDGET = fields.PositionField
 
 
 # vim: et sw=4 sts=4

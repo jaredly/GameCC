@@ -3,15 +3,18 @@ from django.utils.translation import ugettext_lazy as _
 
 from colorfield.fields import ColorField
 
-from gcc_projects.models import Project
+from gcc_projects.models import Asset
 from gcc_objects.models import Object
 from gcc_media.models import Image, Sound
 
-class Map(models.Model):
-    project = models.ForeignKey(Project, related_name='maps')
-    order = models.IntegerField(_('order'))
+class Map(Asset):
+    '''\
+    Map - has layers, which hold object instances. Also has a background and
+    tiles
+    '''
 
     title = models.CharField(_('title'), max_length=100)
+    order = models.IntegerField(_('order'))
 
     width = models.IntegerField(_('width'), default=600)
     height = models.IntegerField(_('height'), default=600)
