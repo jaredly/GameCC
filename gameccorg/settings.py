@@ -125,6 +125,7 @@ INSTALLED_APPS = (
     'appsettings',
     'rabidratings',
 
+    'gcc_editor',
     'gcc_projects',
     'gcc_media',
     'gcc_sprites',
