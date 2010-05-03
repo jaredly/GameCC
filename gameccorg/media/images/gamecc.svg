@@ -54,6 +54,17 @@
        r="25.375"
        gradientTransform="matrix(-1.3793097,1.3793116,-1.379311,-1.3793086,1761.5842,1186.1625)"
        gradientUnits="userSpaceOnUse" />
+    <radialGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient3776"
+       id="radialGradient3790"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(-1.3793097,1.3793116,-1.379311,-1.3793086,1761.5842,1266.1625)"
+       cx="334.50848"
+       cy="696.13989"
+       fx="334.50848"
+       fy="696.13989"
+       r="25.375" />
   </defs>
   <sodipodi:namedview
      id="base"
@@ -241,13 +252,25 @@
          x="544.27344"
          y="683.44031">mark likes this one</tspan></text>
     <path
-       style="fill:url(#radialGradient3782);stroke:#000000;fill-opacity:1"
+       style="fill:url(#radialGradient3782);stroke:none;fill-opacity:1;stroke-opacity:1"
        d="m 350,672.36218 c -13.80712,0 -25,11.19288 -25,25 0,13.80712 11.19288,25 25,25 7.92611,0 14.9823,-3.71453 19.5625,-9.46875 L 345,702.36218 l 29.75,-8.5 c -1.70096,-12.15148 -12.12976,-21.5 -24.75,-21.5 z"
-       id="path3002" />
+       id="path3002"
+       inkscape:export-filename="/home/jared/clone/gamecc/gameccorg/media/images/logo_nol.png"
+       inkscape:export-xdpi="144.72362"
+       inkscape:export-ydpi="144.72362" />
     <path
        style="fill:#88dd33;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;fill-opacity:1"
        d="m 330,697.36218 c 4.33239,-8.17928 10.90756,-14.91457 20,-20 0,0 -7.96889,-2.03111 -15,5 -7,7 -5,15 -5,15 z"
        id="path3784"
        sodipodi:nodetypes="cczc" />
+    <path
+       id="path3786"
+       d="m 350,752.36218 c -13.80712,0 -25,11.19288 -25,25 0,13.80712 11.19288,25 25,25 7.92611,0 14.9823,-3.71453 19.5625,-9.46875 L 345,782.36218 l 29.75,-8.5 c -1.70096,-12.15148 -12.12976,-21.5 -24.75,-21.5 z"
+       style="fill:url(#radialGradient3790);fill-opacity:1;stroke:#000000" />
+    <path
+       sodipodi:nodetypes="cczc"
+       id="path3788"
+       d="m 330,777.36218 c 4.33239,-8.17928 10.90756,-14.91457 20,-20 0,0 -7.96889,-2.03111 -15,5 -7,7 -5,15 -5,15 z"
+       style="fill:#88dd33;fill-opacity:1;stroke:none" />
   </g>
 </svg>
