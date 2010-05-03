@@ -113,7 +113,7 @@ div.announcement {
 
 /* form elements */
 form {
-	margin:10px 15px; padding: 0;
+	margin:10px 15px; padding: 10px;
 	border: 1px solid #EAEAEA; 
 	background-color: #FAFAFA; 
 }
@@ -382,4 +382,18 @@ input.button {
 	border-bottom: 1px dashed #EFF0F1; 
 	padding: 5px 0;
 	margin-top: 20px;
+}
+
+/***** *****/
+.messages {
+    padding:0;
+    margin:15px;
+}
+
+.messages .error {
+    background-color:#FEE;
+    border:5px solid #D00;
+    color:red;
+    list-style:none;
+    padding:10px;
 }
