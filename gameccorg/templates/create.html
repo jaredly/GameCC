@@ -5,6 +5,22 @@
 {% block content %}
 
 <h1>Create Games!</h1>
-<p>A listing of your projects will go here</p>
+
+<p>
+<a class="new-game" href="/editor/#<new>">Start a new project</a>
+</p>
+
+<h2>Your Projects</h2>
+
+{% for project in request.user.my_projects.all %}
+    <div class="project">
+        <img src="{{ project.thumbnail_125 }}"/>
+        <strong>{{ project.title }}<strong>
+        <a class="project-edit" href="/editor/#{{ project.slug }}">Edit</a>
+    </div>
+
+{% empty %}
+<p>you have no projects. maybe you should <a href="/editor/#<new>">create one</a><p>
+{% endfor %}
 
 {% endblock %}
