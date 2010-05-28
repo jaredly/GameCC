@@ -27,6 +27,7 @@ class Object(Asset):
     ## parent from Asset
 
     title = models.CharField(_('title'), max_length=100)
+    order = models.IntegerField(_('order'))
 
     parent = models.ForeignKey('self', blank=True, related_name='subclasses')
     solid = models.BooleanField(_('solid'), default=False)

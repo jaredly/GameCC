@@ -22,6 +22,8 @@ class Sprite(Asset):
         (5, _('Exact')),
     )
     title = models.CharField(_('title'), max_length=100)
+    order = models.IntegerField(_('order'))
+
     speed = models.FloatField(_('speed'), default=1, blank=False)
     subimages = models.ManyToManyField(Image)
 

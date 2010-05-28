@@ -10,6 +10,10 @@ import views
 
 urlpatterns = patterns('',
     (r'^$', views.index),
+    (r'^ajax/projects/', include('gcc_projects.urls')),
+    (r'^ajax/sprites/', include('gcc_sprites.urls')),
+    (r'^ajax/objects/', include('gcc_objects.urls')),
+    (r'^ajax/maps/', include('gcc_maps.urls')),
 )
 
 # vim: et sw=4 sts=4

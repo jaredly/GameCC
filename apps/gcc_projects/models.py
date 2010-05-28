@@ -47,6 +47,9 @@ class Project(models.Model):
     modified = models.DateTimeField(_('modified'), auto_now=True)
     status = models.IntegerField(_('status'), choices=STATUS_CHOICES)
 
+    def natural_key(self):
+        return (self.slug, self.author.username)
+
     class Meta:
         verbose_name = _('project')
         verbose_name_plural = _('projects')
@@ -74,3 +77,9 @@ class Asset(models.Model):
 
     class Meta:
         abstract = True
+        unique_together = 'project', 'title'
+
+    def natural_key(self):
+        return (self.title,) + self.project.natural_key()
+    natural_key.dependencies = ['gcc_projects.project']
+
