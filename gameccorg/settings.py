@@ -23,7 +23,7 @@ DATABASES = {
 #            'read_default_file': localfile('gamecc.cnf'),
 #        },
         'ENGINE':'sqlite3',
-        'NAME':'gamecc.db',
+        'NAME':localfile('gamecc.db'),
     }
 }
 

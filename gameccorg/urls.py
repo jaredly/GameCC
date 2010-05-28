@@ -12,6 +12,7 @@ urlpatterns = patterns('',
     (r'^$', views.home),
     (r'^browse/(?:(?P<category>.+)/)?$', views.browse),
     (r'^create/$', views.create),
+    (r'^create/project/$', views.new_project),
 
     (r'^editor/', include('gcc_editor.urls')),
 
@@ -23,3 +24,4 @@ urlpatterns = patterns('',
     (r'^admin/', include(admin.site.urls)),
     (r'^accounts/login/$', 'django.contrib.auth.views.login'),
 )
+

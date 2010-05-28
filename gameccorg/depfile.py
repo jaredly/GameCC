@@ -22,6 +22,26 @@ DEPENDENCIES = (
         app_name='basic',
         root=DEPENDENCY_ROOT,
     ),
+    deps.GIT(
+        'git://github.com/jabapyth/django-feedback.git',
+        app_name='feedback',
+        root=DEPENDENCY_ROOT,
+    ),
+    deps.SVN(
+        'http://django-tagging.googlecode.com/svn/trunk/tagging',
+        app_name='tagging',
+        root=DEPENDENCY_ROOT,
+    ),
+    deps.GIT(
+        'git://github.com/jabapyth/django-appsettings.git',
+        app_name='appsettings',
+        root=DEPENDENCY_ROOT,
+    ),
+    deps.GIT(
+        'git://github.com/jabapyth/django-colorfield.git',
+        app_name='colorfield',
+        root=DEPENDENCY_ROOT,
+    ),
     # mercurial
     # deps.HG(),
     # git pinned to a SHA1 id with rev can use HEAD or other tags
