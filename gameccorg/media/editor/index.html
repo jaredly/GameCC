@@ -1,0 +1,55 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+    <head>
+        <title>PJs example w/ the ExtJS library</title>
+        <link rel="stylesheet" type="text/css" href="http://www.extjs.com/deploy/dev/resources/css/ext-all.css"> 
+        <link rel="stylesheet" type="text/css" href="/media/editor/index.css"/>
+        <script type="text/javascript" src="/media/editor/ext-base.js"></script> 
+        <script type="text/javascript" src="/media/editor/ext-all.js"></script> 
+        <script src="/media/editor/jquery.min.js"></script>
+        <script src="/media/editor/json2.js"></script>
+        <script src="/media/editor/pjslib.js"></script>
+        <script type="text/javascript" src="/media/editor/layout2.js"> </script> 
+        <script src="/media/editor/editor.js"></script>
+
+    <style type="text/css"> 
+    html, body {
+        font:normal 12px verdana;
+        margin:0;
+        padding:0;
+        border:0 none;
+        overflow:hidden;
+        height:100%;
+    }
+    p {
+        margin:5px;
+    }
+    </style> 
+</head> 
+<body> 
+    <div id="image-info"><p>Hello<button>hi</button></p><button id="next">--&gt;</button></div>
+    <div id="image-subimages"><p>sub</p></div>
+
+    <!-- use class="x-hide-display" to prevent a brief flicker of the content --> 
+    <div id="west" class="x-hide-display"> 
+        <p>Hi. I'm the west panel.</p> 
+    </div> 
+    <div id="center2" class="x-hide-display"> 
+        <a id="hideit" href="#">Toggle the west region</a> 
+        <p>My closable attribute is set to false so you can't close me. The other center panels can be closed.</p> 
+        <p>The center panel automatically grows to fit the remaining space in the container that isn't taken up by the border regions.</p> 
+        <hr> 
+    </div> 
+    <div id="center1" class="x-hide-display"> 
+        <p><b>Done reading me? Close me by clicking the X in the top right corner.</b></p> 
+    </div> 
+    <div id="props-panel" class="x-hide-display" style="width:200px;height:200px;overflow:hidden;"> 
+    </div> 
+    <div id="south" class="x-hide-display"> 
+        <p>south - generally for informational stuff, also could be for status bar</p> 
+    </div> 
+
+    <div id="loading-icon"></div>
+
+    </body>
+</html>

@@ -1,0 +1,11 @@
+
+#loading-icon {
+  background-image: url('/media/images/loading.gif');
+  width:16px;
+  height:16px;
+  display:none;
+  position:absolute;
+  top:5px;
+  right:5px;
+  z-index:1000;
+}
