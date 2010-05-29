@@ -1,5 +1,5 @@
 
 
 default: *.py
-	~/clone/pjs/convert.py editor.py editor.js
+	~/clone/pjs/convert.py main.py main.js
 

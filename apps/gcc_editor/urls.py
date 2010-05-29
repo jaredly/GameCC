@@ -14,6 +14,7 @@ urlpatterns = patterns('',
     (r'^ajax/sprites/', include('gcc_sprites.urls')),
     (r'^ajax/objects/', include('gcc_objects.urls')),
     (r'^ajax/maps/', include('gcc_maps.urls')),
+    (r'^ajax/media/', include('gcc_media.urls')),
 )
 
 # vim: et sw=4 sts=4

@@ -107,24 +107,34 @@ var layouts = {
                 align:'stretch'
             },
             items: [{
-                contentEl: 'west',
+                title: 'General',
+                collapsible: false,
+                border: false,
+                contentEl: 'general-nav'
+            }, {
+                xtype: 'treepanel',
                 title: 'Sprites',
+                rootVisible: false,
                 collapsible: true,
-                autoHeight:true,
                 border: false,
-                iconCls: 'nav' // see the HEAD section for style used
+                iconCls: 'sprites-tree',
+                root: {xtype:'treenode'}
             }, {
+                xtype: 'treepanel',
                 title: 'Objects',
+                rootVisible: false,
                 collapsible: true,
-                html: '<p>Some settings in here.</p>',
                 border: false,
-                iconCls: 'settings'
+                iconCls: 'objects-tree',
+                root: {xtype:'treenode'}
             }, {
+                xtype: 'treepanel',
                 title: 'Maps',
+                rootVisible: false,
                 collapsible: true,
-                html: 'Yeha!',
                 border: false,
-                iconCls: 'maps'
+                iconCls: 'maps-tree',
+                root: {xtype:'treenode'}
             }]
         },
         {

@@ -2,7 +2,8 @@
 <html>
     <head>
         <title>PJs example w/ the ExtJS library</title>
-        <link rel="stylesheet" type="text/css" href="http://www.extjs.com/deploy/dev/resources/css/ext-all.css"> 
+        <link rel="stylesheet" type="text/css"
+        href="/media/editor/ext/css/ext-all.css"> 
         <link rel="stylesheet" type="text/css" href="/media/editor/index.css"/>
         <script type="text/javascript" src="/media/editor/ext-base.js"></script> 
         <script type="text/javascript" src="/media/editor/ext-all.js"></script> 
@@ -10,7 +11,7 @@
         <script src="/media/editor/json2.js"></script>
         <script src="/media/editor/pjslib.js"></script>
         <script type="text/javascript" src="/media/editor/layout2.js"> </script> 
-        <script src="/media/editor/editor.js"></script>
+        <script src="/media/editor/main.js"></script>
 
     <style type="text/css"> 
     html, body {
@@ -27,8 +28,30 @@
     </style> 
 </head> 
 <body> 
+
+    <div class='x-hide-display'>
+
+    <!-- @group nav -->
+
+    <div id='general-nav'>
+        <ul>
+            <li class='project-info'>Project Info</li>
+            <li class='media-manager'>Media Manager</li>
+        </ul>
+    </div>
+
+    <!-- @end -->
+
+    <!-- @group cards -->
+
     <div id="image-info"><p>Hello<button>hi</button></p><button id="next">--&gt;</button></div>
     <div id="image-subimages"><p>sub</p></div>
+
+    <!-- @end -->
+
+    </div>
+
+
 
     <!-- use class="x-hide-display" to prevent a brief flicker of the content --> 
     <div id="west" class="x-hide-display"> 

@@ -7,12 +7,18 @@ module('/home/jared/clone/gamecc/gameccorg/media/editor/ajax.py', function (_) {
     _.json = $b.__import__("json", _.__name__, _.__file__);
     _.jq = window.jQuery;
     _.loading = $b.False;
+    _.ERROR_MESSAGES = $b.dict([[$b.str('timeout'), $b.str('Couldn\'t reach the server.\n' +
+    'Check your internet connection and/or try again later. Sorry.\n' +
+    '')], [$b.str('server'), $b.str('Sorry, a server error occurred. Please reload the page and try again. ')]]);
     _.post = $m(function (command, data, callback) {
         // switching to global scope: loading
         var meta = $m(function (text, status, request) {
             // switching to global scope: loading
             _.loading = $b.False;
             var data = $b.dict(_.json.loads(text));
+            if ($b.bool(data.has_key($b.str('_models'))) === true) {
+                data.__setitem__($b.str('_model'), $b.dict(_.json.loads(data.__getitem__($b.str('_models')))));
+            }
             if ($b.bool($b.do_ops(data.__getitem__($b.str('error')), '!==', $b.None)) === true) {
                 var mb = window.Ext.MessageBox;
                 mb.alert($b.js($b.str('Congradulations!')), $b.js($b.str('You found a bug! Maybe.')));
@@ -24,32 +30,31 @@ module('/home/jared/clone/gamecc/gameccorg/media/editor/ajax.py', function (_) {
             }
         });
         meta.__module__ = _.__name__;
-        meta.__name__ = "meta";
+        meta.__name__ = $b.str("meta");
         var onerror = $m(function (request, text, error) {
             error = $b.definedor(error, $b.str(''));
             if ($b.bool($b.do_ops(text, '==', $b.str('timeout'))) === true) {
-                var message = $b.add($b.str('Couldn\'t reach the server. Check your internet connection and/or try again later. Sorry.'), $b.str(error));
-            } else message = $b.add($b.str('Sorry, a server error occurred. Please reload the page and try again. '), $b.str(error));
+                var message = $b.add(_.ERROR_MESSAGES.__getitem__($b.str('timeout')), $b.str(error));
+            } else message = $b.add(_.ERROR_MESSAGES.__getitem__($b.str('server')), $b.str(error));
             
             var mb = window.Ext.MessageBox;
             var doreload = $m({}, true, function (a) {
                 window.location.reload();
             });
             doreload.__module__ = _.__name__;
-            doreload.__name__ = "doreload";
+            doreload.__name__ = $b.str("doreload");
             mb.alert($b.js($b.str('Error')), $b.js(message), $b.js(doreload));
             mb.setIcon($b.js(mb.ERROR));
         });
         onerror.__module__ = _.__name__;
-        onerror.__name__ = "onerror";
+        onerror.__name__ = $b.str("onerror");
         onerror._accept_undefined = $b.True;
         _.jq.ajax($b.js($b.dict([[$b.str('cache'), $b.False], [$b.str('data'), $b.dict([[$b.str('data'), _.json.dumps(data)]])], [$b.str('dataType'), $b.str('text')], [$b.str('error'), onerror], [$b.str('success'), meta], [$b.str('type'), $b.str('POST')], [$b.str('url'), $b.add($b.add($b.str('/editor/ajax/'), command), $b.str('/'))]])));
         _.loading = $b.True;
         _.jq($b.js($b.str('#loading-icon'))).show();
-        $b.print($b.str('yeah'));//, true
     });
     _.post.__module__ = _.__name__;
-    _.post.__name__ = "post";
+    _.post.__name__ = $b.str("post");
 });
 
 module('/home/jared/clone/gamecc/gameccorg/media/editor/editor.py', function (_) {
@@ -58,42 +63,77 @@ module('/home/jared/clone/gamecc/gameccorg/media/editor/editor.py', function (_)
     _.json = $b.__import__("json", _.__name__, _.__file__);
     _.widgets = $b.__import__("widgets", _.__name__, _.__file__);
     _.jq = window.jQuery;
-    _.Loader = Class('Loader', [], (function(){
+    _.Editor = Class('Editor', [], (function(){
         var __1 = {};
-        __1.__init__ = $m(function (self, project) {
-            self.msg = _.widgets.NumProgressBar($b.add($b.str('Loading '), project), $b.str('Retrieving data from server'), 1);
-            _.ajax.post($b.str('projects/load'), $b.dict([[$b.str('project'), project]]), self.onLoad);
+        __1.__init__ = $m(function (self) {
+            new window.Ext.Viewport($b.js(window.layouts[$b.js($b.str('main'))]));
+            var project_name = $b.str(window.location.hash).__getitem__($b.slice(1, null, 1));
+            if ($b.bool(!$b.bool(project_name)) === true) {
+                window.location = $b.js($b.str('/create/'));
+            }
+            self.loader = $b.assertdefined(Loader, "Loader")(self, project_name);
         });
         __1.__init__.__module__ = _.__name__;
-        __1.__init__.__name__ = "__init__";
-        __1.onLoad = $m(function (self, data) {
-            $b.print(data);//, true
-            self.msg.increment();
+        __1.__init__.__name__ = $b.str("__init__");
+        __1.onLoad = $m(function (self, project, assets) {
+            self.project = project;
+            self.assets = assets;
         });
         __1.onLoad.__module__ = _.__name__;
-        __1.onLoad.__name__ = "onLoad";
+        __1.onLoad.__name__ = $b.str("onLoad");
+        return __1;
+    }()));
+    _.Editor.__module__ = _.__name__;
+    _.Loader = Class('Loader', [], (function(){
+        var __1 = {};
+        __1.__init__ = $m(function (self, parent, project) {
+            self.parent = parent;
+            _.ajax.post($b.str('projects/load'), $b.dict([[$b.str('project'), project]]), self.load_project);
+            self.msg = _.widgets.NumProgressBar($b.str('Loading'), $b.str('Retrieving project data from server'), 3);
+        });
+        __1.__init__.__module__ = _.__name__;
+        __1.__init__.__name__ = $b.str("__init__");
+        __1.load_project = $m(function (self, data) {
+            self.parent.onLoad.args($b.tuple([]), data.__getitem__($b.str('_models')));
+            self.msg.increment();
+            _.ajax.post($b.str('media/list'), $b.dict([]), self.load_media);
+        });
+        __1.load_project.__module__ = _.__name__;
+        __1.load_project.__name__ = $b.str("load_project");
+        __1.load_media = $m(function (self, data) {
+            
+        });
+        __1.load_media.__module__ = _.__name__;
+        __1.load_media.__name__ = $b.str("load_media");
+        __1.organize_models = $m(function (self, text) {
+            var that = _.json.loads(text);
+            var models = $b.list(that);
+            var dct = $b.dict([[$b.str('project'), $b.None], [$b.str('assets'), $b.dict([[$b.str('sprites'), $b.dict([])], [$b.str('objects'), $b.dict([])], [$b.str('maps'), $b.dict([])]])]]);
+            var __pjs_iter0 = $b.foriter(models);
+            while (__pjs_iter0.trynext()) {
+                var model = __pjs_iter0.value;
+            
+                model = $b.dict(model);
+                if ($b.bool($b.do_ops(model.__getitem__($b.str('model')), '==', $b.str('gcc_projects.project'))) === true) {
+                    dct.__setitem__($b.str('project'), model);
+                } else {
+                    var name = $b.add(model.__getitem__($b.str('model')).split($b.str('.')).__getitem__($b.slice(1, null, 1)), $b.str('s'));
+                    dct.__getitem__($b.str('assets')).__getitem__(name).__setitem__(model.__getitem__($b.str('title')), model);
+                }
+            }
+            return dct;
+        });
+        __1.organize_models.__module__ = _.__name__;
+        __1.organize_models.__name__ = $b.str("organize_models");
         return __1;
     }()));
     _.Loader.__module__ = _.__name__;
-    _.load_project = $m(function (project) {
-        $b.print($b.str('loading'), project);//, true
-        _.Loader(project);
+    _.load = $m(function () {
+        // switching to global scope: editor
+        _.editor = _.Editor();
     });
-    _.load_project.__module__ = _.__name__;
-    _.load_project.__name__ = "load_project";
-    _.main = $m(function () {
-        new window.Ext.Viewport($b.js(window.layouts[$b.js($b.str('main'))]));
-        var project_name = $b.str(window.location.hash).__getitem__($b.slice(1, null, 1));
-        if ($b.bool(!$b.bool(project_name)) === true) {
-            window.location = $b.js($b.str('/create/'));
-        }
-        _.load_project(project_name);
-    });
-    _.main.__module__ = _.__name__;
-    _.main.__name__ = "main";
-    if ($b.bool($b.do_ops(_.__name__, '==', $b.str('__main__'))) === true) {
-        window.Ext.onReady($b.js(_.main));
-    }
+    _.load.__module__ = _.__name__;
+    _.load.__name__ = $b.str("load");
 });
 
 module('/home/jared/clone/gamecc/gameccorg/media/editor/json.py', function (_) {
@@ -102,12 +142,12 @@ module('/home/jared/clone/gamecc/gameccorg/media/editor/json.py', function (_) {
         return window.JSON.parse($b.js(string));
     });
     _.loads.__module__ = _.__name__;
-    _.loads.__name__ = "loads";
+    _.loads.__name__ = $b.str("loads");
     _.dumps = $m(function (obj) {
         return window.JSON.stringify($b.js(obj));
     });
     _.dumps.__module__ = _.__name__;
-    _.dumps.__name__ = "dumps";
+    _.dumps.__name__ = $b.str("dumps");
 });
 
 module('/home/jared/clone/gamecc/gameccorg/media/editor/widgets.py', function (_) {
@@ -119,7 +159,7 @@ module('/home/jared/clone/gamecc/gameccorg/media/editor/widgets.py', function (_
             _.mb.progress($b.js(title), $b.js(message));
         });
         __1.__init__.__module__ = _.__name__;
-        __1.__init__.__name__ = "__init__";
+        __1.__init__.__name__ = $b.str("__init__");
         __1.update = $m({'text': $b.None}, function (self, amount, text) {
             if ($b.bool($b.do_ops(text, '===', $b.None)) === true) {
                 text = $b.add($b.str($b.round($b.mult(amount, 100))), $b.str('% completed'));
@@ -127,17 +167,17 @@ module('/home/jared/clone/gamecc/gameccorg/media/editor/widgets.py', function (_
             _.mb.updateProgress($b.js(amount), $b.js(text));
         });
         __1.update.__module__ = _.__name__;
-        __1.update.__name__ = "update";
+        __1.update.__name__ = $b.str("update");
         __1.setMessage = $m(function (self, message) {
             _.mb.updateText($b.js(message));
         });
         __1.setMessage.__module__ = _.__name__;
-        __1.setMessage.__name__ = "setMessage";
+        __1.setMessage.__name__ = $b.str("setMessage");
         __1.done = $m(function (self) {
             _.mb.hide();
         });
         __1.done.__module__ = _.__name__;
-        __1.done.__name__ = "done";
+        __1.done.__name__ = $b.str("done");
         return __1;
     }()));
     _.ProgressBar.__module__ = _.__name__;
@@ -149,13 +189,13 @@ module('/home/jared/clone/gamecc/gameccorg/media/editor/widgets.py', function (_
             self.completed = 0;
         });
         __1.__init__.__module__ = _.__name__;
-        __1.__init__.__name__ = "__init__";
+        __1.__init__.__name__ = $b.str("__init__");
         __1.increment = $m({'message': $b.None}, function (self, message) {
             self.completed = $b.add(self.completed, 1);
             self.update($b.div(self.completed, self.total), message);
         });
         __1.increment.__module__ = _.__name__;
-        __1.increment.__name__ = "increment";
+        __1.increment.__name__ = $b.str("increment");
         return __1;
     }()));
     _.NumProgressBar.__module__ = _.__name__;

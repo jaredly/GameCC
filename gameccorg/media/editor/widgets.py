@@ -27,6 +27,4 @@ class NumProgressBar(ProgressBar):
         self.completed += 1
         self.update(self.completed/self.total, message)
 
-
-
 # vim: et sw=4 sts=4

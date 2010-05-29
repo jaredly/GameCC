@@ -1,41 +1,10 @@
 #!/usr/bin/env python
-from django.conf.urls.defaults import *
 
 import inspect
 
-from django.utils import simplejson as json
-
 from models import Project
 
-from django.core import serializers
-from django.http import HttpResponse
-
-class Rest:
-    def __init__(self):
-        self.url_list = []
-
-    def add(self, function):
-        def meta(request):
-            try:
-                data = json.loads(request.POST['data'])
-            except:
-                res = {'error': 'invalid arguments'}
-            try:
-                res = function(request, **data)
-            except TypeError:
-                res = {'error':'invalid arguments'}
-            except Exception,e:
-                res = {'error':str(e)}
-            else:
-                if not res.has_key('error'):
-                    res['error'] = None
-            if res.has_key('_models'):
-                res['_models'] = serializers.serialize('json', res['_models'], use_natural_keys=True)
-            return HttpResponse(json.dumps(res))
-        self.url_list.append(['^' + function.__name__ + '/$', meta])
-
-    def urls(self):
-        return patterns('', *self.url_list)
+from gameccorg.rest import Rest
 
 service = Rest()
 
