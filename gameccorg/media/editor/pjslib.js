@@ -769,22 +769,22 @@ module('<builtin>/__builtin__.py', function builting_module(_) {
     /** operators **/
     _.do_op = $m(function do_op(op, rop, a, b) {
         var val;
-        if (a[op]) {
+        if (a[op] && (a[op].__type__ !== instancemethod || a[op].im_self)) {
             val = a[op](b);
             if (val !== _.NotImplemented)
                 return val;
         }
-        if (b[rop]) {
+        if (b[rop] && (b[op].__type__ !== instancemethod || b[op].im_self)) {
             return b[rop](a);
         }
         return _.NotImplemented;
 
     });
     _.do_ops = $m({}, true, function do_ops(allthem) {
-        var ops = {'<':_.lt,'>':_.gt,'<=':_.lte,'>=':_.gte,'==':_.eq,'!=':_.ne};
+        var ops = {'in':_._in, 'not in':_.not_in, '<':_.lt,'>':_.gt,'<=':_.lte,'>=':_.gte,'==':_.eq,'!=':_.ne};
         if (_.len(allthem) % 2 === 0)
             _.raise(_.ValueError('do_ops requires an odd number of arguments'));
-        allthem = _.js(allthem);
+        allthem = allthem.as_js();
         for (var i=0;i<allthem.length-2;i+=2) {
             if (allthem[i+1] === '===') {
                 if (allthem[i] !== allthem[i+2])
@@ -800,6 +800,15 @@ module('<builtin>/__builtin__.py', function builting_module(_) {
             }
         }
         return true;
+    });
+    _._in = $m(function _in(a, b) {
+        if (b === null || !b.__contains__) {
+            _.raise(_.TypeError(_.str(b).as_js() + ' has no method __contains__'));
+        }
+        return b.__contains__(a);
+    });
+    _.not_in = $m(function not_in(a, b) {
+        return !_._in(a, b);
     });
     _.add = $m(function add(a, b) {
         var val = _.do_op('__add__', '__radd__', a, b);
@@ -1036,7 +1045,7 @@ module('<builtin>/__builtin__.py', function builting_module(_) {
             return def;
         }),
         has_key: $m(function has_key(self, key){
-            return self._keys.indexOf(key) !== -1;
+            return self.__contains__(key);
         }),
         items: $m(function items(self){
             var items = [];
@@ -1121,49 +1130,49 @@ module('<builtin>/__builtin__.py', function builting_module(_) {
             return _.str('' + self._data);
         }),
         __div__: $m(function __div__(self, other) {
-            if ([_._int, _._float].indexOf(_.type(other)) !== undefined) {
+            if ([_._int, _._float].indexOf(_.type(other)) !== -1) {
                 return _._float(self._data/_.js(other));
             }
             return _.NotImplemented;
         }),
         __rdiv__: $m(function __rdiv__(self, other) {
-            if ([_._int, _._float].indexOf(_.type(other)) !== undefined) {
+            if ([_._int, _._float].indexOf(_.type(other)) !== -1) {
                 return _._float(_.js(other)/self._data);
             }
             return _.NotImplemented;
         }),
         __add__: $m(function __add__(self, other) {
-            if ([_._int, _._float].indexOf(_.type(other)) !== undefined) {
+            if ([_._int, _._float].indexOf(_.type(other)) !== -1) {
                 return _._float(_.js(other) + self._data);
             }
             return _.NotImplemented;
         }),
         __radd__: $m(function __radd__(self, other) {
-            if ([_._int, _._float].indexOf(_.type(other)) !== undefined) {
+            if ([_._int, _._float].indexOf(_.type(other)) !== -1) {
                 return _._float(_.js(other) + self._data);
             }
             return _.NotImplemented;
         }),
         __mul__: $m(function __mul__(self, other) {
-            if ([_._int, _._float].indexOf(_.type(other)) !== undefined) {
+            if ([_._int, _._float].indexOf(_.type(other)) !== -1) {
                 return _._float(_.js(other) * self._data);
             }
             return _.NotImplemented;
         }),
         __rmul__: $m(function __rmul__(self, other) {
-            if ([_._int, _._float].indexOf(_.type(other)) !== undefined) {
+            if ([_._int, _._float].indexOf(_.type(other)) !== -1) {
                 return _._float(_.js(other) * self._data);
             }
             return _.NotImplemented;
         }),
         __sub__: $m(function __sub__(self, other) {
-            if ([_._int, _._float].indexOf(_.type(other)) !== undefined) {
+            if ([_._int, _._float].indexOf(_.type(other)) !== -1) {
                 return _._float(self._data - _.js(other));
             }
             return _.NotImplemented;
         }),
         __rsub__: $m(function __rsub__(self, other) {
-            if ([_._int, _._float].indexOf(_.type(other)) !== undefined) {
+            if ([_._int, _._float].indexOf(_.type(other)) !== -1) {
                 return _._float(_.js(other) - self._data);
             }
             return _.NotImplemented;
@@ -1349,7 +1358,7 @@ module('<builtin>/__builtin__.py', function builting_module(_) {
                 for (var a in item) {
                     m.push("'"+a+"': "+_.repr(item[a]));
                 }
-                self._data = '{'+m.join(', ')+'}';
+                self._data = '{: '+m.join(', ')+' :}';
             } else {
                 self._data = ''+item;
             }
@@ -1847,7 +1856,7 @@ module('<builtin>/__builtin__.py', function builting_module(_) {
             return what.__class__;
         if (what.__type__ !== undefined)
             return that.__type__;
-        return typeof(what);
+        return _.str(typeof(what));
     });
     _.classmethod = classmethod;
     _.staticmethod = staticmethod;
@@ -1978,7 +1987,7 @@ module('<builtin>/__builtin__.py', function builting_module(_) {
             return ':' + _.str("'" + item + "'") + ':';
         } else if (typeof(item) === 'number') {
             return _.str('' + item);
-        } else if (defined(item.__repr__)) {
+        } else if (defined(item.__repr__) && (item.__repr__.__type__ !== instancemethod || item.__repr__.im_self)) {
             return item.__repr__();
         } else return _.str(item);
     });
@@ -1992,7 +2001,7 @@ module('<builtin>/__builtin__.py', function builting_module(_) {
     _.min = $m({}, true, function(args) {
         if (_.len(args) === 1)
             args = _.list(args.__getitem__(0));
-        args = _.js(args);
+        args = args.as_js();
         var m = null;
         for (var i=0;i<args.length;i++) {
             if (m === null || _.lt(args[i], m))
@@ -2010,7 +2019,7 @@ module('<builtin>/__builtin__.py', function builting_module(_) {
     _.max = $m({}, true, function(args) {
         if (_.len(args) === 1)
             args = _.list(args.__getitem__(0));
-        args = _.js(args);
+        args = args.as_js();
         var m = null;
         for (var i=0;i<args.length;i++) {
             if (m === null || _.gt(args[i], m))

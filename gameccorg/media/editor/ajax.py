@@ -20,8 +20,11 @@ def post(command, data, callback):
         global loading
         loading = False
         data = dict(json.loads(text))
+        print data, data.keys()
         if data.has_key('_models'):
             data['_models'] = list(json.loads(data['_models']))
+        else:
+            print 'no modles'
 
         if data['error'] is not None:
             mb = window.Ext.MessageBox

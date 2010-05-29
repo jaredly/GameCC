@@ -19,14 +19,21 @@ class Loader:
         models = self.organize_models(data['_models'])
         self.parent.onLoad(**models)
         self.msg.increment()
+        self.msg.setMessage('Getting Media list')
         ajax.post('media/list', {}, self.load_media)
 
     def load_media(self, data):
-        pass
+        self.msg.increment()
+        self.msg.setMessage('Loading Items')
+        toload = data['_models']
+        if len(toload):
+            print 'have media!!', data
+            fail
+        self.msg.increment()
+        self.msg.done()
 
-    def organize_models(self, text):
-        that = json.loads(text)
-        models = list(that)
+    def organize_models(self, models):
+        models = list(models)
         dct = {'project':None, 'assets':{'sprites':{},'objects':{},'maps':{}}}
         for model in models:
             model = dict(model)
