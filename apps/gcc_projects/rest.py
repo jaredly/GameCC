@@ -4,9 +4,9 @@ import inspect
 
 from models import Project
 
-from gameccorg.rest import Rest
+from restive import Service
 
-service = Rest()
+service = Service()
 
 @service.add
 def load(request, project):
