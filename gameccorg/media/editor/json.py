@@ -8,5 +8,4 @@ def loads(string):
 def dumps(obj):
     return window.JSON.stringify(obj)
 
-
 # vim: et sw=4 sts=4

@@ -57,41 +57,7 @@ var layouts = {
                     html: '<p>this will probably have sub-tabs [maybe] for Images, Objects, and Maps.</p>'
                 }]
             }
-        }, /*{ // I don't think I need an east
-            region: 'east',
-            title: 'Assets',
-            collapsible: true,
-            split: true,
-            width: 225,
-            minSize: 175,
-            maxSize: 400,
-            margins: '0 5 0 0',
-            layout: 'fit',
-            items: {
-                xtype: 'tabpanel',
-                border: false, // already wrapped so don't add another border
-                activeTab: 1, // second tab initially active
-                tabPosition: 'bottom',
-                items: [{
-                    html: '<p>A TabPanel component can be a region.</p>',
-                    title: 'A Tab',
-                    autoScroll: true
-                }, new Ext.grid.PropertyGrid({
-                    title: 'Property Grid',
-                    closable: true,
-                    source: {
-                        "(name)": "Properties Grid",
-                        "grouping": false,
-                        "autoFitColumns": true,
-                        "productionQuality": false,
-                        "created": new Date(Date.parse('10/15/2006')),
-                        "tested": false,
-                        "version": 0.01,
-                        "borderWidth": 1
-                    }
-                })]
-            }
-        }, */{
+        }, {
             region: 'west',
             id: 'west-panel', // see Ext.getCmp() below
             title: 'Assets',
@@ -101,7 +67,6 @@ var layouts = {
             maxSize: 400,
             collapsible: true,
             margins: '0 0 0 5',
-            // layout: 'vbox',
             layoutConfig: {
                 pack:'start',
                 align:'stretch'

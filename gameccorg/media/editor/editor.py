@@ -9,6 +9,18 @@ import widgets
 
 jq = window.jQuery
 
+class Editor:
+    def __init__(self):
+        new(window.Ext.Viewport(window.layouts['main']))
+        project_name = str(window.location.hash)[1:]
+        if not project_name:
+            window.location = js('/create/')
+        self.loader = Loader(self, project_name)
+
+    def onLoad(self, project, assets):
+        self.project = project
+        self.assets = assets
+
 class Loader:
     def __init__(self, parent, project):
         self.parent = parent
@@ -43,18 +55,6 @@ class Loader:
                 name = model['model'].split('.')[1:] + 's'
                 dct['assets'][name][model['title']] = model
         return dct
-
-class Editor:
-    def __init__(self):
-        new(window.Ext.Viewport(window.layouts['main']))
-        project_name = str(window.location.hash)[1:]
-        if not project_name:
-            window.location = js('/create/')
-        self.loader = Loader(self, project_name)
-
-    def onLoad(self, project, assets):
-        self.project = project
-        self.assets = assets
 
 
 def load():
