@@ -10,7 +10,6 @@ service = Service()
 
 @service.add
 def load(request, project):
-    # return {'proj':project}
     obj = Project.objects.get(author=request.user, slug=project)
     res = {'title': obj.title} # expose Project metadata through a different call -- get the form.
     sprites = obj.asset_sprites.order_by('order')
