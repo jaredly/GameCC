@@ -1,0 +1,21 @@
+#!/usr/bin/env python
+
+from pbj import Builder, cmd, PBJFailed
+from pjs.convert import do_compile
+
+build = Builder('GameCC Editor')
+
+@build.file('main.js', depends=['*.py', '@lib'])
+def js(name):
+    text = do_compile('main.py', 'js', {})
+    open('main.js', 'w').write(text)
+
+build.clean('main.js', 'pjslib.js')
+
+@build.file('pjslib.js', depends='/home/jared/clone/pjs/build/pjslib.js')
+def lib(name):
+    open('pjslib.js', 'w').write(open('/home/jared/clone/pjs/build/pjslib.js').read())
+
+if __name__ == '__main__':
+    build.run()
+# vim: et sw=4 sts=4

@@ -1,6 +1,10 @@
 #!/usr/bin/env python
 
-import ajax
+import restive_js
+from restive_js.client import Client
+
+ajax = Client('/editor/ajax/')
+
 import json
 
 import widgets
@@ -24,7 +28,7 @@ class Editor:
 class Loader:
     def __init__(self, parent, project):
         self.parent = parent
-        ajax.post('projects/load', {'project':project}, self.load_project)
+        ajax.send('projects/load', {'project':project}, self.load_project)
         self.msg = widgets.NumProgressBar('Loading', 'Retrieving project data from server', 3)
 
     def load_project(self, data):
@@ -32,7 +36,7 @@ class Loader:
         self.parent.onLoad(**models)
         self.msg.increment()
         self.msg.setMessage('Getting Media list')
-        ajax.post('media/list', {}, self.load_media)
+        ajax.send('media/list', {}, self.load_media)
 
     def load_media(self, data):
         self.msg.increment()
