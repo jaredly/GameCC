@@ -1,15 +1,25 @@
 #!/usr/bin/env python
 
 import restive_js
-from restive_js.client import Client
+from restive_js.ext_client import ExtClient
 
-ajax = Client('/editor/ajax/')
+## setup ajax handler
 
-import json
+ajax = ExtClient('/editor/ajax/')
+
+def ajax_start():
+    window.jQuery('#loading-icon').show()
+
+def ajax_end():
+    if not ajax.loading:
+        window.jQuery('#loading-icon').hide()
+
+ajax.listeners['start'].append(ajax_start)
+ajax.listeners['end'].append(ajax_end)
 
 import widgets
-
-## idea; make the "json2.js" file be loaded lazily...
+from nav import NavMan
+from mediaman import MediaManager
 
 jq = window.jQuery
 
@@ -20,8 +30,10 @@ class Editor:
         if not project_name:
             window.location = js('/create/')
         self.loader = Loader(self, project_name)
+        self.nav = NavMan(self)
+        self.media = MediaManager(self)
 
-    def onLoad(self, project, assets):
+    def load(self, project, assets):
         self.project = project
         self.assets = assets
 
@@ -33,7 +45,7 @@ class Loader:
 
     def load_project(self, data):
         models = self.organize_models(data['_models'])
-        self.parent.onLoad(**models)
+        self.parent.load(**models)
         self.msg.increment()
         self.msg.setMessage('Getting Media list')
         ajax.send('media/list', {}, self.load_media)
@@ -42,14 +54,11 @@ class Loader:
         self.msg.increment()
         self.msg.setMessage('Loading Items')
         toload = data['_models']
-        if len(toload):
-            print 'have media!!', data
-            fail
+        self.parent.media.load(data['media_url'], toload, self.msg)
         self.msg.increment()
         self.msg.done()
 
     def organize_models(self, models):
-        models = list(models)
         dct = {'project':None, 'assets':{'sprites':{},'objects':{},'maps':{}}}
         for model in models:
             model = dict(model)
@@ -59,7 +68,6 @@ class Loader:
                 name = model['model'].split('.')[1:] + 's'
                 dct['assets'][name][model['title']] = model
         return dct
-
 
 def load():
     global editor

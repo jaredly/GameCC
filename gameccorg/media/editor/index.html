@@ -5,10 +5,11 @@
         <link rel="stylesheet" type="text/css"
         href="/media/editor/ext/css/ext-all.css"> 
         <link rel="stylesheet" type="text/css" href="/media/editor/index.css"/>
-        <script type="text/javascript" src="/media/editor/ext-base.js"></script> 
-        <script type="text/javascript" src="/media/editor/ext-all.js"></script> 
-        <script src="/media/editor/jquery.min.js"></script>
-        <script src="/media/editor/json2.js"></script>
+        <script type="text/javascript" src="/media/editor/ext/ext-base.js"></script> 
+        <script type="text/javascript" src="/media/editor/ext/ext-all.js"></script> 
+        <script type="text/javascript" src="/media/editor/ext/MultiSelect.js"></script> 
+        <script src="/media/editor/ext/jquery.min.js"></script>
+        <script src="/media/editor/ext/json2.js"></script>
         <script src="/media/editor/pjslib.js"></script>
         <script type="text/javascript" src="/media/editor/layout2.js"> </script> 
         <script src="/media/editor/main.js"></script>
@@ -35,7 +36,7 @@
 
     <div id='general-nav'>
         <ul>
-            <li class='project-info'>Project Info</li>
+            <li class='project-info selected'>Project Info</li>
             <li class='media-manager'>Media Manager</li>
         </ul>
     </div>
@@ -44,8 +45,25 @@
 
     <!-- @group cards -->
 
-    <div id="image-info"><p>Hello<button>hi</button></p><button id="next">--&gt;</button></div>
-    <div id="image-subimages"><p>sub</p></div>
+    <div id="media-images">
+        <div class="item new"></div>
+    </div>
+    <div id="new-image-upload">
+        <input type="file"/>
+    </div>
+
+    <div id="sprite-info">
+        <div class="sprite-top"></div>
+        <div class="attrs">
+            <label>Name</label>
+            <input class="name"/>
+            <label>Speed</label>
+            <input class="speed"/>
+        </div>
+    </div>
+    <div id="sprite-subimages">
+        <div class="item add"></div>
+    </div>
 
     <!-- @end -->
 

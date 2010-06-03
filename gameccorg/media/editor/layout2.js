@@ -36,7 +36,7 @@ var layouts = {
                     }
                 ]
             }
-        }, {
+        }, /*{
             region: 'south',
             split: true,
             height: 200,
@@ -57,7 +57,7 @@ var layouts = {
                     html: '<p>this will probably have sub-tabs [maybe] for Images, Objects, and Maps.</p>'
                 }]
             }
-        }, {
+        },*/ {
             region: 'west',
             id: 'west-panel', // see Ext.getCmp() below
             title: 'Assets',
@@ -109,25 +109,71 @@ var layouts = {
             id: 'main-content',
             border: false,
             activeItem: 0,
-            items: [{
-                xtype: 'panel',
-                layout: 'border',
-                anchor: '-10',
-                id: 'image-content',
-                border: false,
-                items: [{
-                    region: 'west',
-                    split:true,
-                    width: 200,
-                    contentEl: 'image-info'
+            items: [{ // project info
+              id: 'project-info',
+              xtype: 'form',
+              margins: '10px',
+              defaultType: 'textfield',
+              items: [{
+                fieldLabel: 'Title',
+                name: 'title'
+              }, {
+                fieldLabel: 'Version',
+                name: 'version'
+              }, {
+                fieldLabel: 'Categories',
+                name: 'categories',
+                xtype: 'multiselect',
+                store: [],
+                allowBlank: true
+              }, {
+                fieldLabel: 'Status',
+                name: 'status',
+                xtype: 'combo',
+                forceSelection: true,
+                editable: false,
+                triggerAction:'all',
+                store: [[1, 'Pre-Alpha'],
+                  [2, 'Alpha'],
+                  [3, 'Beta'],
+                  [4, 'Release']]
+              }, {
+                fieldLabel: 'Description',
+                name: 'description',
+                xtype: 'textarea',
+                grow: true,
+                width: '50%',
+              }]
+            }, {
+              id: 'media-manager',
+              items: [{
+                  title: 'Images',
+                  contentEl: 'media-images'
                 }, {
-                    region: 'center',
-                    tbar: [
-                    { text: '&nbsp;&nbsp;+&nbsp;&nbsp;' },
-                    { text: '&nbsp;&nbsp;-&nbsp;&nbsp;' }
-                    ],
-                    contentEl: 'image-subimages'
-                }]
+                  title: 'Fonts'
+                }, {
+                  title: 'Sounds'
+                }
+              ]
+            }, {
+              xtype: 'panel',
+              layout: 'border',
+              anchor: '-10',
+              id: 'image-content',
+              border: false,
+              items: [{
+                  region: 'west',
+                  split:true,
+                  width: 200,
+                  contentEl: 'sprite-info'
+              }, {
+                  region: 'center',
+                  tbar: [
+                  { text: '&nbsp;&nbsp;+&nbsp;&nbsp;' },
+                  { text: '&nbsp;&nbsp;-&nbsp;&nbsp;' }
+                  ],
+                  contentEl: 'sprite-subimages'
+              }]
             }, {
                 html:'some stuff'
             }]
@@ -135,6 +181,44 @@ var layouts = {
     },
     'loader': {
 
+    },
+    'new-image': {
+        title: 'New Image',
+        id: 'new-image-dlg',
+        closable: false,
+        modal: true,
+        width: 400,
+        height: 150,
+        resizable: false,
+        buttons: [{
+            xtype: 'button',
+            text: 'Ok'
+        }, {
+            xtype: 'button',
+            text: 'Cancel'
+        }],
+        items: {
+            xtype: 'tabpanel',
+            activeTab: 0,
+            // padding:'10px',
+            items: [{
+                title: 'Upload',
+                layout:'fit',
+                html: '<iframe src="/editor/upload/image/"></iframe>'
+            }, {
+                title: 'Url',
+                xtype: 'form',
+                padding:'10px',
+                height: 100,
+                // layout: 'fit',
+                items: [{
+                    xtype:'textfield',
+                    fieldLabel:'Url',
+                    height:30,
+                    width:250
+                }]
+            }]
+        }
     }
 };
 

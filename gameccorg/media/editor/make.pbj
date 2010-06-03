@@ -3,11 +3,15 @@
 from pbj import Builder, cmd, PBJFailed
 from pjs.convert import do_compile
 
+import sys
+import os
+os.chdir(os.path.dirname(__file__))
+
 build = Builder('GameCC Editor')
 
-@build.file('main.js', depends=['*.py', '@lib'])
-def js(name):
-    text = do_compile('main.py', 'js', {})
+@build.file('main.js', depends=['*.py', '@lib'], always=True)
+def main(name):
+    text = do_compile('py/main.py', 'js', {})
     open('main.js', 'w').write(text)
 
 build.clean('main.js', 'pjslib.js')
