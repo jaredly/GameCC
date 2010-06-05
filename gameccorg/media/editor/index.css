@@ -44,20 +44,32 @@
   overflow:hidden;
 }
 
-#media-images .item div div {
+#media-images .item div.hover {
   visibility:hidden;
   background-color:rgba(0,0,0,.7);
   width:80px;
   height:80px;
   padding:10px;
+  position:relative;
   color:white;
   font-weight:bold;
   word-wrap: break-word;
   cursor:normal;
 }
 
-#media-images .item:hover div div {
+#media-images .item:hover div.hover {
   visibility:visible;
+}
+
+#media-images .item div.delete {
+  background-image: url('images/close.png');
+  width:25px;
+  height:25px;
+  position:absolute;
+  bottom:3px;
+  right:3px;
+  border-radius:0;
+  cursor: pointer;
 }
 
 #media-images .item.new {

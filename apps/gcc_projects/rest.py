@@ -13,6 +13,7 @@ def load(request, project):
     obj = Project.objects.get(author=request.user, slug=project)
     res = {'title': obj.title} # expose Project metadata through a different call -- get the form.
     sprites = obj.asset_sprites.order_by('order')
+    #res['categories'] = 
     res['_models'] = {'project':obj}
     res['_models']['assets'] = {
             'sprites': obj.asset_sprites.order_by('order'),

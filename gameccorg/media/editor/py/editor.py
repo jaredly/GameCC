@@ -25,6 +25,8 @@ jq = window.jQuery
 
 class Editor:
     def __init__(self):
+        self.ajax = ajax
+        window.layouts['main']['items'][2]['items'][0]['buttons'][0]['handler'] = self.onProjectInfoSave
         new(window.Ext.Viewport(window.layouts['main']))
         project_name = str(window.location.hash)[1:]
         if not project_name:
@@ -36,6 +38,17 @@ class Editor:
     def load(self, project, assets):
         self.project = project
         self.assets = assets
+        self.populate_project_info()
+
+    def populate_project_info(self):
+        form = js.jq('#project-info form')
+        js.jq('input[name=title]').val(self.project['fields']['title'])
+        js.jq('input[name=version]').val(self.project['fields']['version'])
+        js.jq('input[name=description]').val(self.project['fields']['description'])
+        js.Ext.getCmp('project-status').setValue(self.project['fields']['status'])
+
+    def onProjectInfoSave(self, *a):
+        print 'saving pinfo!'
 
 class Loader:
     def __init__(self, parent, project):

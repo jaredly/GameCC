@@ -23,9 +23,6 @@ class NavMan:
         self.general_list = ClickableList(js.jq('#general-nav ul'))
         self.general_list.addListener(self.generalClick)
 
-        #js.jq('#general-nav .project-info').click(self.show_project_info)
-        #js.jq('#general-nav .media-manager').click(self.show_media_manager)
-
     def generalClick(self, what):
         if what == 'Project Info':
             js.ext.getCmp('main-content').layout.setActiveItem(0)

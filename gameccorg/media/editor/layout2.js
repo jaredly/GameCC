@@ -114,6 +114,10 @@ var layouts = {
               xtype: 'form',
               margins: '10px',
               defaultType: 'textfield',
+              buttons: [{
+                  xtype: 'button',
+                  text: 'Save'
+              }],
               items: [{
                 fieldLabel: 'Title',
                 name: 'title'
@@ -124,12 +128,14 @@ var layouts = {
                 fieldLabel: 'Categories',
                 name: 'categories',
                 xtype: 'multiselect',
+                id: 'project-categories',
                 store: [],
                 allowBlank: true
               }, {
                 fieldLabel: 'Status',
                 name: 'status',
                 xtype: 'combo',
+                id: 'project-status',
                 forceSelection: true,
                 editable: false,
                 triggerAction:'all',

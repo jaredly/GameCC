@@ -6,8 +6,8 @@ from sizecache import SizeCache
 jq = window.jQuery
 
 class MediaManager:
-    def __init__(self, editor):
-        self.editor = editor
+    def __init__(self, parent):
+        self.parent = parent
         window.layouts['new-image']['buttons'][0]['handler'] = self.onOk
         window.layouts['new-image']['buttons'][1]['handler'] = self.onCancel
         self.dlg = new(window.Ext.Window(window.layouts['new-image']))
@@ -63,27 +63,25 @@ class MediaManager:
                 cb()
             self.addImage(model)
         self.cache.cache(self.media_url + model['fields']['image'], done_caching)
-        '''
-        img = new(window.Image())
-        img.src = self.media_url + model['fields']['image']
-        if cb:
-            img.onload = cb
-        self.cache['images'][pk] = img
-        '''
 
     def addImage(self, model):
         src = self.media_url + model['fields']['image']
         data = self.cache.caches['medium'][src]
         img = self.cache.caches['full'][src]
         div = js.jq('''<div class="item">
-                    <div>
-                        <div>''' + str(img.width) + 'x' + str(img.height) + '<br/>' + model['fields']['image'].split('/')[-1] + '''
-                    </div></div>
+                    <div class="img">
+                        <div class="hover">''' + str(img.width) + 'x' + str(img.height) + '<br/>' + model['fields']['image'].split('/')[-1] + '''
+                        <div class="delete"></div>
+                        </div>
+                    </div>
                 </div>''').appendTo(js('#media-images'))
         js.jq('>div', div).css(js('background-image'), js('url(' + data + ')'))
+        def remove(event):
+            self.removeImage(model)
+            js.div.remove()
+        js.jq('.delete', div).click(remove)
 
-
-
-
+    def removeImage(self, model):
+        self.parent.ajax.send('media/remove', {'type':'image', 'pk':model['pk']})
 
 # vim: et sw=4 sts=4
