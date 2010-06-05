@@ -3,3 +3,7 @@
 external
 ignore
 *.sess
+gameccorg/media/editor/main.js
+gameccorg/media/uploads
+gameccorg/media/admin
+gameccorg/gamecc.db
