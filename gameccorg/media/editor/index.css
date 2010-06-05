@@ -34,14 +34,46 @@
   border-radius: 10px;
   margin:5px;
   float:left;
+  background-image: url('images/trans-bg.png');
+}
+
+#media-images .item div {
+  width:100%;
+  height:100%;
+  border-radius: 10px;
+  overflow:hidden;
+}
+
+#media-images .item div div {
+  visibility:hidden;
+  background-color:rgba(0,0,0,.7);
+  width:80px;
+  height:80px;
+  padding:10px;
+  color:white;
+  font-weight:bold;
+  word-wrap: break-word;
+  cursor:normal;
+}
+
+#media-images .item:hover div div {
+  visibility:visible;
 }
 
 #media-images .item.new {
   background-image: url('images/new-image.png');
+  cursor: pointer;
 }
 
 #new-image-dlg iframe {
   width:100%;
   height:100%;
   border:none;
+}
+
+canvas.caching {
+  position: absolute;
+  top: 0;
+  left: 0;
+  visibility: hidden;
 }

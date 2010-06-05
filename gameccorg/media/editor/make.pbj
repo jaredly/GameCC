@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 from pbj import Builder, cmd, PBJFailed
-from pjs.convert import do_compile
+import pjs
 
 import sys
 import os
@@ -11,7 +11,7 @@ build = Builder('GameCC Editor')
 
 @build.file('main.js', depends=['*.py', '@lib'], always=True)
 def main(name):
-    text = do_compile('py/main.py', 'js', {})
+    text = pjs.compile('py/main.py', 'js')
     open('main.js', 'w').write(text)
 
 build.clean('main.js', 'pjslib.js')

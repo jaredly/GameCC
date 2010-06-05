@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 import json
+from sizecache import SizeCache
 
 jq = window.jQuery
 
@@ -11,6 +12,7 @@ class MediaManager:
         window.layouts['new-image']['buttons'][1]['handler'] = self.onCancel
         self.dlg = new(window.Ext.Window(window.layouts['new-image']))
         js.jq('#media-images .item.new').click(self.newImage)
+        self.cache = SizeCache()
 
     def newImage(self, event):
         self.dlg.show()
@@ -43,12 +45,11 @@ class MediaManager:
         loader.setMessage('Loading Media')
         loader.total = len(models)
         loader.completed = 0
-        def imgLoaded(event):
+        def imgLoaded(event=None):
             loader.increment()
             if loader.isDone():
                 loader.done()
         self.images = {}
-        self.cache = {'images':{}}
         for model in models:
             pk = model['pk']
             if model['model'] == 'gcc_media.image':
@@ -57,17 +58,29 @@ class MediaManager:
 
     def cache_image(self, pk, cb=None):
         model = self.images[pk]
+        def done_caching():
+            if cb:
+                cb()
+            self.addImage(model)
+        self.cache.cache(self.media_url + model['fields']['image'], done_caching)
+        '''
         img = new(window.Image())
         img.src = self.media_url + model['fields']['image']
         if cb:
             img.onload = cb
         self.cache['images'][pk] = img
-        self.addImage(model)
+        '''
 
     def addImage(self, model):
-        div = js.jq('<div class="item"></div>').appendTo(js('#media-images'))
         src = self.media_url + model['fields']['image']
-        div.css(js('background-image'), js('url(' + src + ')'))
+        data = self.cache.caches['medium'][src]
+        img = self.cache.caches['full'][src]
+        div = js.jq('''<div class="item">
+                    <div>
+                        <div>''' + str(img.width) + 'x' + str(img.height) + '<br/>' + model['fields']['image'].split('/')[-1] + '''
+                    </div></div>
+                </div>''').appendTo(js('#media-images'))
+        js.jq('>div', div).css(js('background-image'), js('url(' + data + ')'))
 
 
 
