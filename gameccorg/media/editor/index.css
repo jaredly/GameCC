@@ -12,12 +12,16 @@
 
 #general-nav li {
   cursor: pointer;
-  font-size: 12px;
+  font-size: 11px;
   padding: 5px;
 }
 
+#general-nav li:hover {
+  background-color: #eee;
+}
+
 #general-nav li.selected {
-  background-color: lightblue;
+  background-color: #D9E8FB;
 }
 
 #project-info .x-form-item {
@@ -88,4 +92,24 @@ canvas.caching {
   top: 0;
   left: 0;
   visibility: hidden;
+}
+
+fieldset {
+  border: none;
+  margin: 5px 10px;
+}
+
+fieldset label {
+  font-size: 11px;
+  display:block;
+}
+
+div.x-toolbar > table {
+  background-image:url(/media/images/grey_logo2.png);
+  background-repeat:no-repeat;
+  padding-left:110px;
+}
+
+.asset-info {
+  padding:5px;
 }

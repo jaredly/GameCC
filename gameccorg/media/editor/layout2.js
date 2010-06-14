@@ -9,7 +9,7 @@ var layouts = {
             margins: '0 0 5 0',
             items: {
                 xtype: 'toolbar',
-                items: [{
+                items: [/*{
                         text:'Project',
                         menu:{
                             items:[
@@ -27,12 +27,15 @@ var layouts = {
                                 { text: 'HTML5 - Preview' }
                             ]
                         }
+                    },*/ {
+                        text: 'New Sprite',
+                        id: 'new-sprite-button'
                     }, {
-                        text: 'New Sprite'
+                        text: 'New Object',
+                        id: 'new-object-button'
                     }, {
-                        text: 'New Object'
-                    }, {
-                        text: 'New Map'
+                        text: 'New Map',
+                        id: 'new-map-button'
                     }
                 ]
             }
@@ -72,117 +75,204 @@ var layouts = {
                 align:'stretch'
             },
             items: [{
-                title: 'General',
-                collapsible: false,
-                border: false,
-                contentEl: 'general-nav'
-            }, {
-                xtype: 'treepanel',
-                title: 'Sprites',
-                rootVisible: false,
-                collapsible: true,
-                border: false,
-                iconCls: 'sprites-tree',
-                root: {xtype:'treenode'}
-            }, {
-                xtype: 'treepanel',
-                title: 'Objects',
-                rootVisible: false,
-                collapsible: true,
-                border: false,
-                iconCls: 'objects-tree',
-                root: {xtype:'treenode'}
-            }, {
-                xtype: 'treepanel',
-                title: 'Maps',
-                rootVisible: false,
-                collapsible: true,
-                border: false,
-                iconCls: 'maps-tree',
-                root: {xtype:'treenode'}
+                    title: 'General',
+                    collapsible: false,
+                    border: false,
+                    contentEl: 'general-nav'
+                }, {
+                    title: 'Sprites',
+                    xtype: 'treepanel',
+                    rootVisible: false,
+                    enableDD: true,
+                    ddGroup: 'sprites',
+                    collapsible: true,
+                    dataUrl: '/editor/ajax/project/folder/blank/',
+                    border: false,
+                    iconCls: 'sprites-tree',
+                    id: 'sprites-tree',
+                    root: {xtype:'treenode'}
+                }, {
+                    title: 'Objects',
+                    xtype: 'treepanel',
+                    rootVisible: false,
+                    enableDD: true,
+                    ddGroup: 'objects',
+                    collapsible: true,
+                    dataUrl: '/editor/ajax/project/folder/blank/',
+                    border: false,
+                    iconCls: 'objects-tree',
+                    id: 'objects-tree',
+                    root: {xtype:'treenode'}
+                }, {
+                    title: 'Maps',
+                    xtype: 'treepanel',
+                    rootVisible: false,
+                    enableDD: true,
+                    ddGroup: 'maps',
+                    collapsible: true,
+                    dataUrl: '/editor/ajax/project/folder/blank/',
+                    border: false,
+                    iconCls: 'maps-tree',
+                    id: 'maps-tree',
+                    root: {xtype:'treenode'}
             }]
         },
         {
-            xtype: 'panel',
             region: 'center',
+            xtype: 'panel',
             layout: 'card',
             id: 'main-content',
             border: false,
             activeItem: 0,
             items: [{ // project info
-              id: 'project-info',
-              xtype: 'form',
-              margins: '10px',
-              defaultType: 'textfield',
-              buttons: [{
-                  xtype: 'button',
-                  text: 'Save'
-              }],
-              items: [{
-                fieldLabel: 'Title',
-                name: 'title'
-              }, {
-                fieldLabel: 'Version',
-                name: 'version'
-              }, {
-                fieldLabel: 'Categories',
-                name: 'categories',
-                xtype: 'multiselect',
-                id: 'project-categories',
-                store: [],
-                allowBlank: true
-              }, {
-                fieldLabel: 'Status',
-                name: 'status',
-                xtype: 'combo',
-                id: 'project-status',
-                forceSelection: true,
-                editable: false,
-                triggerAction:'all',
-                store: [[1, 'Pre-Alpha'],
-                  [2, 'Alpha'],
-                  [3, 'Beta'],
-                  [4, 'Release']]
-              }, {
-                fieldLabel: 'Description',
-                name: 'description',
-                xtype: 'textarea',
-                grow: true,
-                width: '50%',
-              }]
-            }, {
-              id: 'media-manager',
-              items: [{
-                  title: 'Images',
-                  contentEl: 'media-images'
+                    id: 'project-info',
+                    xtype: 'form',
+                    margins: '10px',
+                    defaultType: 'textfield',
+                    buttons: [{
+                        xtype: 'button',
+                        text: 'Save'
+                    }],
+                    items: [{
+                        fieldLabel: 'Title',
+                        name: 'title'
+                    }, {
+                        fieldLabel: 'Version',
+                        name: 'version'
+                    }, {
+                        fieldLabel: 'Categories',
+                        name: 'categories',
+                        xtype: 'multiselect',
+                        id: 'project-categories',
+                        store: [],
+                        allowBlank: true
+                    }, {
+                        fieldLabel: 'Status',
+                        name: 'status',
+                        xtype: 'combo',
+                        id: 'project-status',
+                        forceSelection: true,
+                        editable: false,
+                        triggerAction:'all',
+                        store: [[1, 'Pre-Alpha'],
+                        [2, 'Alpha'],
+                        [3, 'Beta'],
+                        [4, 'Release']]
+                    }, {
+                        fieldLabel: 'Description',
+                        name: 'description',
+                        xtype: 'textarea',
+                        grow: true,
+                        width: '50%',
+                    }]
                 }, {
-                  title: 'Fonts'
+                    id: 'media-manager',
+                    items: [{
+                        title: 'Images',
+                        contentEl: 'media-images'
+                        }, {
+                        title: 'Fonts'
+                        }, {
+                        title: 'Sounds'
+                        }
+                    ]
                 }, {
-                  title: 'Sounds'
+                    id: 'sprite-editor',
+                    xtype: 'panel',
+                    layout: 'border',
+                    border: false,
+                    items: [
+                        {
+                            region: 'west',
+                            split: false,
+                            width: 200,
+                            contentEl: 'sprite-info'
+                        }, {
+                            region: 'center',
+                            tbar: [
+                            { text: '&nbsp;&nbsp;+&nbsp;&nbsp;' },
+                            { text: '&nbsp;&nbsp;-&nbsp;&nbsp;' }
+                            ],
+                            contentEl: 'sprite-subimages'
+                        }
+                    ]
+                }, {
+                    id: 'object-editor',
+                    xtype: 'panel',
+                    border: false,
+                    layout: 'border',
+                    items: [
+                        {
+                            region: 'west',
+                            split: false,
+                            width: 200,
+                            margin: 5,
+                            contentEl: 'object-info'
+                        }, {
+                            region: 'center',
+                            border: false,
+                            layout: 'border',
+                            items: [
+                                {
+                                    title: 'Events',
+                                    region: 'west',
+                                    split: false,
+                                    width: 210,
+                                    contentEl: 'object-events'
+                                }, {
+                                    title: 'Actions',
+                                    id: 'object-acqions',
+                                    region: 'center',
+                                    split: false,
+                                    xtype: 'treepanel',
+                                    rootVisible: false,
+                                    root: {xtype:'treenode'}
+                                }, {
+                                    region: 'east',
+                                    id: 'action-plugins',
+                                    split: true,
+                                    xtype: 'tabpanel',
+                                    width: 300,
+                                    maxWidth: 500,
+                                    items: []
+                                }
+                            ]
+                        }
+                    ]
+                }, {
+                    id: 'map-editor',
+                    xtype: 'panel',
+                    border: false,
+                    layout: 'border',
+                    items: [
+                        {
+                            region: 'west',
+                            width: 200,
+                            contentEl: 'map-info'
+                        }, {
+                            region: 'center',
+                            border: false,
+                            layout: 'border',
+                            items: [{
+                                region: 'west',
+                                id: 'map-lefts',
+                                width: 200,
+                                collapsible: true,
+                                title: 'Objects',
+                                layout: 'card',
+                                items: [{
+                                    contentEl: 'map-objects',
+                                    title: 'objects',
+                                    collapsible: true
+                                }]
+                            }, {
+                                region: 'center',
+                                contentEl: 'map-main'
+                            }]
+                        }
+                    ]
                 }
-              ]
-            }, {
-              xtype: 'panel',
-              layout: 'border',
-              anchor: '-10',
-              id: 'image-content',
-              border: false,
-              items: [{
-                  region: 'west',
-                  split:true,
-                  width: 200,
-                  contentEl: 'sprite-info'
-              }, {
-                  region: 'center',
-                  tbar: [
-                  { text: '&nbsp;&nbsp;+&nbsp;&nbsp;' },
-                  { text: '&nbsp;&nbsp;-&nbsp;&nbsp;' }
-                  ],
-                  contentEl: 'sprite-subimages'
-              }]
-            }, {
-                html:'some stuff'
-            }]
+            ]
         }]
     },
     'loader': {
