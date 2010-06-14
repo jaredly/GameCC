@@ -1,5 +1,6 @@
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
+from django.utils import simplejson as json
 from django.db.models import permalink
 from django.contrib.auth.models import User
 from django.conf import settings
@@ -43,9 +44,20 @@ class Project(models.Model):
     
     description = models.TextField(_('description'), blank=True, help_text=_('Describe your project'))
 
+    sprite_folder = models.TextField(default="[]")
+    object_folder = models.TextField(default="[]")
+    map_folder = models.TextField(default="[]")
+
     created = models.DateTimeField(_('created'), auto_now_add=True)
     modified = models.DateTimeField(_('modified'), auto_now=True)
     status = models.IntegerField(_('status'), choices=STATUS_CHOICES)
+
+    def load_folder(self, which):
+        return json.loads(getattr(self, which + '_folder'))
+
+    def save_folder(self, which, data):
+        setattr(self, which + '_folder', json.dumps(data))
+        self.save()
 
     def natural_key(self):
         return (self.slug, self.author.username)

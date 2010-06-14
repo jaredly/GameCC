@@ -14,19 +14,15 @@ class Map(Asset):
     '''
 
     title = models.CharField(_('title'), max_length=100)
-    order = models.IntegerField(_('order'))
 
     width = models.IntegerField(_('width'), default=600)
     height = models.IntegerField(_('height'), default=600)
 
     grid_size = models.IntegerField(_('grid size'), default=50)
 
-    background = models.ForeignKey(Image, blank=True)
+    background = models.ForeignKey(Image, null=True)
     background_color = ColorField(default='#FFF')
-    background_music = models.ForeignKey(Sound, blank=True)
-
-    class Meta:
-        unique_together = ('project', 'order')
+    background_music = models.ForeignKey(Sound, null=True)
 
 class Layer(models.Model):
     map = models.ForeignKey(Map, related_name='layers')

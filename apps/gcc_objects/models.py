@@ -27,9 +27,8 @@ class Object(Asset):
     ## parent from Asset
 
     title = models.CharField(_('title'), max_length=100)
-    order = models.IntegerField(_('order'))
 
-    parent = models.ForeignKey('self', blank=True, related_name='subclasses')
+    parent = models.ForeignKey('self', null=True, related_name='subclasses')
     solid = models.BooleanField(_('solid'), default=False)
     persistent = models.BooleanField(_('persistent'), default=False)
     type = models.CharField(_('type'), max_length=20, choices=TYPE_CHOICES)
@@ -37,20 +36,20 @@ class Object(Asset):
     #### type specific stuff ####
 
     ## image
-    sprite = models.ForeignKey(Sprite, blank=True)
+    sprite = models.ForeignKey(Sprite, null=True)
 
     ## text
     text = models.TextField(blank=True)
-    font = models.ForeignKey(Font, blank=True)
+    font = models.ForeignKey(Font, null=True)
     font_color = ColorField(blank=True)
-    fint_size = models.IntegerField(blank=True)
+    font_size = models.IntegerField(null=True)
 
     ## polygon
-    sides = models.IntegerField(blank=True)
-    length = models.IntegerField(blank=True)
+    sides = models.IntegerField(null=True)
+    length = models.IntegerField(null=True)
     color = ColorField(blank=True)
 
-    line_width = models.IntegerField(blank=True)
+    line_width = models.IntegerField(null=True)
     line_color = ColorField(blank=True)
 
     #### other ####
