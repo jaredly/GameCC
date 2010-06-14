@@ -3,6 +3,8 @@
 import json
 from sizecache import SizeCache
 
+from ajax import ajax
+
 jq = window.jQuery
 
 class MediaManager:
@@ -43,8 +45,7 @@ class MediaManager:
     def load(self, media_url, models, loader):
         self.media_url = media_url
         loader.setMessage('Loading Media')
-        loader.total = len(models)
-        loader.completed = 0
+        loader.total += len(models) - 1
         def imgLoaded(event=None):
             loader.increment()
             if loader.isDone():
@@ -82,6 +83,6 @@ class MediaManager:
         js.jq('.delete', div).click(remove)
 
     def removeImage(self, model):
-        self.parent.ajax.send('media/remove', {'type':'image', 'pk':model['pk']})
+        ajax.send('media/remove', {'type':'image', 'pk':model['pk']})
 
 # vim: et sw=4 sts=4

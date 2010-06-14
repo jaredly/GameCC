@@ -20,12 +20,12 @@ class ProgressBar:
 class NumProgressBar(ProgressBar):
     def __init__(self, title, message, total):
         ProgressBar.__init__(self, title, message)
-        self.total = float(total)
+        self.total = total
         self.completed = 0
 
     def increment(self, message = None):
         self.completed += 1
-        self.update(self.completed/self.total, message)
+        self.update(self.completed/float(self.total), message)
 
     def isDone(self):
         return self.completed == self.total

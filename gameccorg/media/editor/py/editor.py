@@ -1,51 +1,64 @@
 #!/usr/bin/env python
 
-import restive_js
-from restive_js.ext_client import ExtClient
-
-## setup ajax handler
-
-ajax = ExtClient('/editor/ajax/')
-
-def ajax_start():
-    window.jQuery('#loading-icon').show()
-
-def ajax_end():
-    if not ajax.loading:
-        window.jQuery('#loading-icon').hide()
-
-ajax.listeners['start'].append(ajax_start)
-ajax.listeners['end'].append(ajax_end)
+## get the ajax handler
 
 import widgets
 from nav import NavMan
 from mediaman import MediaManager
 
+from sprite_editor import SpriteEditor
+from object_editor import ObjectEditor
+from map_editor import MapEditor
+
+from ajax import ajax
+
 jq = window.jQuery
 
 class Editor:
     def __init__(self):
-        self.ajax = ajax
         window.layouts['main']['items'][2]['items'][0]['buttons'][0]['handler'] = self.onProjectInfoSave
         new(window.Ext.Viewport(window.layouts['main']))
+        self.pid = None
         project_name = str(window.location.hash)[1:]
         if not project_name:
             window.location = js('/create/')
-        self.loader = Loader(self, project_name)
         self.nav = NavMan(self)
         self.media = MediaManager(self)
+        self.loader = Loader(self, project_name)
 
-    def load(self, project, assets):
+        self.sprites = SpriteEditor(self)
+        self.objects = ObjectEditor(self)
+        self.maps = MapEditor(self)
+
+        self.editors = {'sprites': self.sprites, 'objects':self.objects, 'maps':self.maps}
+
+    def load(self, project, assets, loader):
         self.project = project
+        self.pid = project['pk']
         self.assets = assets
         self.populate_project_info()
+        window.setTimeout(lambda:self.reloadFolders(loader), 100)
+
+    def reloadFolders(self, loader):
+        def cb(context):
+            loader.increment()
+            if loader.isDone():
+                loader.done()
+        self.nav.reload('sprites', cb)
+        self.nav.reload('objects', cb)
+        self.nav.reload('maps', cb)
 
     def populate_project_info(self):
         form = js.jq('#project-info form')
         js.jq('input[name=title]').val(self.project['fields']['title'])
         js.jq('input[name=version]').val(self.project['fields']['version'])
-        js.jq('input[name=description]').val(self.project['fields']['description'])
-        js.Ext.getCmp('project-status').setValue(self.project['fields']['status'])
+        js.jq('textarea[name=description]').val(self.project['fields']['description'])
+        window.Ext.getCmp('project-status').setValue(self.project['fields']['status'])
+
+    def attach_buttons(self):
+        window.Ext.getCmp('new-sprite-button').on('click', self.new_sprite);
+        window.Ext.getCmp('new-object-button').on('click', self.new_object);
+        window.Ext.getCmp('new-map-button').on('click', self.new_map);
 
     def onProjectInfoSave(self, *a):
         print 'saving pinfo!'
@@ -53,12 +66,13 @@ class Editor:
 class Loader:
     def __init__(self, parent, project):
         self.parent = parent
-        ajax.send('projects/load', {'project':project}, self.load_project)
-        self.msg = widgets.NumProgressBar('Loading', 'Retrieving project data from server', 3)
+        ajax.send('project/load', {'project':project}, self.load_project)
+        self.msg = widgets.NumProgressBar('Loading project', 'Retrieving project data from server', 3)
 
     def load_project(self, data):
         models = self.organize_models(data['_models'])
-        self.parent.load(**models)
+        self.parent.load(loader=self.msg, **models)
+        self.msg.total += 3
         self.msg.increment()
         self.msg.setMessage('Getting Media list')
         ajax.send('media/list', {}, self.load_media)
@@ -68,8 +82,6 @@ class Loader:
         self.msg.setMessage('Loading Items')
         toload = data['_models']
         self.parent.media.load(data['media_url'], toload, self.msg)
-        self.msg.increment()
-        self.msg.done()
 
     def organize_models(self, models):
         dct = {'project':None, 'assets':{'sprites':{},'objects':{},'maps':{}}}
@@ -78,8 +90,8 @@ class Loader:
             if model['model'] == 'gcc_projects.project':
                 dct['project'] = model
             else:
-                name = model['model'].split('.')[1:] + 's'
-                dct['assets'][name][model['title']] = model
+                name = '.'.join(model['model'].split('.')[1:]) + 's'
+                dct['assets'][name][model['pk']] = model
         return dct
 
 def load():
