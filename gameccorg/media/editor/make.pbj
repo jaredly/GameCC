@@ -11,8 +11,7 @@ build = Builder('GameCC Editor')
 
 @build.file('main.js', depends=['*.py', '@lib'], always=True)
 def main(name):
-    text = pjs.compile('py/main.py', 'js')
-    open('main.js', 'w').write(text)
+    pjs.convert('py/main.py', 'main.js', 'js', import_css=True, css_dir='css')
 
 build.clean('main.js', 'pjslib.js')
 

@@ -1,7 +1,5 @@
 #!/usr/bin/env python
 
-## get the ajax handler
-
 import widgets
 from nav import NavMan
 from mediaman import MediaManager
@@ -11,11 +9,16 @@ from object_editor import ObjectEditor
 from map_editor import MapEditor
 
 from ajax import ajax
+import json
+
+from CSS import index
 
 jq = window.jQuery
 
 class Editor:
     def __init__(self):
+        bg = new(window.Image())
+        bg.src = js('/media/editor/images/trans-bg-big.png')
         window.layouts['main']['items'][2]['items'][0]['buttons'][0]['handler'] = self.onProjectInfoSave
         new(window.Ext.Viewport(window.layouts['main']))
         self.pid = None
@@ -70,6 +73,13 @@ class Loader:
         self.msg = widgets.NumProgressBar('Loading project', 'Retrieving project data from server', 3)
 
     def load_project(self, data):
+        if data.has_key('error'):
+            window.alert(data['error'])
+            if data.has_key('action'):
+                if data['action'] == 'reload':
+                    window.location.reload()
+                else:
+                    window.location = js(data['action'])
         models = self.organize_models(data['_models'])
         self.parent.load(loader=self.msg, **models)
         self.msg.total += 3
@@ -81,7 +91,11 @@ class Loader:
         self.msg.increment()
         self.msg.setMessage('Loading Items')
         toload = data['_models']
-        self.parent.media.load(data['media_url'], toload, self.msg)
+        self.parent.media.load(data['media_url'], toload, self.msg, self.finished_media)
+
+    def finished_media(self):
+        pass
+        # print 'media done'
 
     def organize_models(self, models):
         dct = {'project':None, 'assets':{'sprites':{},'objects':{},'maps':{}}}
@@ -92,6 +106,8 @@ class Loader:
             else:
                 name = '.'.join(model['model'].split('.')[1:]) + 's'
                 dct['assets'][name][model['pk']] = model
+                if name == 'sprites':
+                    model['fields']['subimages'] = list(json.loads(model['fields']['subimages']))
         return dct
 
 def load():

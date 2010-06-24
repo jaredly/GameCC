@@ -9,15 +9,17 @@ from restive import Service
 from gcc_sprites.models import Sprite
 from gcc_objects.models import Object
 from gcc_maps.models import Map
+from django.contrib.auth.models import AnonymousUser
 
 service = Service()
 
 @service.add
 def load(request, project):
+    if isinstance(request.user, AnonymousUser):
+        return {'error':'not logged in', 'action':'/accounts/login/?next=/editor/#%s' % project}
     obj = Project.objects.get(author=request.user, slug=project)
     res = {'title': obj.title} # expose Project metadata through a different call -- get the form.
     sprites = obj.asset_sprites.all()
-    #res['categories'] = 
     res['_models'] = {'project':obj}
     res['_models']['assets'] = {
             'sprites': obj.asset_sprites.all(),

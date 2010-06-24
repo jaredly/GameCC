@@ -2,13 +2,13 @@
 <html>
     <head>
         <title>PJs example w/ the ExtJS library</title>
-        <link rel="stylesheet" type="text/css"
-        href="/media/editor/ext/css/ext-all.css"> 
-        <link rel="stylesheet" type="text/css" href="/media/editor/index.css"/>
+        <link rel="stylesheet" type="text/css" href="/media/editor/ext/css/ext-all.css"> 
+        <link rel="stylesheet" type="text/css" href="/media/editor/main.css"/>
         <script type="text/javascript" src="/media/editor/ext/ext-base.js"></script> 
         <script type="text/javascript" src="/media/editor/ext/ext-all.js"></script> 
         <script type="text/javascript" src="/media/editor/ext/MultiSelect.js"></script> 
         <script src="/media/editor/ext/jquery.min.js"></script>
+        <script src="/media/editor/ext/jquery-ui.min.js"></script>
         <script src="/media/editor/ext/json2.js"></script>
         <script src="/media/editor/pjslib.js"></script>
         <script type="text/javascript" src="/media/editor/layout2.js"> </script> 
@@ -37,7 +37,7 @@
     <div id='general-nav'>
         <ul>
             <li class='project-info selected'>Project Info</li>
-            <li class='media-manager'>Media Manager</li>
+            <!--li class='media-manager'>Media Manager</li-->
         </ul>
     </div>
 
@@ -66,7 +66,6 @@
         </div>
     </div>
     <div id="sprite-subimages">
-        <div class="item add"></div>
     </div>
 
     <div id="object-info" class='asset-info'>
@@ -98,32 +97,18 @@
     <div id="map-main">
     </div>
 
-
-
     <!-- @end -->
 
     </div>
 
+    <!-- @group dialogs -->
+
+    <div id="add-subimage">
+
+    </div>
+    <!-- @eng -->
 
 
-    <!-- use class="x-hide-display" to prevent a brief flicker of the content --> 
-    <div id="west" class="x-hide-display"> 
-        <p>Hi. I'm the west panel.</p> 
-    </div> 
-    <div id="center2" class="x-hide-display"> 
-        <a id="hideit" href="#">Toggle the west region</a> 
-        <p>My closable attribute is set to false so you can't close me. The other center panels can be closed.</p> 
-        <p>The center panel automatically grows to fit the remaining space in the container that isn't taken up by the border regions.</p> 
-        <hr> 
-    </div> 
-    <div id="center1" class="x-hide-display"> 
-        <p><b>Done reading me? Close me by clicking the X in the top right corner.</b></p> 
-    </div> 
-    <div id="props-panel" class="x-hide-display" style="width:200px;height:200px;overflow:hidden;"> 
-    </div> 
-    <div id="south" class="x-hide-display"> 
-        <p>south - generally for informational stuff, also could be for status bar</p> 
-    </div> 
 
     <div id="loading-icon"></div>
 

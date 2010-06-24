@@ -62,7 +62,7 @@ var layouts = {
             }
         },*/ {
             region: 'west',
-            id: 'west-panel', // see Ext.getCmp() below
+            id: 'west-panel',
             title: 'Assets',
             split: true,
             width: 200,
@@ -124,7 +124,7 @@ var layouts = {
             id: 'main-content',
             border: false,
             activeItem: 0,
-            items: [{ // project info
+            items: [{
                     id: 'project-info',
                     xtype: 'form',
                     margins: '10px',
@@ -185,7 +185,7 @@ var layouts = {
                         {
                             region: 'west',
                             split: false,
-                            width: 200,
+                            width: 160,
                             contentEl: 'sprite-info'
                         }, {
                             region: 'center',
@@ -194,6 +194,11 @@ var layouts = {
                             { text: '&nbsp;&nbsp;-&nbsp;&nbsp;' }
                             ],
                             contentEl: 'sprite-subimages'
+                        }, {
+                            region: 'east',
+                            split: false,
+                            width: 300,
+                            contentEl: 'media-images'
                         }
                     ]
                 }, {
@@ -205,7 +210,7 @@ var layouts = {
                         {
                             region: 'west',
                             split: false,
-                            width: 200,
+                            width: 160,
                             margin: 5,
                             contentEl: 'object-info'
                         }, {
@@ -247,7 +252,7 @@ var layouts = {
                     items: [
                         {
                             region: 'west',
-                            width: 200,
+                            width: 160,
                             contentEl: 'map-info'
                         }, {
                             region: 'center',

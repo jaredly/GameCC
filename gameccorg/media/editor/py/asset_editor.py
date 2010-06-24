@@ -10,6 +10,8 @@ class AssetEditor:
         window.Ext.getCmp('new-' + self.asset_type + '-button').on('click', self.new_)
         self.node = js.jq('#' + self.asset_type + '-editor')
         self.current = None
+        self.pk = None
+        self.dirty = []
 
     def new_(self, button, event):
         ajax.send(self.asset_type + '/new', {'pid':self.parent.pid}, self.onNew)
@@ -21,7 +23,14 @@ class AssetEditor:
     def load(self, aid):
         window.Ext.getCmp('main-content').layout.setActiveItem(self.asset_type + '-editor')
         self.current = self.parent.assets[self.asset_type + 's'][aid]
+        self.pk = aid
         js.jq('.title', self.node).val(self.current['fields']['title'])
+
+    def set_attr(self, attr, value):
+        self.current['fields'][attr] = value
+        if self.pk not in self.dirty:
+            self.dirty.append(self.pk)
+            print 'dirty',self.asset_type,self.dirty
 
 
 

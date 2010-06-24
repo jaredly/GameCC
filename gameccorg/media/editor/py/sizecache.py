@@ -6,11 +6,13 @@ class SizeCache:
     sizes = {
         'tiny': 16,
         'small': 32,
-        'medium': 100,
+        'medium': 80,
         'large': 150,
     }
     def __init__(self):
         self.caches = {'full':{}}
+        self.bg = new(window.Image())
+        self.bg.src = js('/media/editor/images/trans-bg-big.png')
         for k in self.sizes:
             self.caches[k] = {}
 
@@ -38,13 +40,14 @@ class SizeCache:
         canvas = js.jq('<canvas class="caching" height="' + str(width) + '" width="' + str(width) + '"></canvas>')[0]
         ctx = canvas.getContext(js('2d'))
         img = self.caches['full'][src]
+        js.ctx.drawImage(self.bg, 0, 0)
         if img.width > img.height:
             w,h = width, int(img.height*width/img.width)
             x,y = 0, width/2-h/2
         else:
             w,h = int(img.width*width/img.height), width
             x,y = width/2-w/2, 0
-        ctx.drawImage(img, x, y, w, h)
+        js.ctx.drawImage(img, x, y, w, h)
         self.caches[size][src] = canvas.toDataURL()
         js.jq(canvas).remove()
 
