@@ -31,25 +31,21 @@ class SpriteEditor(AssetEditor):
         self.do_subimages()
 
     def do_subimages(self):
-        print 'yep'
         self.set_attr('subimages', self.get_subimages())
         first = self.current['fields']['subimages'][0]
         js.jq('#sprite-info .sprite-top').css('background-image', 'url(' + self.parent.media.image_src(first, 'large') + ')')
         ajax.send('sprite/' + str(self.current['pk']) + '/save_subimages', {'subimages': self.current['fields']['subimages']})
-        print 'just sent'
 
     def get_subimages(self):
         return [int(str(node.id).split('-')[-1]) for node in jq_list('#sprite-subimages .item') if node.id]
 
     def dropImage(self, event, ui):
-        print 'dropped'
         source = js.ui.draggable.parent()[0].id
         if source == 'media-images':
             theid = str(js.ui['draggable'][0].id)
             pk = int(theid.split('-')[-1])
             self.current['fields']['subimages'].append(pk)
             self.addImage(pk)
-            print 'howdy'
     
     def sorted(self, event, ui):
         print 'sorted it all'
